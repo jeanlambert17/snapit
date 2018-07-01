@@ -1,11 +1,12 @@
 import { createStackNavigator } from 'react-navigation';
-import { Home, Login } from './scenes';
+import { Home, Login, SignUp } from './scenes';
 
 
 const Routes = createStackNavigator(
     {
         Home: Home,
         Login: Login,
+        SignUp: SignUp,
     }, {
         initialRouteName: 'Login',
     }
