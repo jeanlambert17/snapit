@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-    TextInput, 
+    KeyboardAvoidingView, 
     View,
     TouchableOpacity,
     Text,
@@ -8,7 +8,7 @@ import {
 import styles from './styles';
 import Input from '../../components/input';
 import { connect } from 'react-redux';
-import { login } from '../../actions/user';
+import { doLogin } from '../../actions/user';
 import usernameImg from '../../assets/images/username.png';
 import passwordImg from '../../assets/images/password.png';
 
@@ -23,14 +23,14 @@ class Login extends React.Component {
     }
 
     handleTextChange = (input) => (value) => this.setState({ [input]:value });
-    
-    handleLogin() {
 
+    handleLogin() {
+        // Esto esta embrujado. 
     }
 
     render() {
         return (
-        <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
             <Input
                 source={usernameImg}
                 textContentType="username"
@@ -55,9 +55,9 @@ class Login extends React.Component {
                 style={styles.button}
                 onPress={this.handleLogin}
             >
-                <Text style={styles.buttonText}> LOGIN </Text>
+                <Text style={styles.buttonText}> LOGIN {this.props.user}</Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
         );
     }
 }
@@ -65,9 +65,13 @@ class Login extends React.Component {
 const mapDispatchToProps = dispatch => {
     return {
         login: (form) => {
-            dispatch(login(form))
+            dispatch(doLogin(form))
         }
     }
 }
 
-export default connect(null,mapDispatchToProps)(Login)
+const mapStateToProps = state => ({
+    user: state.auth.user,
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login)

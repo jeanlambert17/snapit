@@ -1,41 +1,36 @@
-import { LOGGED_IN, LOGGED_OUT, IS_AUTH, SIGN_UP, REQUEST_FAILED } from '../../constants/user';
+import { LOGIN_REQUEST, LOGIN_SUCESS, LOGIN_FAILURE } from '../constants/user';
 
 const initialState = {
     user: null,
-    errorMessage: null,
+    fetching: false,
+    error: null,
 }
 
 export default (state = initialState, action) => {
 
     switch(action.type) {
-        case IS_AUTH: {
+        case LOGIN_REQUEST: {
             return {
-                type: IS_AUTH,
-                user: action.user,
+                type: SIGN_UP,
+                user: null,
+                fetching: true,
+                error: null,
             }
         }
-        case LOGGED_IN: {
+        case LOGIN_SUCESS: {
             return {
                 type: LOGGED_IN,
                 user: action.user,
+                fetching: false,
+                error: null,
             }
         }
-        case SIGN_UP: {
-            return {
-                type: SIGN_UP,
-                user: action.user,
-            }
-        }
-        case LOGGED_OUT: {
+        case LOGIN_FAILURE: {
             return {
                 type: LOGGED_OUT,
                 user: null,
-            }
-        }
-        case REQUEST_FAILED: {
-            return {
-                type: REQUEST_FAILED,
-                errorMessage: action.errorMessage,
+                fetching: false,
+                error: action.error,
             }
         }
         default: {
