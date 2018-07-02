@@ -7,7 +7,8 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Input from '../../components/input';
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import { connect } from 'react-redux';
+import { login } from '../../actions/user';
 import usernameImg from '../../assets/images/username.png';
 import passwordImg from '../../assets/images/password.png';
 
@@ -61,4 +62,12 @@ class Login extends React.Component {
     }
 }
 
-export default Login
+const mapDispatchToProps = dispatch => {
+    return {
+        login: (form) => {
+            dispatch(login(form))
+        }
+    }
+}
+
+export default connect(null,mapDispatchToProps)(Login)

@@ -1,4 +1,4 @@
-import { LOGGED_IN, LOGGED_OUT, IS_AUTH, SIGN_UP, REQUEST_FAILED } from '../../constants/user';
+import { LOGGED_IN, LOGGED_OUT, IS_AUTH, SIGN_UP, REQUEST_FAILED } from '../constants/user';
 
 export function login(form) {
     return dispatch => {
