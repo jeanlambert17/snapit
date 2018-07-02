@@ -6,6 +6,7 @@
 export const {
     LOGGED_IN = 'LOGGED_IN',
     LOGGED_OUT = 'LOGGED_OUT',
-    LOGIN_FAILED = 'LOGIN_FAILED',
+    SIGN_UP = 'SIGN_UP',
     IS_AUTH = 'IS_AUTH',
+    REQUEST_FAILED = 'REQUEST_FAILED',
 }
