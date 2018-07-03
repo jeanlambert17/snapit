@@ -25,6 +25,10 @@ const userSchema = Schema({
     posts: [{
         type: Schema.Types.ObjectId,
         ref: 'Post',
+    }],
+    followers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
     }]
 }, { collection: 'user' });
 
