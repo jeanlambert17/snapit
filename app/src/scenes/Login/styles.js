@@ -8,24 +8,35 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+    },
+    input: {
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    options: {
+        marginTop: 10,
     },
     button: {
-        borderRadius: 25,
-        marginTop: 5,
+        borderRadius: 35,        
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#0396A6',
+        backgroundColor: '#71DDE3',
         width: DEVICE_WIDTH * 0.85,
-        height: 35,
+        height: 40,
     },
     buttonText: {
         color: 'white',
         fontWeight: 'bold',
         // letterSpacing: 4,
     },
-    input: {
-        marginTop: 5,
-        marginBottom: 5,
+    view: {
+        marginTop: 10,
+        width: DEVICE_WIDTH * 0.85,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
     },
+    text: {
+        fontSize: 10,
+        backgroundColor:'transparent',
+    }
 });

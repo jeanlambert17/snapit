@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { 
     KeyboardAvoidingView,
     TouchableOpacity,
+    View,
     Text,
+    ProgressBarAndroid,
 } from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
@@ -26,6 +28,7 @@ class Login extends Component {
     handleLogin = () => this.props.login({ ...this.state });
 
     render() {
+        const { fetching } = this.props;
 
         return (
             <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -48,13 +51,23 @@ class Login extends Component {
                 secureTextEntry={true}
                 containerStyle={styles.input}
             />
-            <TouchableOpacity
-                activeOpacity={0.5}
-                style={styles.button}
-                onPress={this.handleLogin}
-            >
-                <Text style={styles.buttonText}> LOGIN </Text>
-            </TouchableOpacity>
+            <View style={styles.options}>                
+                <TouchableOpacity
+                    activeOpacity={0.5}
+                    style={styles.button}
+                    onPress={this.handleLogin}
+                >
+                    { (!fetching) ? (
+                        <Text style={styles.buttonText}> Login </Text>
+                    ) : (
+                        <ProgressBarAndroid styleAttr="Small" color="white"/>
+                    )}                
+                </TouchableOpacity>
+                {/* <View style={styles.view}>
+                    <Text style={styles.text}> Create Account </Text>
+                    <Text style={styles.text}> Forgot Password </Text>
+                </View> */}
+            </View>
         </KeyboardAvoidingView>
         );
     }

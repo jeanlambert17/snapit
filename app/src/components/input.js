@@ -17,9 +17,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor:'#D9D9D3',
-        borderRadius: 20,        
+        borderRadius: 35,        
         width: DEVICE_WIDTH * 0.85,
-        height: 40,
+        height: 50,
     },
     input: {        
         flex: 1,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 class Input extends Component {
     render() {
         return (
-        <View style={[this.props.containerStyle, styles.container]}>
+        <View style={[styles.container, this.props.containerStyle]}>
             <Image source={this.props.source} style={styles.icon} />
             <TextInput
                 textContentType={this.props.textContentType}
