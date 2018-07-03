@@ -30,9 +30,10 @@ controllers.signUp = (req,res) => {
 }
 
 controllers.logIn = (req,res) => {
-    let {email,password} = req.body;
-    
-    User.findOne({ 'email': email }, async (err,user) => {
+    let { username, password } = req.body;
+    console.log(username);
+    console.log(password);
+    User.findOne({ 'username': username }, async (err,user) => {
         console.log(user)
             if(err) 
                 res.status(500).send({
@@ -42,7 +43,7 @@ controllers.logIn = (req,res) => {
             if(!user) 
                 res.status(401).send({ 
                     status: 401,
-                    body: 'Email does not exist' 
+                    body: 'Username does not exist' 
                 });
             let isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) 
@@ -51,8 +52,17 @@ controllers.logIn = (req,res) => {
                     body:'Wrong password',
                 });
             
-            let token = jwt.sign({ id: user._id}, configs.secret, { expiresIn: 86400 }); // 24 hours
-            res.status(200).send({ token: token });
+            let token = jwt.sign({ id: user._id }, configs.secret, { expiresIn: 86400 }); // 24 hours
+            console.log(user);
+            res.status(200).send({ 
+                status: 200, 
+                body: {
+                    username: user.username,
+                    name: user.name,
+                    email: user.email,
+                },
+                token: token 
+            });
         }
     );
 
