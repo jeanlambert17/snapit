@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { 
-    KeyboardAvoidingView, 
-    View,
+    KeyboardAvoidingView,
     TouchableOpacity,
     Text,
 } from 'react-native';
 import styles from './styles';
+import PropTypes from 'prop-types';
 import Input from '../../components/input';
 import { connect } from 'react-redux';
-import { doLogin } from '../../actions/user';
+import { login } from '../../actions/auth';
 import usernameImg from '../../assets/images/username.png';
 import passwordImg from '../../assets/images/password.png';
 
-class Login extends React.Component {
+class Login extends Component {
     constructor(props) {
         super(props);
 
@@ -23,12 +23,10 @@ class Login extends React.Component {
     }
 
     handleTextChange = (input) => (value) => this.setState({ [input]:value });
-
-    handleLogin() {
-        // Esto esta embrujado. 
-    }
+    handleLogin = () => this.props.login({ ...this.state });
 
     render() {
+
         return (
             <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
             <Input
@@ -55,23 +53,29 @@ class Login extends React.Component {
                 style={styles.button}
                 onPress={this.handleLogin}
             >
-                <Text style={styles.buttonText}> LOGIN {this.props.user}</Text>
+                <Text style={styles.buttonText}> LOGIN </Text>
             </TouchableOpacity>
         </KeyboardAvoidingView>
         );
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        login: (form) => {
-            dispatch(doLogin(form))
-        }
-    }
+Login.propTypes = {
+    user: PropTypes.object,
+    error: PropTypes.string,
+    fetching: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
-    user: state.auth.user,
+const mapDispatchToProps = dispatch => ({
+    login: (form) => {
+        dispatch(login(form))
+    }   
+})
+
+const mapStateToProps = ({auth}) => ({
+    user: auth.user,
+    error: auth.error,
+    fetching: auth.fetching,
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(Login)
