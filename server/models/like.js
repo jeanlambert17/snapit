@@ -2,8 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const voteSchema = Schema({
-    index: Number,
+const likeSchema = Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -12,8 +11,8 @@ const voteSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post',
     }
-}, { collection: 'Vote' });
+}, { collection: 'Like' });
 
-let VoteModel = mongoose.model('Vote', voteSchema);
+let LikeModel = mongoose.model('Like', likeSchema);
 
-export default VoteModel
+export default LikeModel

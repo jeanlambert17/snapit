@@ -29,6 +29,10 @@ const postSchema = Schema({
     votes: [{
         type: Schema.Types.ObjectId,
         ref: 'Vote',
+    }],
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Like',
     }]
 }, { collection: 'Post' });
 
