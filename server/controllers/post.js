@@ -3,14 +3,15 @@ import { Post, User } from '../models';
 let controllers = {}
 
 controllers.add = (req,res) => {
-    const { content, title, url, figthers } = req.body;
+    const { content, title, figthers } = req.body;
+    const { path } = req.file;
     const id = req.userId;
     
     let post = new Post({
         user: id,
         title: title,
         content: content,
-        imageUrl: url,        
+        imageUrl: path,        
         date: new Date(),
         figthers: figthers,
     });
