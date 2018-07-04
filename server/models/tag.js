@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const tagSchema = Schema({
-    name: string
+    name: String,
 }, { collection: 'Like' });
 
 let TagModel = mongoose.model('Tag', tagSchema);

@@ -53,6 +53,7 @@ controllers.logIn = (req,res) => {
                 });
             
             let token = jwt.sign({ id: user._id }, configs.secret, { expiresIn: 86400 }); // 24 hours
+            console.log('User login: ');
             console.log(user);
             res.status(200).send({ 
                 status: 200, 
@@ -69,7 +70,9 @@ controllers.logIn = (req,res) => {
 }
 
 controllers.getData = (req,res) => {
-    res.status(200).send({id:req.userId});
+    User.findById(req.userId).populate('posts').exec((err, user) => {
+        res.send(user);
+    })
 }
 
 export default controllers;

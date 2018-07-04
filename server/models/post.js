@@ -3,24 +3,32 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const postSchema = Schema({
-    content: String,
-    url: String,
-    date: Schema.Types.Date,
+    imageUrl: String,
+    figthers: [String],
+    title: {
+        type: String,
+        required: true,
+    },
+    content: {
+        type: String,
+        required: true,
+    },
+    date: {
+        type: Schema.Types.Date,
+        required: true,
+    },
     user: {
+        required: true,
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    tags: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Tag'
-    }],
     comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment',
     }],
-    likes: [{
+    votes: [{
         type: Schema.Types.ObjectId,
-        ref: 'Like',
+        ref: 'Vote',
     }]
 }, { collection: 'Post' });
 
