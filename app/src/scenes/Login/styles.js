@@ -1,4 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import backgroundImg from '../../assets/images/background2.png';
+
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 // const DEVICE_HEIGHT = Dimensions.get('window').height;
@@ -6,8 +8,9 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        //backgroundImage: backgroundImg,
         alignItems: 'center',
+        //justifyContent: 'center'
     },
     input: {
         marginTop: 5,
@@ -17,7 +20,7 @@ export default StyleSheet.create({
         marginTop: 10,
     },
     button: {
-        borderRadius: 35,        
+        borderRadius: 15,        
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#71DDE3',
@@ -27,7 +30,7 @@ export default StyleSheet.create({
     buttonText: {
         color: 'white',
         fontWeight: 'bold',
-        // letterSpacing: 4,
+        fontSize: 20
     },
     view: {
         marginTop: 10,
@@ -38,5 +41,14 @@ export default StyleSheet.create({
     text: {
         fontSize: 10,
         backgroundColor:'transparent',
+    },
+    backgroundImage: {
+        resizeMode: 'stretch'
+    },
+    logo:{
+        width: 200,
+        height: 200,
+        marginTop: 100
+        //marginBottom: 15
     }
 });

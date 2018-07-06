@@ -8,7 +8,7 @@ const Routes = createStackNavigator(
         Login: Login,
         SignUp: SignUp,
     }, {
-        initialRouteName: 'Login',
+        initialRouteName: 'SignUp',
     }
 );
 

@@ -5,6 +5,8 @@ import {
     View,
     Text,
     ProgressBarAndroid,
+    ImageBackground,
+    Image
 } from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
@@ -13,6 +15,8 @@ import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
 import usernameImg from '../../assets/images/username.png';
 import passwordImg from '../../assets/images/password.png';
+import backgroundImg from '../../assets/images/background2.png';
+import logoImg from '../../assets/images/Logo.png';
 
 class Login extends Component {
     constructor(props) {
@@ -24,6 +28,10 @@ class Login extends Component {
         }
     }
 
+    static navigationOptions = {
+        headerStyle: { height: 0 }
+      }
+
     handleTextChange = (input) => (value) => this.setState({ [input]:value });
     handleLogin = () => this.props.login({ ...this.state });
 
@@ -31,7 +39,9 @@ class Login extends Component {
         const { fetching } = this.props;
 
         return (
+            <ImageBackground source={backgroundImg} style={{width: '100%', height: '100%'}}>
             <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+            <Image source={logoImg} style={styles.logo}/>
             <Input
                 source={usernameImg}
                 textContentType="username"
@@ -69,6 +79,7 @@ class Login extends Component {
                 </View> */}
             </View>
         </KeyboardAvoidingView>
+        </ImageBackground>
         );
     }
 }
