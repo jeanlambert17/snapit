@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const tagSchema = Schema({
     name: String,
-}, { collection: 'Like' });
+}, { collection: 'tag' });
 
 let TagModel = mongoose.model('Tag', tagSchema);
 

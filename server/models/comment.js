@@ -13,7 +13,7 @@ const commentSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post',
     },
-}, { collection: 'Comment' });
+}, { collection: 'comment' });
 
 let CommentModel = mongoose.model('Comment', commentSchema);
 

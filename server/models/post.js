@@ -34,7 +34,7 @@ const postSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Like',
     }]
-}, { collection: 'Post' });
+}, { collection: 'post' });
 
 let PostModel = mongoose.model('Post', postSchema);
 

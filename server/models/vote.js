@@ -12,7 +12,7 @@ const voteSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post',
     }
-}, { collection: 'Vote' });
+}, { collection: 'vote' });
 
 let VoteModel = mongoose.model('Vote', voteSchema);
 

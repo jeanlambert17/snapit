@@ -3,7 +3,7 @@ import { User } from '../models'
 function userData(req, res, next) {
     const id = req.userId;
 
-    User.findOne({ _id: id }, async(err,user) => {
+    User.findOne({ _id: id }, async (err,user) => {
         if(err) 
             res.status(500).send({ status: 500, body: 'Try again' });
         if(!user) {
@@ -12,8 +12,7 @@ function userData(req, res, next) {
             req.userData = user;
             next();
         }
-    })
-
+    });
 }
 
 export default userData

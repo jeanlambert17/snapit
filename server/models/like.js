@@ -11,7 +11,7 @@ const likeSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Post',
     }
-}, { collection: 'Like' });
+}, { collection: 'like' });
 
 let LikeModel = mongoose.model('Like', likeSchema);
 
