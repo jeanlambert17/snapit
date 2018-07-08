@@ -1,13 +1,32 @@
 import multer from 'multer';
 import configs from '../helpers/configs';
+import fs from 'fs';
+
+const storage = multer.diskStorage({
+    destination: function (req,file,cb) {
+        cb(null, `${configs.uploadFolder}${req.userId}/`);
+    },
+    filename: function (req,file,cb) {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+})
+const upload = multer({ storage: storage }).single('image');
 
 function fileUpload(req,res,next) {
-    const path = configs.uploadFolder + req.userId + '/';
-    const upload = multer({ dest: path }).single('image');
-    upload(req,res,(err) => {
-        if(err)
+    const path = `${configs.uploadFolder}${req.userId}/`;
+    fs.mkdir(path, (err) => {
+        if(err) {
+            console.log('mkdir err: ' + err);
             res.status(500).send({ status: 500, body: 'Try again' });
-        next();
+        } else {
+            upload(req, res, (err) => {
+                if (err) {
+                    console.log('upload err: ' + err);
+                    res.status(500).send({ status: 500, body: 'Try again' });
+                }
+                next();
+            });
+        }
     });
 }
 

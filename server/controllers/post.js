@@ -4,6 +4,7 @@ let controllers = {}
 
 controllers.add = (req,res) => {
     const { content, title, figthers } = req.body;
+    console.log(req.file);
     const { path } = req.file;
     const id = req.userId;
     

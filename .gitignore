@@ -1,4 +1,4 @@
 # ignore node_modules
 /node_modules
 /app/node_modules
-/server/uploads
+/server/public/uploads
