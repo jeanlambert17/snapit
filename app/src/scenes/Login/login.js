@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
-import Input from '../../components/input';
+import { Input } from '../../components';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
 import usernameImg from '../../assets/images/username.png';

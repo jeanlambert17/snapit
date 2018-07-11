@@ -7,6 +7,7 @@ import {
 
 import { connect } from 'react-redux';
 
+import Input from '../../components/input';
 import styles from './styles';
 
 class Profile extends Component {
@@ -20,7 +21,7 @@ class Profile extends Component {
                barStyle="light-content" 
             />
             <View style={styles.header}>
-               <Text>{user.name}</Text>
+               <Text style={styles.text}> {user.name} </Text>
             </View>
          </View>
       )

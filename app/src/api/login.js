@@ -20,6 +20,6 @@ export default (form) => new Promise((res, rej) =>
 			rej(body);
 	}).catch(error => {
 		console.log('Login error: ' + error);
-		rej(error);
+		rej('Network request failed');
 	})
 )

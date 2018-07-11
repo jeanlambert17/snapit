@@ -17,7 +17,7 @@ import verificationImg from '../../assets/images/lock-reset.png';
 
 import { connect } from 'react-redux';
 import { signUp } from '../../actions/auth';
-import Input from '../../components/input';
+import { Input } from '../../components';
 import styles from './styles';
 
 class SignUp extends React.Component {
