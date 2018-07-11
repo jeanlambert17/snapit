@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import reducers from './src/reducers';
-import Navigator from './src/navigator';
+import Navigator from './src/navigation';
 
 let store = createStore(reducers, applyMiddleware(thunk));
 

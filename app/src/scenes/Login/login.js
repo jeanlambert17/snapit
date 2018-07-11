@@ -86,7 +86,6 @@ class Login extends Component {
 
 Login.propTypes = {
     user: PropTypes.object,
-    error: PropTypes.object,
     fetching: PropTypes.bool,
     login: PropTypes.func,
 }

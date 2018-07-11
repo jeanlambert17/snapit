@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import {
+   StatusBar,
    View,
    Text,
 } from 'react-native';
+
 import { connect } from 'react-redux';
+
 import styles from './styles';
 
 class Profile extends Component {
 
    render() {
+      const { user } = this.props
       return (
          <View>
-            <Text>adsas</Text>
+            <StatusBar 
+               backgroundColor="#F04A58" 
+               barStyle="light-content" 
+            />
+            <View style={styles.header}>
+               <Text>{user.name}</Text>
+            </View>
          </View>
       )
    }

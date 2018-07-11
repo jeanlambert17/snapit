@@ -67,6 +67,7 @@ class SignUp extends React.Component {
                   onChangeText={this.handleTextChange('name')}
                   value={this.state.name}
                   containerStyle={styles.input}
+                  autoCapitalize="words"
                />
                <Input
                   source={passwordImg}
@@ -118,8 +119,8 @@ class SignUp extends React.Component {
 
 SignUp.propTypes = {
    user: PropTypes.object,
-   error: PropTypes.string,
    fetching: PropTypes.bool,
+   signUp: PropTypes.func,
 }
 
 const mapStateToProps = ({auth}) => ({

@@ -1,50 +1,52 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { 
     TextInput, 
     View,
     Image,
-    Text,
-    StyleSheet,
-    Dimensions,
 } from 'react-native';
 
 import styles from './Styles/input';
 
-class Input extends Component {
-    render() {
-        return (
-        <View style={[styles.container, this.props.containerStyle]}>
-            <Image source={this.props.source} style={styles.icon} />
-            <TextInput
-                textContentType={this.props.textContentType}
-                placeholder={this.props.placeholder}
-                placeholderTextColor={this.props.placeholderTextColor}
-                onChangeText={this.props.onChangeText}
-                value={this.props.value}
-                secureTextEntry={this.props.secureTextEntry}
-                underlineColorAndroid="transparent"
-                style={styles.input}
-            />
-        </View>
-        );
-    }
-}
+const Input = (props) => (
+    <View style={[styles.container, props.containerStyle]}>
+        <Image source={props.source} style={styles.icon} />
+        <TextInput
+            style={[props.inputStyle, styles.input]}
+            onChangeText={props.onChangeText}
+            value={props.value}
+            textContentType={props.textContentType}
+            placeholder={props.placeholder}
+            placeholderTextColor={props.placeholderTextColor}            
+            secureTextEntry={props.secureTextEntry}
+            underlineColorAndroid="transparent"
+            autoCapitalize={props.autoCapitalize}
+            editable={props.editable}
+        />
+    </View>
+);
 
 Input.propTypes = {
-    source: PropTypes.number.isRequired,
-    textContentType: PropTypes.string,
-    placeholder: PropTypes.string,
-    placeholderTextColor: PropTypes.string,
+    // Required props
     onChangeText: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
-    secureTextEntry: PropTypes.bool,
+    source: PropTypes.number.isRequired,
+    // Styles props
     containerStyle: PropTypes.number,
+    inputStyle: PropTypes.number,
+    // Optional props that has default values
+    textContentType: PropTypes.string,
+    secureTextEntry: PropTypes.bool,
+    editable: PropTypes.bool,
+    // Idk what to do with this props
+    placeholder: PropTypes.string,
+    placeholderTextColor: PropTypes.string,
 }
 
 Input.defaultProps = {
     textContentType: 'none',
     secureTextEntry: false,
+    editable: true,
 }
 
 export default Input

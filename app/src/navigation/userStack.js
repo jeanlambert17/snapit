@@ -4,8 +4,8 @@ import Drawer from '../components/drawer';
 
 export default createDrawerNavigator(
    {
-      HomeScreen: Home,
-      ProfileScreen: Profile,
+      Home: Home,
+      Profile: Profile,
    }, {
       contentComponent: Drawer
    }
