@@ -5,7 +5,11 @@ import {
    ActivityIndicator,
    Text,
 } from 'react-native';
+
+import { connect } from 'redux';
+
 import Authenticate from '../../api/isAuth';
+
 
 class Loading extends Component {
    constructor(props) {
@@ -24,7 +28,6 @@ class Loading extends Component {
       return (
          <View style={styles.container}>
             <ActivityIndicator size="large" color="#F04A58"/>
-            <Text>Loading</Text>
          </View>
       );
    }
@@ -35,6 +38,10 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
    }
-})
+});
+
+const mapDispatchToProps = dispatch => ({
+   
+});
 
 export default Loading
