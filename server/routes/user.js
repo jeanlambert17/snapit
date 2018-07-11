@@ -1,12 +1,12 @@
 import express from 'express';
-import { isNew, verifyToken, userData, availableFieldsToChange } from '../middlewares'
+import { isNew, verifyToken, userData, availableFieldsToChange, emptyFields } from '../middlewares'
 import { UserControllers } from '../controllers';
 
 let router = express.Router();
 
 // User's routes
-router.post('/signUp', isNew, UserControllers.signUp);
-router.post('/login', UserControllers.logIn);
+router.post('/signUp', emptyFields, isNew, UserControllers.signUp);
+router.post('/login', emptyFields, UserControllers.logIn);
 router.get('/userData', verifyToken, UserControllers.userData);
 
 // On develop

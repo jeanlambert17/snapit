@@ -8,7 +8,8 @@ let controllers = {}
 controllers.signUp = (req,res) => {
     let { name, username, email, password } = req.body;
     let hash = bcrypt.hashSync(password, 10);
-    // TODO: Anadir verificaciones
+    const send = ({ status, body, ...rest }) => res.status(status).send({ status, body, ...rest });
+    
     User.create({
         name: name,
         email: email,
@@ -17,13 +18,8 @@ controllers.signUp = (req,res) => {
     }, (err, user) => {
         console.log('USER_signup: ');
         console.log(user);
-        if (err) {
-            res.status(500).send({
-                status: 500,
-                body: 'Try again'
-            });
-        }
-        if (user) res.status(200).send({
+        if (err) send({status: 500, body: 'Try again'});
+        if (user) send({
             status: 200,
             body: {
                 username: user.username,
@@ -40,7 +36,7 @@ controllers.logIn = (req,res) => {
     const send = ({status,body, ...rest}) => res.status(status).send({status,body, ...rest});
     User.findOne({ 'username': username }, async (err,user) => {
         if(err) send({ status: 500, body: 'Try again' });
-        if(!user) send({ status: 401, body: 'Username does not exist' });
+        if(!user) send({ status: 401, body: 'Username doesn\'t exist' });
         try {
             let isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) send({ status: 401, body: 'Invalid credentials' });
