@@ -1,20 +1,19 @@
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
-    AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE,
     SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
-    LOGOUT
+    LOGOUT, SET_USER_DATA
 } from '../constants/auth';
 
 const initialState = {
     user: null,
     fetching: false,
-    
-    isAuthenticated: false,
-    fetchingAuth: false,
+
+    // loginError: false,
+    // signUpError: false,
 
     loginErrorMessage: null,
     signUpErrorMessage: null,
-    authErrorMessage: null,
+    // authErrorMessage: null,
 }
 
 export default (state = initialState, action) => {
@@ -61,6 +60,12 @@ export default (state = initialState, action) => {
                 user: null,
                 fetching: false,
                 signUpErrorMessage: action.error,
+            }
+        }
+        case SET_USER_DATA: {
+            return {
+                ...state,
+                user: action.user
             }
         }
         case LOGOUT: {

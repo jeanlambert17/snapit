@@ -4,14 +4,14 @@ import {
    Text,
 } from 'react-native';
 import { connect } from 'react-redux';
+import styles from './styles';
 
 class Profile extends Component {
 
    render() {
-
       return (
          <View>
-            <Text>Welcome! {this.props.user.name}</Text>
+            <Text>adsas</Text>
          </View>
       )
    }

@@ -1,13 +1,20 @@
-import { 
+import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
     SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
-    LOGOUT,
+    LOGOUT, SET_USER_DATA
 } from '../constants/auth';
 
 import fetchLogin from '../api/login';
 import fetchSignUp from '../api/signUp';
 
 import { removeItem } from '../helpers/storage';
+
+export function setUserData(user) {
+    return {
+        type: SET_USER_DATA,
+        user,
+    }
+}
 
 export function login(form) {
    const success = (user) => ({ type: LOGIN_SUCCESS, user });
@@ -38,13 +45,11 @@ export function signUp(form) {
    }
 }
 
-export function logout(auth) {
-	console.log('logout action');
+export function logout() {
    return dispatch => {
       removeItem('token').then(() => {
-         dispatch({type:LOGOUT});
-      }).catch(() => {
-         dispatch({type:LOGOUT});
-      })
+         dispatch({ type: LOGOUT });
+      });
    }
 }
+

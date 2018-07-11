@@ -1,12 +1,12 @@
 import { createSwitchNavigator } from 'react-navigation';
-import LoginStack from './loginStack';
-import DrawerStack from './drawerStack';
+import InvitedStack from './invitedStack';
+import UserStack from './userStack';
 import { Loading } from '../scenes';
 
 export default createSwitchNavigator(
    {
-      UserStack: DrawerStack,      
-      InvitedStack: LoginStack,
+      UserStack: UserStack,      
+      InvitedStack: InvitedStack,
       AuthLoading: Loading,
    }, {
       headerMode: 'none',

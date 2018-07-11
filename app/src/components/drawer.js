@@ -6,7 +6,7 @@ import {
    TouchableOpacity
 } from 'react-native';
 
-import { DrawerItems, SafeAreaView, createDrawerNavigator } from 'react-navigation';
+import { DrawerItems, SafeAreaView } from 'react-navigation';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 

@@ -3,10 +3,10 @@ import {
    View,
    StyleSheet,
    ActivityIndicator,
-   Text,
 } from 'react-native';
 
-import { connect } from 'redux';
+import { connect } from 'react-redux';
+import { setUserData } from '../../actions/auth';
 
 import Authenticate from '../../api/isAuth';
 
@@ -20,7 +20,12 @@ class Loading extends Component {
 
    isAuthenticated = async () => {
       const user = await Authenticate();
-      this.props.navigation.navigate(user ? 'UserStack' : 'InvitedStack');
+      if(user) {
+         this.props.setAuth(user);
+         this.props.navigation.navigate('UserStack');
+      } else {
+         this.props.navigation.navigate('InvitedStack');
+      }
    }
 
    render() {
@@ -41,7 +46,9 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-   
+   setAuth: user => {
+      dispatch(setUserData(user));
+   }
 });
 
-export default Loading
+export default connect(null,mapDispatchToProps)(Loading);

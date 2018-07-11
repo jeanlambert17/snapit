@@ -3,9 +3,10 @@ import { AsyncStorage } from "react-native"
 export const setItem = async (key,value) => {
     try {
         await AsyncStorage.setItem(key,value);
+        return
     } catch(err) {
         console.log('AsyncStorage set item error: ' + error.message);
-        throw err;
+        return
     }
 }
 
@@ -22,8 +23,9 @@ export const getItem = async (key) => {
 export const removeItem = async (key) => {
     try {
         await AsyncStorage.removeItem(key);
+        return
     } catch(err) {
         console.log('AsyncStorage remove item error: ' + error.message);
-        throw err;
+        return
     }
 }
