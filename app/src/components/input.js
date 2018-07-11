@@ -14,6 +14,7 @@ const Input = (props) => (
         <TextInput
             style={[props.inputStyle, styles.input]}
             onChangeText={props.onChangeText}
+            defaultValue={props.defaultValue}
             value={props.value}
             textContentType={props.textContentType}
             placeholder={props.placeholder}
@@ -21,7 +22,7 @@ const Input = (props) => (
             secureTextEntry={props.secureTextEntry}
             underlineColorAndroid="transparent"
             autoCapitalize={props.autoCapitalize}
-            editable={props.editable}
+            editable={props.editable}            
         />
     </View>
 );
@@ -41,6 +42,7 @@ Input.propTypes = {
     // Idk what to do with this props
     placeholder: PropTypes.string,
     placeholderTextColor: PropTypes.string,
+    defaultValue: PropTypes.string,
 }
 
 Input.defaultProps = {

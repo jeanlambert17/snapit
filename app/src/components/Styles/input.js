@@ -1,10 +1,10 @@
 import {
    StyleSheet,
-   Dimensions
+   // Dimensions
 } from 'react-native';
 
-const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
+// const DEVICE_WIDTH = Dimensions.get('window').width;
+// const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 export default StyleSheet.create({
    container: {
@@ -12,7 +12,6 @@ export default StyleSheet.create({
       alignItems: 'center',
       backgroundColor: '#D9D9D3',
       borderRadius: 30,
-      width: DEVICE_WIDTH * 0.85,
       height: 50,
    },
    input: {

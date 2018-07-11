@@ -5,12 +5,28 @@ import {
    Text,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 
-import Input from '../../components/input';
-import styles from './styles';
+import Settings from './settings';
+import styles from './Styles/profile';
 
 class Profile extends Component {
+   state = {
+      body: 'settings',
+   }
+
+   changeBody = (body) => this.setState({ body: body })
+   renderBody() {
+      switch(this.state.body) {
+         case 'settings': {
+            return <Settings user={this.props.user}/>
+         }
+         default: {
+            return <Settings user={this.props.user}/>
+         }
+      }
+   }
 
    render() {
       const { user } = this.props
@@ -21,8 +37,10 @@ class Profile extends Component {
                barStyle="light-content" 
             />
             <View style={styles.header}>
+               <Icon.Button name="menu" size={30} backgroundColor="transparent"/>
                <Text style={styles.text}> {user.name} </Text>
             </View>
+            {this.renderBody()}
          </View>
       )
    }

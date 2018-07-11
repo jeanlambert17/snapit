@@ -15,6 +15,7 @@ export default StyleSheet.create({
     input: {
         marginTop: 5,
         marginBottom: 5,
+        width: DEVICE_WIDTH*0.85,
     },
     options: {
         marginTop: 10,
