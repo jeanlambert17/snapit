@@ -10,7 +10,7 @@ export default StyleSheet.create({
         flex: 1,
         //backgroundImage: backgroundImg,
         alignItems: 'center',
-        //justifyContent: 'center'
+        justifyContent: 'center'
     },
     input: {
         marginTop: 5,
@@ -20,12 +20,12 @@ export default StyleSheet.create({
         marginTop: 10,
     },
     button: {
-        borderRadius: 15,        
+        borderRadius: 30,        
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#71DDE3',
         width: DEVICE_WIDTH * 0.85,
-        height: 40,
+        height: 45,
     },
     buttonText: {
         color: 'white',

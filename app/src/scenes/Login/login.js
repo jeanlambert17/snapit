@@ -16,7 +16,7 @@ import { login } from '../../actions/auth';
 import usernameImg from '../../assets/images/username.png';
 import passwordImg from '../../assets/images/password.png';
 import backgroundImg from '../../assets/images/background2.png';
-import logoImg from '../../assets/images/Logo.png';
+// import logoImg from '../../assets/images/Logo.png';
 
 class Login extends Component {
     constructor(props) {
@@ -27,21 +27,22 @@ class Login extends Component {
             password: '',
         }
     }
-
-    static navigationOptions = {
-        headerStyle: { height: 0 }
-      }
-
+    // componentDidUpdate() {
+    //     console.log('login did update');
+    //     if(this.props.user) {
+    //         this.props.navigation.navigate('UserStack');
+    //     }
+    // }
     handleTextChange = (input) => (value) => this.setState({ [input]:value });
     handleLogin = () => this.props.login({ ...this.state });
 
     render() {
-        const { fetching } = this.props;
-
+        const { error, fetching, navigation } = this.props;        
+        if(error) console.log(error);
         return (
             <ImageBackground source={backgroundImg} style={{width: '100%', height: '100%'}}>
             <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-            <Image source={logoImg} style={styles.logo}/>
+            {/* <Image source={logoImg} style={styles.logo}/> */}
             <Input
                 source={usernameImg}
                 textContentType="username"
@@ -86,8 +87,9 @@ class Login extends Component {
 
 Login.propTypes = {
     user: PropTypes.object,
-    error: PropTypes.string,
+    error: PropTypes.object,
     fetching: PropTypes.bool,
+    login: PropTypes.func,
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -95,10 +97,9 @@ const mapDispatchToProps = dispatch => ({
         dispatch(login(form))
     }   
 })
-
 const mapStateToProps = ({auth}) => ({
     user: auth.user,
-    error: auth.error,
+    error: auth.loginErrorMessage,
     fetching: auth.fetching,
 });
 

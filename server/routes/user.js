@@ -5,8 +5,9 @@ import { UserControllers } from '../controllers';
 let router = express.Router();
 
 // User's routes
-router.post('/signup', isNew, UserControllers.signUp);
+router.post('/signUp', isNew, UserControllers.signUp);
 router.post('/login', UserControllers.logIn);
+router.get('/userData', verifyToken, UserControllers.userData);
 
 // On develop
 router.post('/changeField', availableFieldsToChange, verifyToken, UserControllers.changeField);

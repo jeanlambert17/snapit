@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
-import { Button, View } from 'react-native';
+import { 
+    Button, 
+    View,
+    Image,
+} from 'react-native';
 import styles from './styles';
+import IconMenu from '../../assets/icons/menu_black_18.png';
 
 class Home extends Component {
+
+    static navigationOptions = {
+        heigth: 0,
+        // drawerLabel: 'Home',
+        // drawerIcon: ({ tintColor }) => (
+        //     <Image
+        //         source={IconMenu}
+        //         style={[styles.icon, { tintColor: tintColor }]}
+        //     />
+        // ),
+    };
     
     handlePress = route => () => {
         return this.props.navigation.push(route);
@@ -19,9 +35,12 @@ class Home extends Component {
                     title="GO TO SIGN UP"
                     onPress={this.handlePress('SignUp')}
                 ></Button>
+                <Button
+                    title="DrawerStack"
+                    onPress={() => this.props.navigation.navigate('UserStack')}
+                ></Button>
             </View>
         );
     }
 }
-
 export default Home

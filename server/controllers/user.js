@@ -14,16 +14,22 @@ controllers.signUp = (req,res) => {
         email: email,
         username: username,
         password: hash,
-    }, (err) => {
+    }, (err, user) => {
+        console.log('USER_signup: ');
+        console.log(user);
         if (err) {
             res.status(500).send({
                 status: 500,
                 body: 'Try again'
             });
         }
-        res.status(200).send({
+        if (user) res.status(200).send({
             status: 200,
-            body: 'Success'
+            body: {
+                username: user.username,
+                email: user.email,
+                name: user.name,
+            },
         });
     });
 
@@ -63,7 +69,7 @@ controllers.changeField = (req,res) => {
     const id = req.userId;
     const send = ({status,body}) => res.status(status).send({ status, body });
 
-    User.findOne({ _id: id }, async (err, user) => {
+    User.findById(id, async (err, user) => {
         if (err) send({ status: 500, body: 'Try again' });
         if (!user) send({ status: 500, body: 'Unable to reach user data' });
         try {
@@ -101,7 +107,7 @@ controllers.changePassword = (req,res) => {
     const id = req.userId;
     const send = ({ status, body }) => res.status(status).send({ status, body });
 
-    User.findOne({ _id: id }, async (err, user) => {
+    User.findById(id, async (err, user) => {
         if (err) send({ status: 500, body: 'Try again' });
         if (!user) send({ status: 500, body: 'Unable to reach user data' });
         try {
@@ -118,6 +124,22 @@ controllers.changePassword = (req,res) => {
             console.log('catch err: ' + err);
             send({ status: 500, body:'Try again' });
         }
+    });
+}
+
+controllers.userData = (req,res) => {
+    const id = req.userId;
+    const send = ({ status, body }) => res.status(status).send({ status, body });
+    User.findById(id, 'username name email', (err, user) => {
+        if(err) send({ status: 500, body: 'Try again' });
+        send({ 
+            status: 200, 
+            body: {
+                username: user.username,
+                name: user.name,
+                email: user.email,
+            } 
+        });
     });
 }
 
