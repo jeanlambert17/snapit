@@ -3,7 +3,7 @@ import configs from './configs';
 
 export default (form) => {
    return new Promise((res,rej) => {        
-         fetch(`${configs.url}/user/login`, {
+      fetch(`${configs.url}/user/login`, {
          method: 'POST',
          headers: {
                'Accept': 'application/json',
@@ -18,7 +18,7 @@ export default (form) => {
          (status === 200 ? res(body) : rej(body));
       }).catch(error => {
          console.log('Login error: ' + error);
-         rej('Networking problem');
+         rej(error);
       });
    })
 }

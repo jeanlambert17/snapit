@@ -27,12 +27,11 @@ class Login extends Component {
             password: '',
         }
     }
-    // componentDidUpdate() {
-    //     console.log('login did update');
-    //     if(this.props.user) {
-    //         this.props.navigation.navigate('UserStack');
-    //     }
-    // }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user) {
+            this.props.navigation.navigate('UserStack');
+        }
+    }
     handleTextChange = (input) => (value) => this.setState({ [input]:value });
     handleLogin = () => this.props.login({ ...this.state });
 

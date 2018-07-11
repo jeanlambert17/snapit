@@ -17,8 +17,9 @@ class Drawer extends Component {
 
    handleLogout = () => this.props.logout();
    componentWillReceiveProps(nextProps) {
-      if(!nextProps.user) 
+      if(!nextProps.user) {
          this.props.navigation.navigate('InvitedStack');
+      }
    }
 
    render() {

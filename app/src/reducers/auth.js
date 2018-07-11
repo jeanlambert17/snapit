@@ -30,6 +30,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 fetching: false,
+                loginErrorMessage: null,
                 user: action.user,
             }
         }
