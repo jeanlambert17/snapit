@@ -21,7 +21,7 @@ class Loading extends Component {
    isAuthenticated = async () => {
       const user = await Authenticate();
       if(user) {
-         this.props.setAuth(user);
+         this.props.setUser(user);
          this.props.navigation.navigate('UserStack');
       } else {
          this.props.navigation.navigate('InvitedStack');
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-   setAuth: user => {
+   setUser: user => {
       dispatch(setUserData(user));
    }
 });
