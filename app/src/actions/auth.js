@@ -1,7 +1,7 @@
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
     SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
-    LOGOUT, SET_USER_DATA
+    LOGOUT_REQUEST, LOGOUT_SUCCES, SET_USER_DATA
 } from '../constants/auth';
 
 import fetchLogin from '../api/login';
@@ -10,10 +10,10 @@ import fetchSignUp from '../api/signUp';
 import { removeItem } from '../helpers/storage';
 
 export function setUserData(user) {
-    return {
-        type: SET_USER_DATA,
-        user,
-    }
+   return {
+      type: SET_USER_DATA,
+      user,
+   }
 }
 
 export function login(form) {
@@ -31,14 +31,13 @@ export function login(form) {
 }
 
 export function signUp(form) {
-   console.log(form);
    const success = (user) => ({ type: SIGNUP_SUCCESS, user });
    const failure = (error) => ({ type: SIGNUP_FAILURE, error });
    const request = () => ({ type: SIGNUP_REQUEST });
    return dispatch => {
       dispatch(request());
       fetchSignUp(form).then(user => {
-         dispatch(success());
+         dispatch(success(user));
       }).catch(err => {
          dispatch(failure(err));
       })
@@ -46,9 +45,12 @@ export function signUp(form) {
 }
 
 export function logout() {
+   const request = () => ({type:LOGOUT_REQUEST});
+   const success = () => ({type:LOGOUT_SUCCES})
    return dispatch => {
+      dispatch(request());
       removeItem('token').then(() => {
-         dispatch({ type: LOGOUT });
+         dispatch(success());
       });
    }
 }
