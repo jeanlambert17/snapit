@@ -9,7 +9,7 @@ import fetchSignUp from '../api/signUp';
 
 import { removeItem } from '../helpers/storage';
 
-export function setUserData(user) {
+export function setAuth(user) {
    return {
       type: SET_USER_DATA,
       user,
@@ -31,15 +31,15 @@ export function login(form) {
 }
 
 export function signUp(form) {
-   const success = (user) => ({ type: SIGNUP_SUCCESS, user });
+   const success = () => ({ type: SIGNUP_SUCCESS });
    const failure = (error) => ({ type: SIGNUP_FAILURE, error });
    const request = () => ({ type: SIGNUP_REQUEST });
    return dispatch => {
       dispatch(request());
-      fetchSignUp(form).then(user => {
-         dispatch(success(user));
+      fetchSignUp(form).then(() => {
+      	dispatch(success());
       }).catch(err => {
-         dispatch(failure(err));
+      	dispatch(failure(err));
       })
    }
 }

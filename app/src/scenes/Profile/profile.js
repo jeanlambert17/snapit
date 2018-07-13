@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 import Settings from './settings';
 import styles from './Styles/profile';
-import { setUserData } from '../../actions/auth';
+import { setAuth } from '../../actions/auth';
 
 class Profile extends Component {
    state = {
@@ -21,10 +21,10 @@ class Profile extends Component {
    renderBody() {
       switch(this.state.body) {
          case 'settings': {
-            return <Settings setUser={this.props.setUser} user={this.props.user}/>
+            return <Settings setAuth={this.props.setAuth} user={this.props.user}/>
          }
          default: {
-            return <Settings setUser={this.props.setUser} user={this.props.user} />
+            return <Settings setAuth={this.props.setAuth} user={this.props.user} />
          }
       }
    }
@@ -52,8 +52,8 @@ const mapStateToProps = ({auth}) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-   setUser: (user) => {
-      dispatch(setUserData(user));
+   setAuth: (user) => {
+      dispatch(setAuth(user));
    } 
 })
 

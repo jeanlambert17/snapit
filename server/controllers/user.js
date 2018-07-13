@@ -37,24 +37,28 @@ controllers.logIn = (req,res) => {
 	User.findOne({ 'username': username }, async (err,user) => {
 		if(err) send({ status: 500, body: 'Try again' });
 		if(!user) send({ status: 401, body: 'Username doesn\'t exist' });
-		try {
-			let isMatch = await bcrypt.compare(password, user.password);
-			if (!isMatch) send({ status: 401, body: 'Invalid credentials' });
-			let token = jwt.sign({ id: user._id }, configs.secret, { expiresIn: 86400 }); // 24 hours
-			console.log('User login: ');
-			console.log(user);
-			send({
-					status: 200,
-					body: {
-						username: user.username,
-						name: user.name,
-						email: user.email,
-					},
-					token: token
-			});
-		} catch(err) {
-			console.log(err);
-			send({ status: 500, body: 'Try again' });
+		else {
+			try {
+				let isMatch = await bcrypt.compare(password, user.password);
+				if (!isMatch) send({ status: 401, body: 'Invalid credentials' });
+				else {
+					let token = jwt.sign({ id: user._id }, configs.secret, { expiresIn: 86400 }); // 24 hours
+					console.log('User login: ');
+					console.log(user);
+					send({
+						token: token,
+						status: 200,
+						body: {
+							username: user.username,
+							name: user.name,
+							email: user.email,
+						},
+					});
+				}
+			} catch (err) {
+				console.log(err);
+				send({ status: 500, body: 'Try again' });
+			}
 		}
 	});
 
@@ -131,9 +135,9 @@ controllers.userData = (req,res) => {
 		send({ 
 			status: 200, 
 			body: {
-					username: user.username,
-					name: user.name,
-					email: user.email,
+				username: user.username,
+				name: user.name,
+				email: user.email,
 			} 
 		});
 	});

@@ -5,15 +5,17 @@ import {
 } from '../constants/auth';
 
 const initialState = {
-    user: null,
-    fetching: false,
+	
+	user: null,
+	fetching: false,
+	isLoggedIn: false,
+	// loginError: false,
+	// signUpError: false,
+	signUpRedirect: false,
 
-    // loginError: false,
-    // signUpError: false,
-
-    loginErrorMessage: null,
-    signUpErrorMessage: null,
-    // authErrorMessage: null,
+	loginErrorMessage: null,
+	signUpErrorMessage: null,
+	// authErrorMessage: null,
 }
 
 export default (state = initialState, action) => {
@@ -21,62 +23,66 @@ export default (state = initialState, action) => {
    switch(action.type) {
       case LOGIN_REQUEST: {
          return {
-               ...state,
-               fetching: true,
+				...state,
+				loginErrorMessage: null,
+				fetching: true,
          }
       }
       case LOGIN_SUCCESS: {
          return {
-               ...state,
-               fetching: false,
-               loginErrorMessage: null,
-               user: action.user,
+				...state,
+				fetching: false,
+				loginErrorMessage: null,
+				user: action.user,
          }
       }
       case LOGIN_FAILURE: {
          return {
-               ...state,
-               loginErrorMessage: action.error,
-               user: null,
-               fetching: false,
+				...state,
+				loginErrorMessage: action.error,
+				user: null,
+				fetching: false,
          }
       }
       case SIGNUP_REQUEST: {
          return {
-               ...state,
-               fetching: true,
+				...state,
+				signUpErrorMessage: null,
+				signUpRedirect: false,
+				fetching: true,
          }
       }
       case SIGNUP_SUCCESS: {
          return {
-               ...state,
-               fetching: false,
-               user: action.user,
+				...state,
+				signUpRedirect: true,
+				fetching: false,
          }
       }
       case SIGNUP_FAILURE: {
          return {
-               ...state,
-               user: null,
-               fetching: false,
-               signUpErrorMessage: action.error,
+				...state,
+				fetching: false,
+				signUpRedirect: false,
+				signUpErrorMessage: action.error,
          }
       }
       case LOGOUT_REQUEST: {
          return {
-               ...state,
-               fetching: true,
+				...state,
+				fetching: true,
          }
       }
       case LOGOUT_SUCCES: {
          return {     
-               ...initialState,
+				...initialState,
          }
       }
       case SET_USER_DATA: {
          return {
-               ...state,
-               user: action.user
+            ...state,
+            isLoggedIn: true,
+            user: action.user,
          }
       }
       default: {

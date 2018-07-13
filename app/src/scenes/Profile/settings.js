@@ -24,6 +24,7 @@ class Settings extends Component {
       email : '',
       name: '',
       password: '',
+      toUpdate: '',
       modalVisible: false,
    }
    componentDidMount() {
@@ -36,12 +37,21 @@ class Settings extends Component {
    }
 
    handleTextChange = (input) => (value) => this.setState({ [input]: value });
-   setModalVisible = (visible) => { console.log('modal'); this.setState({modalVisible:visible})}
-   handleUpdate = (toUpdate) => () => {
-      const updatedField = this.state[toUpdate];
-      console.log('update');
-      this.setModalVisible(true);
-      
+   setModalVisible = (visible) => this.setState({ modalVisible: visible });
+   handleUpdateButton = (toUpdate) => () => this.setState({ modalVisible: true, toUpdate: toUpdate });
+
+   handleUpdate = async () => {
+      const { toUpdate, password } = this.state;
+      const value = this.state[toUpdate];
+      try {
+         const user = await changeField({ key: toUpdate, password, value });
+         if(user) {
+            this.props.setAuth(user);
+         }
+         this.setModalVisible(false);
+      } catch(err) {
+         console.log(err);
+      }
    }
    
    render() {
@@ -54,6 +64,7 @@ class Settings extends Component {
                setModalVisible={this.setModalVisible}
                password={password}
                handleTextChange={this.handleTextChange}
+               onPressAccept={this.handleUpdate}
             />
             <View style={styles.editContainer}>
                <Input
@@ -65,20 +76,36 @@ class Settings extends Component {
                   containerStyle={styles.editInput}
                />
                <View style={styles.editIcon}>
-                  <Icon.Button
+                  {/* <Icon.Button
                      name="pencil"
                      backgroundColor="#F01A30"
                      borderRadius={30}
                      iconStyle={{paddingLeft:10}}
                      onPress={this.handleUpdate('username')}
+                  /> */}
+                  <Button
+                     title="UPDATE"
+                     color="#F04A58"
+                     onPress={this.handleUpdateButton('username')}
                   />
                </View> 
             </View>
-            {/* <Button 
-               title="UPDATE"
-               color="#F04A58"
-               onPress={this.handleUpdate}
-            /> */}
+            <View style={styles.editContainer}>
+               <Input
+                  source={usernameImg}
+                  textContentType="name"
+                  onChangeText={this.handleTextChange('name')}
+                  value={this.state.name}
+                  containerStyle={styles.editInput}
+               />
+               <View style={styles.editIcon}>
+                  <Button
+                     title="UPDATE"
+                     color="#F04A58"
+                     onPress={this.handleUpdateButton('name')}
+                  />
+               </View>
+            </View>
          </View>
       )
    }

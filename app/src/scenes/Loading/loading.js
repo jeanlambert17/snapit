@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { setUserData } from '../../actions/auth';
+import { setAuth } from '../../actions/auth';
 
 import Authenticate from '../../api/isAuth';
 
@@ -21,7 +21,7 @@ class Loading extends Component {
    isAuthenticated = async () => {
       const user = await Authenticate();
       if(user) {
-         this.props.setUser(user);
+         this.props.setAuth(user);
          this.props.navigation.navigate('UserStack');
       } else {
          this.props.navigation.navigate('InvitedStack');
@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-   setUser: user => {
-      dispatch(setUserData(user));
+   setAuth: user => {
+      dispatch(setAuth(user));
    }
 });
 

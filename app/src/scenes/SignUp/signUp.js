@@ -21,19 +21,19 @@ import { Input } from '../../components';
 import styles from './styles';
 
 class SignUp extends React.Component {
-
-   constructor(props) {
-      super(props);
-
-      this.state = {
-         username: '',
-         name: '',
-         password: '',
-         verification: '',
-         email: '',
-      }
+   state = {
+      username: '',
+      name: '',
+      password: '',
+      verification: '',
+      email: '',
    }
 
+   componentDidUpdate(prevProps) {
+      if (this.props.signUpRedirect && !prevProps.signUpRedirect) {
+         this.props.navigation.navigate('Login');
+      }
+   }
    handleTextChange = (input) => (value) => this.setState({ [input]: value });
    handleSignUp = () => {
       const { password, verification } = this.state;
@@ -46,7 +46,6 @@ class SignUp extends React.Component {
    }
 
    render() {
-      const { fetching } = this.props;
       return (
          <ImageBackground source={backgroundImg} style={{width: '100%', height: '100%'}} blurRadius={1.5}>
             <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -104,7 +103,7 @@ class SignUp extends React.Component {
                         style={styles.button}
                         onPress={this.handleSignUp}
                   >
-                        { (!fetching) ? (
+                        { (!this.props.fetching) ? (
                            <Text style={styles.buttonText}> Register </Text>
                         ) : (
                            <ProgressBarAndroid styleAttr="Small" color="white"/>
@@ -118,15 +117,15 @@ class SignUp extends React.Component {
 }
 
 SignUp.propTypes = {
-   user: PropTypes.object,
    fetching: PropTypes.bool,
    signUp: PropTypes.func,
+   signUpRedirect: PropTypes.bool,
 }
 
 const mapStateToProps = ({auth}) => ({
-   user: auth.user,
+   signUpRedirect: auth.signUpRedirect,
    error: auth.signupErrorMessage,
-   fething: auth.fetching,
+   fetching: auth.fetching,
 });
 
 const mapDispatchToProps = dispatch => ({

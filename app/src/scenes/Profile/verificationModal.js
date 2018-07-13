@@ -9,7 +9,7 @@ import {
 
 import styles from './Styles/verificationModal';
 
-const VerificationModal = ({password, modalVisible, setModalVisible, handleTextChange, onPress}) => (
+const VerificationModal = ({ password, modalVisible, setModalVisible, handleTextChange, onPressAccept}) => (
    <Modal
       animationType="fade"
       transparent={true}
@@ -27,13 +27,14 @@ const VerificationModal = ({password, modalVisible, setModalVisible, handleTextC
             />
             <Button
                title="Accept"
-               onPress={onPress}
+               onPress={onPressAccept}
                color="blue"
+               disabled={password === '' ? true : false}
             />
             <Button
                title="cancel"
                onPress={() => setModalVisible(false)}
-               color="red"
+               color="red"               
             />
          </View>
       </View>

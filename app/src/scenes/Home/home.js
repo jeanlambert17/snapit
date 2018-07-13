@@ -35,10 +35,6 @@ class Home extends Component {
                     title="GO TO SIGN UP"
                     onPress={this.handlePress('SignUp')}
                 ></Button>
-                <Button
-                    title="DrawerStack"
-                    onPress={() => this.props.navigation.navigate('UserStack')}
-                ></Button>
             </View>
         );
     }
