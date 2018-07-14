@@ -2,10 +2,10 @@ import configs from './configs';
 import { getItem } from '../helpers/storage';
 import fetchApi from '../helpers/fetchApi';
 
-export default async (form) => {
-   try {
-		const token = await getItem('token');
-		const url = `${configs.url}/user/changeField`;
+export default async (form,token) => {
+   // try {
+		// const token = await getItem('token');
+		const url = `${configs.url}/user/updateField`;
 		const options = {
 			method: 'POST',
 			headers: {
@@ -19,11 +19,14 @@ export default async (form) => {
       if (token) {
 			// const res = await fetch(url,options);
 			return fetch(url, options).then(res => res.json()).then(({body,status}) => {
+				console.log('changeField status: ' + status)
+				console.log('changeField body: ' + JSON.stringify(body))
 				if(status === 200) 
 					return body
 				else
 					return Promise.reject(body);
 			}).catch(err => {
+				console.log('changeField Promise reject: ' + err);
 				return Promise.reject(err);
 			})
 			
@@ -35,9 +38,9 @@ export default async (form) => {
 			// 	Promise.reject(body);
       }
            
-   } catch (err) {
-      throw 'No se como deberia manejar este error'; // Logout? idk
-   }
+   // } catch (err) {
+   //    throw 'No se como deberia manejar este error'; // Logout? idk
+   // }
 }
 
 // export default async (form) => {

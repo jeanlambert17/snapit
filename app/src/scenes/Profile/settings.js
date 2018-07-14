@@ -13,8 +13,10 @@ import usernameImg from '../../assets/images/username.png';
 // import emailImg from '../../assets/images/email-outline.png';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { connect } from 'react-redux';
 import { Input } from '../../components';
-import changeField from '../../api/changeField';
+// import changeField from '../../api/changeField';
+import { updateField } from '../../actions/fields';
 import VerificationModal from './verificationModal';
 import styles from './Styles/settings';
 
@@ -41,16 +43,17 @@ class Settings extends Component {
 
    handleUpdate = async () => {
       const { username, email, name, password } = this.state;
+      this.props.updateField({username,email,name,password});
       // const value = this.state[toUpdate];
-      try {
-         const user = await changeField({ username, email, name, password });
-         if(user) {
-            this.props.setAuth(user);
-         }
-         this.setModalVisible(false);
-      } catch(err) {
-         console.log(err);
-      }
+      // try {
+      //    const user = await changeField({ username, email, name, password });
+      //    if(user) {
+      //       this.props.setAuth(user);
+      //    }
+      //    this.setModalVisible(false);
+      // } catch(err) {
+      //    console.log(err);
+      // }
    }
    
    render() {
@@ -112,4 +115,9 @@ class Settings extends Component {
    }
 }
 
-export default Settings
+const mapDispatchToProps = dispatch => ({
+   updateField: (form) => {
+      dispatch(updateField(form));
+   }
+});
+export default connect(null,mapDispatchToProps)(Settings)

@@ -1,7 +1,7 @@
 import {
    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
    SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
-   LOGOUT_REQUEST, LOGOUT_SUCCES, SET_AUTH,
+   LOGOUT_REQUEST, LOGOUT_SUCCES, SET_AUTH, SET_USER, SET_TOKEN
 } from '../constants/auth';
 
 import fetchLogin from '../api/login';
@@ -53,5 +53,19 @@ export function logout() {
       removeItem('token').then(() => {
          dispatch(success());
       });
+   }
+}
+
+export function setUser(user) {
+   return {
+      type: SET_USER,
+      user: user
+   }
+}
+
+export function setToken(token) {
+   return {
+      type: SET_TOKEN,
+      token: token,
    }
 }

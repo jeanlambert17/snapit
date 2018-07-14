@@ -1,7 +1,15 @@
 import {
-    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
-    SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
-    LOGOUT_SUCCES, LOGOUT_REQUEST, SET_AUTH,
+    LOGIN_REQUEST, 
+    LOGIN_SUCCESS, 
+    LOGIN_FAILURE,
+    SIGNUP_REQUEST, 
+    SIGNUP_SUCCESS, 
+    SIGNUP_FAILURE,
+    LOGOUT_SUCCES, 
+    LOGOUT_REQUEST,
+   SET_AUTH,
+   SET_USER, 
+   SET_TOKEN,
 } from '../constants/auth';
 
 const initialState = {
@@ -82,14 +90,26 @@ export default (state = initialState, action) => {
                 ...initialState,
          }
       }
-      case SET_AUTH:
+      case SET_AUTH:{
          return {
             ...state,
             isLoggedIn: true,
             user: action.user,
             token: action.token,
          }
-
+      }
+      case SET_USER: {
+         return {
+            ...state,
+            user: action.user,
+         }
+      }
+      case SET_TOKEN: {
+         return {
+            ...state,
+            token: action.token,
+         }
+      }
       default: {
          return state;
       }
