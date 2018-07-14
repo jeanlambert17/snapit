@@ -1,5 +1,5 @@
 import express from 'express';
-import { isNew, verifyToken, userData, availableFieldsToChange, emptyFields } from '../middlewares'
+import { isNew, verifyToken, userData, emptyFields, fileUpload } from '../middlewares'
 import { UserControllers } from '../controllers';
 
 let router = express.Router();
@@ -8,13 +8,13 @@ let router = express.Router();
 router.post('/signUp', emptyFields, isNew, UserControllers.signUp);
 router.post('/login', emptyFields, UserControllers.logIn);
 router.get('/userData', verifyToken, UserControllers.userData);
+router.post('/updateField', verifyToken, UserControllers.updateField);
 
 // On develop
-// router.post('/changeField', availableFieldsToChange, verifyToken, UserControllers.changeField);
-router.post('/changeField', verifyToken, UserControllers.changeField);
-router.post('/changePassword', verifyToken, UserControllers.changePassword);
+router.post('/updatePhotoUrl', verifyToken, fileUpload, UserControllers.updatePhotoUrl);
+router.post('/updatePassword', verifyToken, UserControllers.updatePassword);
 
 // Test routes
-router.get('/test', verifyToken, userData, UserControllers.getData);
+router.get('/test', verifyToken, userData, UserControllers.test);
 
 export default router;

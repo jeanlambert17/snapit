@@ -13,21 +13,33 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('image');
 
 function fileUpload(req,res,next) {
-    const path = `${configs.uploadFolder}${req.userId}/`;
-    fs.mkdir(path, (err) => {
-        if(err) {
-            console.log('mkdir err: ' + err);
-            res.status(500).send({ status: 500, body: 'Try again' });
-        } else {
-            upload(req, res, (err) => {
-                if (err) {
-                    console.log('upload err: ' + err);
-                    res.status(500).send({ status: 500, body: 'Try again' });
-                }
-                next();
-            });
-        }
-    });
+	const path = `${configs.uploadFolder}${req.userId}`;
+	fs.exists(path, (exist) => {
+		if(exist) {
+			upload(req,res,(err) => {
+				if(err) {
+					console.log('upload err: ' + err);
+					res.status(500).send({ status: 500, body: 'Try again' });
+				}
+				next();
+			})
+		} else {
+			fs.mkdir(path, (err) => {
+				if (err) {
+					console.log('mkdir err: ' + err);
+					res.status(500).send({ status: 500, body: 'Try again' });
+				} else {
+					upload(req, res, (err) => {
+						if (err) {
+							console.log('upload err: ' + err);
+							res.status(500).send({ status: 500, body: 'Try again' });
+						}
+						next();
+					});
+				}
+			});
+		}
+	});
 }
 
 export default fileUpload

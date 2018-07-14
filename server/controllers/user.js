@@ -22,9 +22,10 @@ controllers.signUp = (req,res) => {
 		if (user) send({
 			status: 200,
 			body: {
-					username: user.username,
-					email: user.email,
-					name: user.name,
+				username: user.username,
+				email: user.email,
+				name: user.name,
+				photoUrl: user.photoUrl,
 			},
 		});
 	});
@@ -52,6 +53,7 @@ controllers.logIn = (req,res) => {
 							username: user.username,
 							name: user.name,
 							email: user.email,
+							photoUrl: user.photoUrl,
 						},
 					});
 				}
@@ -64,45 +66,7 @@ controllers.logIn = (req,res) => {
 
 }
 
-// controllers.changeField = (req,res) => {
-// 	const { key, value, password } = req.body;
-// 	const id = req.userId;
-// 	const send = ({status,body}) => res.status(status).send({ status, body });
-
-// 	User.findById(id, async (err, user) => {
-// 		if (err) send({ status: 500, body: 'Try again' });
-// 		if (!user) send({ status: 500, body: 'Unable to reach user data' });
-// 		try {
-// 			let isMatch = await bcrypt.compare(password, user.password);
-// 			if (isMatch) {
-// 					User.findOne({ [key]: value }, key, async (err, _user) => {
-// 						if (err) send({ status: 500, body: 'Try again later' });
-// 						if (_user) // 403 - El servidor ha podido ser contactado, y ha recibido una petición válida, pero ha denegado el acceso a la acción que se solicita
-// 							send({ status: 403, body: 'Value already exist' });
-// 						else { // Update user data
-// 							user.set({ [key]: value });
-// 							user.save((err, updatedUser) => {
-// 									if (err) send({ status: 400, body: 'Try again later' });
-// 									if (updatedUser) send({
-// 										status: 200,
-// 										body: {
-// 											username: updatedUser.username,
-// 											name: updatedUser.name,
-// 											email: updatedUser.email,
-// 										}
-// 									});
-// 							});
-// 						}
-// 					});
-// 			} else send({ status: 401, body: 'Invalid credentials' });
-// 		} catch(err) {
-// 			console.log('catch err: ' + err);
-// 			send({ status: 500, body: 'Try again' });
-// 		}
-// 	});
-// }
-
-controllers.changePassword = (req,res) => {
+controllers.updatePassword = (req,res) => {
 	const { password, newPassword } = req.body;
 	const id = req.userId;
 	const send = ({ status, body }) => res.status(status).send({ status, body });
@@ -127,7 +91,7 @@ controllers.changePassword = (req,res) => {
 	});
 }
 
-controllers.changeField = (req,res) => {
+controllers.updateField = (req,res) => {
 	const { password, username, email, name } = req.body;
 	const id = req.userId;
 	const send = ({ status, body }) => res.status(status).send({ status, body });
@@ -160,6 +124,32 @@ controllers.changeField = (req,res) => {
 	});
 }
 
+controllers.updatePhotoUrl = (req,res) => {
+	const id = req.userId;
+	const send = ({ status, body }) => res.status(status).send({ status, body });
+	const { path } = req.file;
+	console.log(req.file);
+	User.findById(id, (err,user) => {
+		if(err) send({ status:500, body:'Error updating user photo' });
+		if(!user) send({ status:401, body:'Unable to reach user data' });
+		else {
+			user.photoUrl = path;
+			user.save((err,updatedUser) => {
+				if(err) send({ status:500, body: 'Error updating user photo' });
+				if(updatedUser) send({
+					status: 200,
+					user: {
+						username: updatedUser.username,
+						name: updatedUser.name,
+						email: updatedUser.email,
+						photoUrl: updatedUser.photoUrl,
+					},
+				});
+			});
+		}
+	});
+}
+
 controllers.userData = (req,res) => {
 	const id = req.userId;
 	const send = ({ status, body }) => res.status(status).send({ status, body });
@@ -171,21 +161,15 @@ controllers.userData = (req,res) => {
 				username: user.username,
 				name: user.name,
 				email: user.email,
+				photoUrl: user.photoUrl,
 			} 
 		});
 	});
 }
 
-controllers.getData = (req,res) => {
-	User.findById(req.userId).populate('posts').exec((err, user) => {
-		res.send(user);
-	})
-}
-
 export default controllers;
 
 // Helpers
-
 const existField = (key,value) => {
 	User.findOne({ [key]: value }, key, async (err, _user) => {
 		if (err) 
@@ -195,4 +179,13 @@ const existField = (key,value) => {
 		else 
 			return true
 	});
+}
+
+// Test
+controllers.test = (req, res) => {
+	User.findById(req.userId).exec((err, user) => {
+		res.send({body: {
+			...user._doc,
+		}});
+	})
 }
