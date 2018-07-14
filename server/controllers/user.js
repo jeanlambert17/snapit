@@ -113,6 +113,7 @@ controllers.updateField = (req,res) => {
 							username: updatedUser.username,
 							name: updatedUser.name,
 							email: updatedUser.email,
+							photoUrl: updatedUser.photoUrl,
 						}
 					});
 				})
@@ -127,8 +128,8 @@ controllers.updateField = (req,res) => {
 controllers.updatePhotoUrl = (req,res) => {
 	const id = req.userId;
 	const send = ({ status, body }) => res.status(status).send({ status, body });
-	const { path } = req.file;
-	console.log(req.file);
+	const path = req.file.path.split('public\\')[1];
+	console.log(path);
 	User.findById(id, (err,user) => {
 		if(err) send({ status:500, body:'Error updating user photo' });
 		if(!user) send({ status:401, body:'Unable to reach user data' });
@@ -153,7 +154,7 @@ controllers.updatePhotoUrl = (req,res) => {
 controllers.userData = (req,res) => {
 	const id = req.userId;
 	const send = ({ status, body }) => res.status(status).send({ status, body });
-	User.findById(id, 'username name email', (err, user) => {
+	User.findById(id, 'username name email photoUrl', (err, user) => {
 		if(err) send({ status: 500, body: 'Try again' });
 		send({ 
 			status: 200, 

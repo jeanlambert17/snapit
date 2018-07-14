@@ -1,6 +1,7 @@
-import express from 'express'
-import connectToDb from './helpers/db'
-import routes from './routes'
+import express from 'express';
+import connectToDb from './helpers/db';
+import routes from './routes';
+import path from 'path';
 
 // Const
 const app = express();
@@ -21,8 +22,8 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', routes);
+app.use(express.static('public'));
 
 app.listen(10036, () => {
     console.log('Example app listening on port 10036');
-})
-
+});
