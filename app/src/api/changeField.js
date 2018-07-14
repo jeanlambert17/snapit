@@ -1,5 +1,6 @@
 import configs from './configs';
 import { getItem } from '../helpers/storage';
+import fetchApi from '../helpers/fetchApi';
 
 export default async (form) => {
    try {
@@ -27,14 +28,30 @@ export default async (form) => {
 			})
 			
 			
-			const {status,body} = res.json()
-			if(status === 200) 
-				return body;
-			else
-				Promise.reject(body);
+			// const {status,body} = res.json()
+			// if(status === 200) 
+			// 	return body;
+			// else
+			// 	Promise.reject(body);
       }
            
    } catch (err) {
       throw 'No se como deberia manejar este error'; // Logout? idk
    }
 }
+
+// export default async (form) => {
+// 	try {
+// 		const res = await fetchApi({endPoint: '/user/changeFields', method:'post', body: form});
+// 		const data = res.json();
+// 		const {status,body} = data;
+// 		if(status === 200) {
+// 			return body;
+// 		}
+// 		Promise.reject(body);
+// 	} catch(err) {
+// 		// Network connection, or async storage (?)
+// 		Promise.reject(err);
+// 	}
+// }
+

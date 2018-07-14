@@ -24,7 +24,7 @@ export default StyleSheet.create({
         borderRadius: 30,        
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#71DDE3',
+        backgroundColor: '#F04A58',
         width: DEVICE_WIDTH * 0.85,
         height: 45,
     },

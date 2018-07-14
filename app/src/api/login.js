@@ -15,7 +15,7 @@ export default (form) => new Promise((res, rej) =>
 		console.log('Login body: ' + JSON.stringify(body));
 		if (status === 200) {
 			await setItem('token', token);
-			res(body);
+			res({token, user:body});
 		} else 
 			rej(body);
 	}).catch(error => {

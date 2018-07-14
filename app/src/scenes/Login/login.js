@@ -66,6 +66,7 @@ class Login extends Component {
                   activeOpacity={0.5}
                   style={styles.button}
                   onPress={this.handleLogin}
+                  editable={(!fetching) ? true : false}
                >
                   { (!fetching) ? (
                      <Text style={styles.buttonText}> Login </Text>
@@ -77,7 +78,7 @@ class Login extends Component {
                   <Text style={styles.text}> Create Account </Text>
                   <Text style={styles.text}> Forgot Password </Text>
                </View> */}
-         </View>
+         </View>         
       </KeyboardAvoidingView>
       </ImageBackground>
       );

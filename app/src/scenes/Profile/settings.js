@@ -24,7 +24,6 @@ class Settings extends Component {
       email : '',
       name: '',
       password: '',
-      toUpdate: '',
       modalVisible: false,
    }
    componentDidMount() {
@@ -38,13 +37,13 @@ class Settings extends Component {
 
    handleTextChange = (input) => (value) => this.setState({ [input]: value });
    setModalVisible = (visible) => this.setState({ modalVisible: visible });
-   handleUpdateButton = (toUpdate) => () => this.setState({ modalVisible: true, toUpdate: toUpdate });
+   handleUpdateButton = () => this.setState({ modalVisible: true });
 
    handleUpdate = async () => {
-      const { toUpdate, password } = this.state;
-      const value = this.state[toUpdate];
+      const { username, email, name, password } = this.state;
+      // const value = this.state[toUpdate];
       try {
-         const user = await changeField({ key: toUpdate, password, value });
+         const user = await changeField({ username, email, name, password });
          if(user) {
             this.props.setAuth(user);
          }
@@ -82,12 +81,7 @@ class Settings extends Component {
                      borderRadius={30}
                      iconStyle={{paddingLeft:10}}
                      onPress={this.handleUpdate('username')}
-                  /> */}
-                  <Button
-                     title="UPDATE"
-                     color="#F04A58"
-                     onPress={this.handleUpdateButton('username')}
-                  />
+                  /> */}                  
                </View> 
             </View>
             <View style={styles.editContainer}>
@@ -98,14 +92,21 @@ class Settings extends Component {
                   value={this.state.name}
                   containerStyle={styles.editInput}
                />
-               <View style={styles.editIcon}>
-                  <Button
-                     title="UPDATE"
-                     color="#F04A58"
-                     onPress={this.handleUpdateButton('name')}
-                  />
-               </View>
             </View>
+            <View style={styles.editContainer}>
+               <Input
+                  source={usernameImg}
+                  textContentType="email"
+                  onChangeText={this.handleTextChange('email')}
+                  value={this.state.email}
+                  containerStyle={styles.editInput}
+               />
+            </View>
+            <Button
+               title="UPDATE"
+               color="#F04A58"
+               onPress={this.handleUpdateButton}
+            />
          </View>
       )
    }

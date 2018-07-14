@@ -5,7 +5,7 @@ export default async () => {
    try {
       const token = await getItem('token');
       // let auth;
-      if(token) 
+      if(token)
          return fetch(`${configs.url}/user/userData`, {
             method: 'GET',
             headers: {
@@ -17,7 +17,7 @@ export default async () => {
          }).then(res => res.json()).then(({ status, body }) => {            
             console.log('status: ' + status)
             console.log('body: ' + body);
-            return (status === 200) ? body : null;
+            return (status === 200) ? {token, user: body} : null;
          }).catch(error => {
             console.log('UserData error: ' + error);
             return null;

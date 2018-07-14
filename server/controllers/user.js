@@ -64,43 +64,43 @@ controllers.logIn = (req,res) => {
 
 }
 
-controllers.changeField = (req,res) => {
-	const { key, value, password } = req.body;
-	const id = req.userId;
-	const send = ({status,body}) => res.status(status).send({ status, body });
+// controllers.changeField = (req,res) => {
+// 	const { key, value, password } = req.body;
+// 	const id = req.userId;
+// 	const send = ({status,body}) => res.status(status).send({ status, body });
 
-	User.findById(id, async (err, user) => {
-		if (err) send({ status: 500, body: 'Try again' });
-		if (!user) send({ status: 500, body: 'Unable to reach user data' });
-		try {
-			let isMatch = await bcrypt.compare(password, user.password);
-			if (isMatch) {
-					User.findOne({ [key]: value }, key, async (err, _user) => {
-						if (err) send({ status: 500, body: 'Try again later' });
-						if (_user) // 403 - El servidor ha podido ser contactado, y ha recibido una petición válida, pero ha denegado el acceso a la acción que se solicita
-							send({ status: 403, body: 'Value already exist' });
-						else { // Update user data
-							user.set({ [key]: value });
-							user.save((err, updatedUser) => {
-									if (err) send({ status: 400, body: 'Try again later' });
-									if (updatedUser) send({
-										status: 200,
-										body: {
-											username: updatedUser.username,
-											name: updatedUser.name,
-											email: updatedUser.email,
-										}
-									});
-							});
-						}
-					});
-			} else send({ status: 401, body: 'Invalid credentials' });
-		} catch(err) {
-			console.log('catch err: ' + err);
-			send({ status: 500, body: 'Try again' });
-		}
-	});
-}
+// 	User.findById(id, async (err, user) => {
+// 		if (err) send({ status: 500, body: 'Try again' });
+// 		if (!user) send({ status: 500, body: 'Unable to reach user data' });
+// 		try {
+// 			let isMatch = await bcrypt.compare(password, user.password);
+// 			if (isMatch) {
+// 					User.findOne({ [key]: value }, key, async (err, _user) => {
+// 						if (err) send({ status: 500, body: 'Try again later' });
+// 						if (_user) // 403 - El servidor ha podido ser contactado, y ha recibido una petición válida, pero ha denegado el acceso a la acción que se solicita
+// 							send({ status: 403, body: 'Value already exist' });
+// 						else { // Update user data
+// 							user.set({ [key]: value });
+// 							user.save((err, updatedUser) => {
+// 									if (err) send({ status: 400, body: 'Try again later' });
+// 									if (updatedUser) send({
+// 										status: 200,
+// 										body: {
+// 											username: updatedUser.username,
+// 											name: updatedUser.name,
+// 											email: updatedUser.email,
+// 										}
+// 									});
+// 							});
+// 						}
+// 					});
+// 			} else send({ status: 401, body: 'Invalid credentials' });
+// 		} catch(err) {
+// 			console.log('catch err: ' + err);
+// 			send({ status: 500, body: 'Try again' });
+// 		}
+// 	});
+// }
 
 controllers.changePassword = (req,res) => {
 	const { password, newPassword } = req.body;
@@ -123,6 +123,39 @@ controllers.changePassword = (req,res) => {
 		} catch(err) {
 			console.log('catch err: ' + err);
 			send({ status: 500, body:'Try again' });
+		}
+	});
+}
+
+controllers.changeField = (req,res) => {
+	const { password, username, email, name } = req.body;
+	const id = req.userId;
+	const send = ({ status, body }) => res.status(status).send({ status, body });
+
+	User.findById(id, async (err, user) => {
+		if (err) send({ status: 500, body: 'Try again 1' });
+		if (!user) send({ status: 500, body: 'Unable to reach user data' });
+		try {
+			let isMatch = await bcrypt.compare(password, user.password);
+			if (isMatch) {
+				user.username = username;
+				user.email = email;
+				user.name = name;
+				user.save((err,updatedUser) => {
+					if (err) send({ status: 500, body: 'Try again 2' });
+					if (updatedUser) send({
+						status: 200,
+						body: {
+							username: updatedUser.username,
+							name: updatedUser.name,
+							email: updatedUser.email,
+						}
+					});
+				})
+			} else send({ status: 401, body: 'Invalid credentials' });
+		} catch (err) {
+			console.log('catch err: ' + err);
+			send({ status: 500, body: 'Try again' });
 		}
 	});
 }

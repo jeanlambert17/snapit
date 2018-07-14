@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 export default StyleSheet.create({
@@ -10,6 +11,7 @@ export default StyleSheet.create({
     input: {
         marginTop: 5,
         marginBottom: 5,
+        width: DEVICE_WIDTH*0.85,
     },
     div: {
         marginTop: 10,
@@ -18,7 +20,7 @@ export default StyleSheet.create({
         borderRadius: 15,        
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#71DDE3',
+        backgroundColor: '#F04A58',
         width: DEVICE_WIDTH * 0.85,
         height: 40,
     },

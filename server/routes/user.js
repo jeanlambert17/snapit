@@ -10,7 +10,8 @@ router.post('/login', emptyFields, UserControllers.logIn);
 router.get('/userData', verifyToken, UserControllers.userData);
 
 // On develop
-router.post('/changeField', availableFieldsToChange, verifyToken, UserControllers.changeField);
+// router.post('/changeField', availableFieldsToChange, verifyToken, UserControllers.changeField);
+router.post('/changeField', verifyToken, UserControllers.changeField);
 router.post('/changePassword', verifyToken, UserControllers.changePassword);
 
 // Test routes

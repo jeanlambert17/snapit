@@ -15,16 +15,17 @@ class Loading extends Component {
    constructor(props) {
       super(props);
 
-      this.isAuthenticated();
+      this.isAuth();
    }
 
-   isAuthenticated = async () => {
-      const user = await Authenticate();
-      if(user) {
-         this.props.setAuth(user);
-         this.props.navigation.navigate('UserStack');
+   isAuth = async () => {
+      const {setAuth, navigation} = this.props;
+      const data = await Authenticate();
+      if(data) {
+         setAuth(data);
+         navigation.navigate('UserStack');
       } else {
-         this.props.navigation.navigate('InvitedStack');
+         navigation.navigate('InvitedStack');
       }
    }
 
@@ -44,11 +45,10 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
    }
 });
-
 const mapDispatchToProps = dispatch => ({
    setAuth: user => {
       dispatch(setAuth(user));
-   }
+   },
 });
 
 export default connect(null,mapDispatchToProps)(Loading);

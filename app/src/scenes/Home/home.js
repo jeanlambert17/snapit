@@ -5,7 +5,8 @@ import {
     Image,
 } from 'react-native';
 import styles from './styles';
-import IconMenu from '../../assets/icons/menu_black_18.png';
+
+import { connect } from 'react-redux';
 
 class Home extends Component {
 
@@ -21,22 +22,37 @@ class Home extends Component {
     };
     
     handlePress = route => () => {
-        return this.props.navigation.push(route);
+        return this.props.navigation.navigate(route);
     }
+    
 
     render() {
         return (
             <View style={styles.container}>
-                <Button
-                    title="GO TO LOGIN"
-                    onPress={this.handlePress('Login')}
-                ></Button>
-                <Button
-                    title="GO TO SIGN UP"
-                    onPress={this.handlePress('SignUp')}
-                ></Button>
+                {(!this.props.isLoggedIn) ? (
+                    <View>
+                        <Button
+                            title="GO TO LOGIN"
+                            onPress={this.handlePress('Login')}
+                        ></Button>
+                        <Button
+                            title="GO TO SIGN UP"
+                            onPress={this.handlePress('SignUp')}
+                        ></Button>
+                    </View>
+                ) : (
+                    <Button
+                        title="GO TO PROFILE"
+                        onPress={this.handlePress('Profile')}
+                    />
+                )}
             </View>
         );
     }
 }
-export default Home
+
+const mapStateToProps = ({auth}) => ({
+    isLoggedIn: auth.isLoggedIn,
+}
+)
+export default connect(mapStateToProps)(Home)
