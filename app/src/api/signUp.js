@@ -1,7 +1,7 @@
-import configs from './configs';
+import { API_URL } from '../helpers/configs';
 
 export default (form) => new Promise((res,rej) => 
-   fetch(`${configs.url}/user/signUp`, {
+   fetch(`${API_URL}/user/signUp`, {
       method: 'POST',
       headers: {
          'Accept': 'application/json',

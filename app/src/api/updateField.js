@@ -1,11 +1,11 @@
-import configs from './configs';
+import { API_URL } from '../helpers/configs';
 import { getItem } from '../helpers/storage';
 import fetchApi from '../helpers/fetchApi';
 
 export default async (form,token) => {
    // try {
 		// const token = await getItem('token');
-		const url = `${configs.url}/user/updateField`;
+		const url = `${API_URL}/user/updateField`;
 		const options = {
 			method: 'POST',
 			headers: {

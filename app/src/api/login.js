@@ -1,8 +1,8 @@
+import { API_URL } from '../helpers/configs';
 import { setItem } from '../helpers/storage';
-import configs from './configs';
 
 export default (form) => new Promise((res, rej) => 
-	fetch(`${configs.url}/user/login`, {
+	fetch(`${API_URL}/user/login`, {
 		method: 'POST',
 		headers: {
 			'Accept': 'application/json',

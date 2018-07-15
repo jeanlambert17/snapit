@@ -1,4 +1,4 @@
-import configs from './configs';
+import { API_URL } from '../helpers/configs';
 import { getItem } from '../helpers/storage';
 
 export default async () => {
@@ -6,7 +6,7 @@ export default async () => {
       const token = await getItem('token');
       // let auth;
       if(token)
-         return fetch(`${configs.url}/user/userData`, {
+         return fetch(`${API_URL}/user/userData`, {
             method: 'GET',
             headers: {
                'x-access-token': token,

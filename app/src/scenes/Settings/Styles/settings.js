@@ -8,7 +8,7 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 
 export default StyleSheet.create({
    container: {
-      alignItems: 'center',
+      // alignItems: 'center',
    },
    editContainer: {
       marginTop: 15,

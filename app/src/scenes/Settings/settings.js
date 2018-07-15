@@ -7,16 +7,13 @@ import {
    Button,
    Modal,
 } from 'react-native';
-
+import { connect } from 'react-redux';
+import { updateField } from '../../actions/fields';
 import usernameImg from '../../assets/images/username.png';
 // import passwordImg from '../../assets/images/password.png';
 // import emailImg from '../../assets/images/email-outline.png';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { connect } from 'react-redux';
-import { Input } from '../../components';
-// import changeField from '../../api/changeField';
-import { updateField } from '../../actions/fields';
+import { Input, Header } from '../../components';
 import VerificationModal from './verificationModal';
 import styles from './Styles/settings';
 
@@ -60,7 +57,8 @@ class Settings extends Component {
       const { user } = this.props;
       const { modalVisible, password } = this.state;
       return (
-         <View style={styles.container}>
+         <View >            
+            {/* <Header navigation={this.props.navigation} /> */}
             <VerificationModal 
                modalVisible={modalVisible} 
                setModalVisible={this.setModalVisible}
@@ -68,56 +66,52 @@ class Settings extends Component {
                handleTextChange={this.handleTextChange}
                onPressAccept={this.handleUpdate}
             />
-            <View style={styles.editContainer}>
-               <Input
-                  source={usernameImg}
-                  textContentType="username"
-                  onChangeText={this.handleTextChange('username')}                  
-                  value={this.state.username}
-                  /* editable={this.state.editUsername} */
-                  containerStyle={styles.editInput}
-               />
-               <View style={styles.editIcon}>
-                  {/* <Icon.Button
-                     name="pencil"
-                     backgroundColor="#F01A30"
-                     borderRadius={30}
-                     iconStyle={{paddingLeft:10}}
-                     onPress={this.handleUpdate('username')}
-                  /> */}                  
-               </View> 
-            </View>
-            <View style={styles.editContainer}>
-               <Input
-                  source={usernameImg}
-                  textContentType="name"
-                  onChangeText={this.handleTextChange('name')}
-                  value={this.state.name}
-                  containerStyle={styles.editInput}
-               />
-            </View>
-            <View style={styles.editContainer}>
-               <Input
-                  source={usernameImg}
-                  textContentType="email"
-                  onChangeText={this.handleTextChange('email')}
-                  value={this.state.email}
-                  containerStyle={styles.editInput}
+            
+            <View>
+               <View style={styles.editContainer}>
+                  <Input
+                     source={usernameImg}
+                     textContentType="username"
+                     onChangeText={this.handleTextChange('username')}                  
+                     value={this.state.username}
+                     containerStyle={styles.editInput}
+                  />
+               </View>
+               <View style={styles.editContainer}>
+                  <Input
+                     source={usernameImg}
+                     textContentType="name"
+                     onChangeText={this.handleTextChange('name')}
+                     value={this.state.name}
+                     containerStyle={styles.editInput}
+                  />
+               </View>
+               <View style={styles.editContainer}>
+                  <Input
+                     source={usernameImg}
+                     textContentType="email"
+                     onChangeText={this.handleTextChange('email')}
+                     value={this.state.email}
+                     containerStyle={styles.editInput}
+                  />
+               </View>
+               <Button
+                  title="UPDATE"
+                  color="#F04A58"
+                  onPress={this.handleUpdateButton}
                />
             </View>
-            <Button
-               title="UPDATE"
-               color="#F04A58"
-               onPress={this.handleUpdateButton}
-            />
          </View>
       )
    }
 }
 
+const mapStateToProps = ({auth}) => ({
+   user: auth.user,
+});
 const mapDispatchToProps = dispatch => ({
    updateField: (form) => {
       dispatch(updateField(form));
    }
 });
-export default connect(null,mapDispatchToProps)(Settings)
+export default connect(mapStateToProps,mapDispatchToProps)(Settings)
