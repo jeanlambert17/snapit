@@ -21,12 +21,7 @@ controllers.signUp = (req,res) => {
 		if (err) send({status: 500, body: 'Try again'});
 		if (user) send({
 			status: 200,
-			body: {
-				username: user.username,
-				email: user.email,
-				name: user.name,
-				photoUrl: user.photoUrl,
-			},
+			body: userData(user)
 		});
 	});
 
@@ -49,12 +44,7 @@ controllers.logIn = (req,res) => {
 					send({
 						token: token,
 						status: 200,
-						body: {
-							username: user.username,
-							name: user.name,
-							email: user.email,
-							photoUrl: user.photoUrl,
-						},
+						body: userData(user)
 					});
 				}
 			} catch (err) {
@@ -109,12 +99,7 @@ controllers.updateField = (req,res) => {
 					if (err) send({ status: 500, body: 'Try again 2' });
 					if (updatedUser) send({
 						status: 200,
-						body: {
-							username: updatedUser.username,
-							name: updatedUser.name,
-							email: updatedUser.email,
-							photoUrl: updatedUser.photoUrl,
-						}
+						body: userData(user)
 					});
 				})
 			} else send({ status: 401, body: 'Invalid credentials' });
@@ -139,12 +124,7 @@ controllers.updatePhotoUrl = (req,res) => {
 				if(err) send({ status:500, body: 'Error updating user photo' });
 				if(updatedUser) send({
 					status: 200,
-					user: {
-						username: updatedUser.username,
-						name: updatedUser.name,
-						email: updatedUser.email,
-						photoUrl: updatedUser.photoUrl,
-					},
+					user: userData(user),
 				});
 			});
 		}
@@ -156,14 +136,14 @@ controllers.userData = (req,res) => {
 	const send = ({ status, body }) => res.status(status).send({ status, body });
 	User.findById(id, 'username name email photoUrl', (err, user) => {
 		if(err) send({ status: 500, body: 'Try again' });
-		send({ 
-			status: 200, 
+		if (user) send({
+			status: 200,
 			body: {
 				username: user.username,
 				name: user.name,
 				email: user.email,
 				photoUrl: user.photoUrl,
-			} 
+			}
 		});
 	});
 }
@@ -171,11 +151,17 @@ controllers.userData = (req,res) => {
 export default controllers;
 
 // Helpers
+const userData = (user) => ({
+	username: user.username,
+	email: user.email,
+	photoUrl: user.photoUrl,
+	name: user.name,
+});
 const existField = (key,value) => {
-	User.findOne({ [key]: value }, key, async (err, _user) => {
+	User.findOne({ [key]: value }, key, async (err, user) => {
 		if (err) 
-			return false
-		if (_user) 
+			throw err;
+		if (user) 
 			return false
 		else 
 			return true
