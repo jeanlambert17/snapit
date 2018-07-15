@@ -1,39 +1,22 @@
-import { createDrawerNavigator, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import { Home, Settings } from '../scenes';
+import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
+import { Home } from '../scenes';
 import Drawer from '../components/drawer';
+import {
+   Text,
+} from 'react-native';
+import ProfileStack from './profileStack';
 
-const _ProfileStack = createBottomTabNavigator(
+const HomeStack = createStackNavigator(
    {
-      Settings: {
-         screen: Settings,
-      },
-      Settings2: {
-         screen: Settings,
-      }
+      Home: Home,
    }, {
-      initialRouteName: 'Settings',
-   }
-)
-const ProfileStack = createStackNavigator(
-   {
-      Profile: _ProfileStack,
-   }, {
-      initialRouteName: 'Profile',
-      navigationOptions: {
-         headerStyle: {
-            backgroundColor: '#F04A58',
-         },
-         headerTintColor: '#fff',
-         headerTitleStyle: {
-            fontWeight: 'bold',
-         },
-    },
+      initialRouteName: 'Home',
    }
 )
 
 export default createDrawerNavigator(
    {
-      Home: Home,
+      Home: HomeStack,
       Profile: ProfileStack,
    }, {
       contentComponent: Drawer

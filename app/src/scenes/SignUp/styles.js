@@ -22,7 +22,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F04A58',
         width: DEVICE_WIDTH * 0.85,
-        height: 40,
+        height: 45,
     },
     buttonText: {
         color: 'white',

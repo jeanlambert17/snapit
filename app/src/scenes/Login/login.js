@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { 
-    KeyboardAvoidingView,
-    TouchableOpacity,
-    View,
-    Text,
-    ProgressBarAndroid,
-    ImageBackground,
-    Image
+	KeyboardAvoidingView,
+	TouchableOpacity,
+	View,
+	Text,
+	ProgressBarAndroid,
+	ImageBackground,
+	Image,
+	ToastAndroid
 } from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
@@ -19,25 +20,24 @@ import backgroundImg from '../../assets/images/background2.png';
 // import logoImg from '../../assets/images/Logo.png';
 
 class Login extends Component {
-   constructor(props) {
-      super(props);
+   
+	state = {
+		username: '',
+		password: '',
+	}
 
-      this.state = {
-         username: '',
-         password: '',
-      }
-   }
    componentDidUpdate(prevProps) {
-      if (this.props.user && !prevProps.user) {
+		if (this.props.isLoggedIn && !prevProps.isLoggedIn) {
          this.props.navigation.navigate('UserStack');
       }
    }
    handleTextChange = (input) => (value) => this.setState({ [input]:value });
-   handleLogin = () => this.props.login({ ...this.state });
+	handleLogin = () => this.props.login({ ...this.state });
+	showErrorMessage = (errorMessage) => ToastAndroid.showWithGravity(errorMessage,ToastAndroid.BOTTOM,ToastAndroid.SHORT);
 
    render() {
-      const { error, fetching, navigation } = this.props;        
-      if(error) console.log(error);
+      const { fetching, error, errorMessage, navigation } = this.props;        
+		if(error) this.showErrorMessage(errorMessage);
       return (
          <ImageBackground source={backgroundImg} style={{width: '100%', height: '100%'}}>
          <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -63,10 +63,10 @@ class Login extends Component {
          />
          <View style={styles.options}>                
                <TouchableOpacity
-                  activeOpacity={0.5}
+                  activeOpacity={fetching ? 0.1 : 0.5}
                   style={styles.button}
                   onPress={this.handleLogin}
-                  editable={(!fetching) ? true : false}
+                  disabled={fetching}
                >
                   { (!fetching) ? (
                      <Text style={styles.buttonText}> Login </Text>
@@ -74,10 +74,16 @@ class Login extends Component {
                      <ProgressBarAndroid styleAttr="Small" color="white"/>
                   )}                
                </TouchableOpacity>
-               {/* <View style={styles.view}>
-                  <Text style={styles.text}> Create Account </Text>
-                  <Text style={styles.text}> Forgot Password </Text>
-               </View> */}
+               <View style={styles.view}>
+							<Text 
+								style={styles.text}
+								onPress={() => navigation.push('SignUp')}
+							> Create Account </Text>
+							<Text 
+								style={styles.text}
+								onPress={() => navigation.push('SignUp')}
+							> Forgot Password </Text>
+               </View>
          </View>         
       </KeyboardAvoidingView>
       </ImageBackground>
@@ -86,15 +92,18 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-   user: PropTypes.object,
-   fetching: PropTypes.bool,
+	fetching: PropTypes.bool,
+	isLoggedIn: PropTypes.bool,
    login: PropTypes.func,
+   error: PropTypes.bool,
+   errorMessage: PropTypes.string,
 }
 
 const mapStateToProps = ({ auth }) => ({
-	user: auth.user,
-	error: auth.loginErrorMessage,
 	fetching: auth.fetching,
+	isLoggedIn: auth.isLoggedIn,
+	error: auth.loginError,
+	errorMessage: auth.loginErrorMessage,
 });
 const mapDispatchToProps = dispatch => ({
    login: (form) => {

@@ -19,6 +19,7 @@ export default StyleSheet.create({
     },
     options: {
         marginTop: 10,
+        alignItems: 'center',
     },
     button: {
         borderRadius: 30,        
@@ -35,12 +36,12 @@ export default StyleSheet.create({
     },
     view: {
         marginTop: 10,
-        width: DEVICE_WIDTH * 0.85,
+        width: DEVICE_WIDTH * 0.80,
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
     },
     text: {
-        fontSize: 10,
+        fontSize: 15,
         backgroundColor:'transparent',
     },
     backgroundImage: {

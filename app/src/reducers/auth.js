@@ -25,8 +25,8 @@ const initialState = {
    loginError: false,
    signUpError: false,
 
-   loginErrorMessage: null,
-   signUpErrorMessage: null,
+   loginErrorMessage: '',
+   signUpErrorMessage: '',
 }
 
 export default (state = initialState, action) => {
@@ -43,6 +43,7 @@ export default (state = initialState, action) => {
       case LOGIN_SUCCESS: {
          return {
             ...state,
+            isLoggedIn: true,
             fetching: false,
             user: action.user,
             token: action.token,
