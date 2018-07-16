@@ -116,15 +116,15 @@ controllers.updatePhotoUrl = (req,res) => {
 	const path = req.file.path.split('public\\')[1];
 	console.log(path);
 	User.findById(id, (err,user) => {
-		if(err) send({ status:500, body:'Error updating user photo' });
+		if(err) send({ status:500, body: err.message || 'Error updating user photo'});
 		if(!user) send({ status:401, body:'Unable to reach user data' });
 		else {
 			user.photoUrl = path;
 			user.save((err,updatedUser) => {
-				if(err) send({ status:500, body: 'Error updating user photo' });
+				if (err) send({ status: 500, body: err.message || 'Error updating user photo' });
 				if(updatedUser) send({
 					status: 200,
-					user: userData(user),
+					body: userData(updatedUser),
 				});
 			});
 		}
@@ -138,12 +138,7 @@ controllers.userData = (req,res) => {
 		if(err) send({ status: 500, body: 'Try again' });
 		if (user) send({
 			status: 200,
-			body: {
-				username: user.username,
-				name: user.name,
-				email: user.email,
-				photoUrl: user.photoUrl,
-			}
+			body: userData(user)
 		});
 	});
 }
@@ -156,7 +151,7 @@ const userData = (user) => ({
 	email: user.email,
 	photoUrl: user.photoUrl,
 	name: user.name,
-});
+})
 const existField = (key,value) => {
 	User.findOne({ [key]: value }, key, async (err, user) => {
 		if (err) 

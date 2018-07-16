@@ -11,7 +11,7 @@ router.get('/userData', verifyToken, UserControllers.userData);
 router.post('/updateField', verifyToken, UserControllers.updateField);
 
 // On develop
-router.post('/updatePhotoUrl', verifyToken, fileUpload, UserControllers.updatePhotoUrl);
+router.post('/updatePhoto', verifyToken, fileUpload, UserControllers.updatePhotoUrl);
 router.post('/updatePassword', verifyToken, UserControllers.updatePassword);
 
 // Test routes
