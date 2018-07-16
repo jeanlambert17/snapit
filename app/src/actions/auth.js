@@ -1,21 +1,21 @@
 import {
-   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
-   SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE,
-   LOGOUT_REQUEST, LOGOUT_SUCCES, SET_AUTH, SET_USER, SET_TOKEN
+   LOGIN_REQUEST, 
+   LOGIN_SUCCESS, 
+   LOGIN_FAILURE,
+   SIGNUP_REQUEST, 
+   SIGNUP_SUCCESS, 
+   SIGNUP_FAILURE,
+   LOGOUT_REQUEST, 
+   LOGOUT_SUCCES, 
+   SET_AUTH, 
+   SET_USER, 
+   SET_TOKEN
 } from '../constants/auth';
 
 import fetchLogin from '../api/login';
 import fetchSignUp from '../api/signUp';
 
 import { removeItem } from '../helpers/storage';
-
-export function setAuth({user,token}) {
-   return {
-      type: SET_AUTH,
-      user,
-      token,
-   }
-}
 
 export function login(form) {
    const success = ({user, token}) => ({ type: LOGIN_SUCCESS, user, token });
@@ -53,6 +53,14 @@ export function logout() {
       removeItem('token').then(() => {
          dispatch(success());
       });
+   }
+}
+
+export function setAuth({ user, token }) {
+   return {
+      type: SET_AUTH,
+      user,
+      token,
    }
 }
 

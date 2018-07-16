@@ -12,43 +12,43 @@ import Authenticate from '../../api/isAuth';
 
 
 class Loading extends Component {
-   constructor(props) {
-      super(props);
+  constructor(props) {
+    super(props);
 
-      this.isAuth();
-   }
+    this.isAuth();
+  }
 
-   isAuth = async () => {
-      const {setAuth, navigation} = this.props;
-      const data = await Authenticate();
-      if(data) {
-         setAuth(data);
-         navigation.navigate('UserStack');
-      } else {
-         navigation.navigate('InvitedStack');
-      }
-   }
+  isAuth = async () => {
+    const {setAuth, navigation} = this.props;
+    const data = await Authenticate();
+    if(data) {
+        setAuth(data);
+        navigation.navigate('UserStack');
+    } else {
+        navigation.navigate('InvitedStack');
+    }
+  }
 
    render() {
 
-      return (
-         <View style={styles.container}>
-            <ActivityIndicator size="large" color="#F04A58"/>
-         </View>
-      );
-   }
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#F04A58"/>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-      justifyContent: 'center',
-   }
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  }
 });
 const mapDispatchToProps = dispatch => ({
-   setAuth: user => {
-      dispatch(setAuth(user));
-   },
+  setAuth: data => {
+    dispatch(setAuth(data));
+  },
 });
 
 export default connect(null,mapDispatchToProps)(Loading);
