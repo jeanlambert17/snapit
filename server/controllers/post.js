@@ -3,8 +3,7 @@ import { Post, User } from '../models';
 let controllers = {}
 
 controllers.add = (req,res) => {
-    const { content, title, figthers } = req.body;
-    console.log(req.file);
+    const { content, title } = req.body;
     const { path } = req.file;
     const id = req.userId;
     
@@ -14,7 +13,7 @@ controllers.add = (req,res) => {
         content: content,
         imageUrl: path,        
         date: new Date(),
-        figthers: figthers,
+        // figthers: figthers,
     });
     post.save((err) => {
         if (err)

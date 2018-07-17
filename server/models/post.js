@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const postSchema = Schema({
     imageUrl: String,
-    figthers: [String],
+    // figthers: [String],
     title: {
         type: String,
         required: true,
@@ -26,10 +26,10 @@ const postSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Comment',
     }],
-    votes: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Vote',
-    }],
+    // votes: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Vote',
+    // }],
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'Like',

@@ -3,7 +3,6 @@ import configs from '../helpers/configs'
 
 function verifyToken(req,res,next) {
   const token = req.headers['x-access-token'];
-  console.log('TOKEEEEEEEEEEEEN: ' + token);
   if(!token)
     res.status(401).send({ status: 401, response:'No token provided'});
   jwt.verify(token, configs.secret, (err, decoded) => {
