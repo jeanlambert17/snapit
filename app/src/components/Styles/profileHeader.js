@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
    StyleSheet,
-   Dimensions
+  //  Dimensions
 } from 'react-native';
 
 // const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -11,7 +11,7 @@ export default StyleSheet.create({
    container: {
       alignItems: 'center', 
       flex: 1, 
-      marginTop: 35
+      marginTop: 5
    },
    button: {
       borderRadius: 80 

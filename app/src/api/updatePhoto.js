@@ -28,6 +28,6 @@ export default (photo,token) => {
   })
   .catch(err => {
     console.log('UPLOAD PHOTO ERR: ' + err)    
-    return Promise.reject('');
+    return Promise.reject(err);
   });
 }

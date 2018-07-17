@@ -21,7 +21,7 @@ class ProfileHeader extends Component {
       exif: true,
       allowsEditing: false,
       quality: 0.7,
-      base64: true
+      base64: false,
     })
     if (!pickerResult.cancelled) {      
       this.props.updatePhoto({

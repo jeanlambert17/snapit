@@ -1,7 +1,7 @@
 import { createSwitchNavigator } from 'react-navigation';
 import InvitedStack from './invitedStack';
 import UserStack from './userStack';
-import { Loading } from '../scenes';
+import { Loading } from '../screens';
 
 export default createSwitchNavigator(
    {

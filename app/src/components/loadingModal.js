@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import styles from './Styles/loadingModal';
 
 const LoadingModal = ({ fetching }) => (
   <Modal
@@ -27,14 +28,5 @@ const LoadingModal = ({ fetching }) => (
 LoadingModal.propTypes = {
   fetching: PropTypes.bool,
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "rgba(0,0,0,0.2)",
-  },
-})
 
 export default LoadingModal;

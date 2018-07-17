@@ -1,5 +1,5 @@
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
-import { Home } from '../scenes';
+import { Home } from '../screens';
 import Drawer from '../components/drawer';
 import {
    Text,
