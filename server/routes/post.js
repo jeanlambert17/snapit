@@ -6,11 +6,10 @@ let router = express.Router();
 
 // User's routes
 router.post('/add', verifyToken, fileUpload, PostControllers.add);
+router.get('/get/:page/:perPage', PostControllers.getPosts);
+
 
 // Test routes
 router.get('/test', verifyToken, PostControllers.getPosts);
-router.post('/testUpload', verifyToken, fileUpload, (req,res) => {
-    res.send('ok');
-})
 
 export default router;

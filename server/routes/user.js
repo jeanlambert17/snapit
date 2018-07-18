@@ -9,9 +9,9 @@ router.post('/signUp', emptyFields, isNew, UserControllers.signUp);
 router.post('/login', emptyFields, UserControllers.logIn);
 router.get('/userData', verifyToken, UserControllers.userData);
 router.post('/updateField', verifyToken, UserControllers.updateField);
+router.post('/updatePhoto', verifyToken, fileUpload, UserControllers.updatePhotoUrl);
 
 // On develop
-router.post('/updatePhoto', verifyToken, fileUpload, UserControllers.updatePhotoUrl);
 router.post('/updatePassword', verifyToken, UserControllers.updatePassword);
 
 // Test routes

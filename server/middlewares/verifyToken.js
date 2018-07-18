@@ -10,7 +10,6 @@ function verifyToken(req,res,next) {
       console.log(err);
       res.status(500).send({ status: 500, body: 'Try again' });
     } else {
-      console.log('verifyToken NEXT');
       req.userId = decoded.id;
       next();
     }
