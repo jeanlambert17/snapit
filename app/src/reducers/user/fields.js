@@ -2,7 +2,7 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
-} from '../constants/fields';
+} from '../../constants/user';
 
 const initialState = {
   fetching: false,

@@ -2,11 +2,11 @@ import {
    UPDATE_USER_REQUEST,
    UPDATE_USER_SUCCESS,
    UPDATE_USER_FAILURE,
-} from '../constants/fields';
+} from '../../constants/user';
 
-import fetchUpdateField from '../api/updateField';
-import fetchUpdatePhoto from '../api/updatePhoto';
-import { setUser } from './auth';
+import fetchUpdateField from '../../api/updateField';
+import fetchUpdatePhoto from '../../api/updatePhoto';
+import { setUser } from '../auth';
 
 const updateRequest = () => ({ type: UPDATE_USER_REQUEST })
 const updateSuccess = () => ({ type: UPDATE_USER_SUCCESS })
@@ -43,4 +43,3 @@ export function updatePhoto(photo) {
     }
   }
 }
-

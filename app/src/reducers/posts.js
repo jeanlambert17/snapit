@@ -1,41 +1,39 @@
 import {
-  POST_REQUEST,
-  POST_FAILURE,
-  POST_SUCCESS,
+  HOME_POSTS_REQUEST,
+  HOME_POSTS_SUCCESS,
+  HOME_POSTS_FAILURE
 } from '../constants/posts';
 
 const initialState = {
   fetching: false,
-  addSuccess: false,
-
-  postError: false,
-  postErrorMessage: null
+  page: 1,
+  posts: [],
+  error: false,
+  errorMessage: '',
 }
 
 export default (state = initialState, action) => {
-  switch (action.type) {
-    case POST_REQUEST:
+  switch(action.type) {
+    case HOME_POSTS_REQUEST: 
       return {
         ...state,
-        postError: false,
-        postErrorMessage: null,
         fetching: true,
-        addSuccess: false,
       }
-    case POST_SUCCESS: 
+    case HOME_POSTS_SUCCESS:
+      return {
+        ...state,
+        page: state.page + 1,
+        posts: [...state.posts, ...action.posts],
+        fetching: false,
+      }
+    case HOME_POSTS_FAILURE:
       return {
         ...state,
         fetching: false,
-        addSuccess: true,
-      }
-    case POST_FAILURE: 
-      return {
-        ...state,
-        fetching: false,
-        postError: true,
-        postErrorMessage: action.error,
+        error: true,
+        errorMessage: action.error,
       }
     default: 
-      return state
+      return state;
   }
 }

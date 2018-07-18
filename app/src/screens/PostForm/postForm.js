@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addPost } from '../../actions/posts';
+import { addPost } from '../../actions/user/posts';
 import { LoadingModal } from '../../components';
 
 class PostForm extends Component {
@@ -77,11 +77,11 @@ PostForm.propTypes = {
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
 }
-const mapStateToProps = ({posts}) => ({
-  fetching: posts.fetching,
-  error: posts.postError,
-  errorMessage: posts.postErrorMessage,
-  success: posts.addSuccess,
+const mapStateToProps = ({user}) => ({
+  fetching: user.posts.fetching,
+  error: user.posts.postError,
+  errorMessage: user.posts.postErrorMessage,
+  success: user.posts.addSuccess,
 });
 const mapDispatchToProps = dispatch => ({
   addPost: form => {

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { updateField } from '../../actions/fields';
+import { updateField } from '../../actions/user/fields';
 import usernameImg from '../../assets/images/username.png';
 // import passwordImg from '../../assets/images/password.png';
 // import emailImg from '../../assets/images/email-outline.png';
@@ -113,11 +113,22 @@ Settings.propTypes = {
   updateErrorMessage: PropTypes.string,
 }
 
-const mapStateToProps = ({auth, fields}) => ({
+// const mapStateToProps = ({auth, fields}) => ({
+//   user: auth.user,
+//   fetching: fields.fetching,
+//   updateError: fields.updateError,
+//   updateErrorMessage: fields.updateErrorMessage,
+// });
+// const mapDispatchToProps = dispatch => ({
+//   updateField: (form) => {
+//     dispatch(updateField(form));
+//   }
+// });
+const mapStateToProps = ({auth, user}) => ({
   user: auth.user,
-  fetching: fields.fetching,
-  updateError: fields.updateError,
-  updateErrorMessage: fields.updateErrorMessage,
+  fetching: user.fields.fetching,
+  updateError: user.fields.updateError,
+  updateErrorMessage: user.fields.updateErrorMessage,
 });
 const mapDispatchToProps = dispatch => ({
   updateField: (form) => {

@@ -8,7 +8,7 @@ import {
 import { ImagePicker, FileSystem } from 'expo';
 import { API_URL } from '../helpers/configs';
 import { connect } from 'react-redux';
-import { updatePhoto } from '../actions/fields';
+import { updatePhoto } from '../actions/user/fields';
 import styles from './Styles/profileHeader';
 
 class ProfileHeader extends Component {

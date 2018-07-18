@@ -1,26 +1,25 @@
 import {
-  POST_REQUEST,
-  POST_FAILURE,
-  POST_SUCCESS,
+  HOME_POSTS_REQUEST,
+  HOME_POSTS_SUCCESS,
+  HOME_POSTS_FAILURE
 } from '../constants/posts';
+import fetchGetPosts from '../api/getPosts';
 
-import fetchAddPost from '../api/addPost';
+const request = () => ({ type: HOME_POSTS_REQUEST });
+const success = (posts) => ({ type: HOME_POSTS_SUCCESS, posts });
+const failure = (error) => ({ type: HOME_POSTS_FAILURE, error });
 
-const request = () => ({ type: POST_REQUEST });
-const failure = (error) => ({ type: POST_FAILURE, error });
-const sucess = () => ({ type: POST_SUCCESS })
-
-export function addPost(form) {
+export function getPosts(perPage) {
   return async (dispatch, getState) => {
     dispatch(request());
-    const { auth: { token }} = getState();
+    const page = getState().posts.page;
     try {
-      let post = await fetchAddPost(form,token);
-      if(post) {
-        dispatch(sucess())
+      const posts = await fetchGetPosts(page,perPage);
+      if(posts) {
+        dispatch(success(posts));
       }
     } catch(err) {
-      dispatch(failure());
+      dispatch(failure(err));
     }
   }
 }

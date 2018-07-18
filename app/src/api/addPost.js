@@ -19,12 +19,15 @@ export default (form,token) => {
   return fetch(API_URL+'/post/add', options).then(res => res.json())
   .then((data) => {
     const { status, body } = data;
+    console.log('addpost status: ' + status)
+    console.log('addpost body: ' + JSON.stringify(body))
     if(status === 200)
       return body;
     else 
       return Promise.reject(body)
   })
   .catch((err) => {
+    console.log(err)
     return Promise.reject(err.message || err);
   })
 }
