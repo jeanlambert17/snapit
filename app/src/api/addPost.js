@@ -1,17 +1,18 @@
 import fetchApi from '../helpers/fetchApi';
 
 export const addUserPost = async (form,token) => {
-  let fd = new FormData();
-  let keys = Object.keys(form);
-  keys.forEach(key => {
-    fd.append(key,form[key]);
-  });
+  // let fd = new FormData();
+  // let keys = Object.keys(form);
+  // keys.forEach(key => {
+  //   fd.append(key,form[key]);
+  // });
   const options = {
     method: 'post',
     endpoint: '/post/add',
-    data: fd,
+    formdata: true,
+    data: form,
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'x-access-token': token,
     },
     token,
   }
@@ -24,8 +25,15 @@ export const addUserPost = async (form,token) => {
 }
 
 export const getUserPosts = async (token) => {
+  const options = {
+    method: 'get',
+    endpoint: '/user/posts',
+    headers: {
+      'x-access-token': token
+    }
+  }
   try {
-    const posts = await fetchApi({ method: 'get', token, endpoint: '/user/posts' });
+    const posts = await fetchApi(options);
     return posts;
   } catch(err) {
     throw err;

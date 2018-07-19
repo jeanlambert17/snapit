@@ -11,12 +11,13 @@ import { getPosts } from '../../actions/user/posts';
 class Profile extends Component {
 
   componentDidMount() {
-    this.props.getPosts();
+    if(this.props.posts.length === 0) {
+      this.props.getPosts();
+    }
   }
   goToSettings = () => this.props.navigation.navigate('Settings');
   render() {
     const { posts } = this.props;
-    console.log(posts)
     return (
       <View style={{
           flex: 1,
@@ -28,9 +29,10 @@ class Profile extends Component {
         />
         <FlatList
           data={posts}
-          renderItem={({ item }) => <Card {...item} />}
+          renderItem={({ item }) => <Card {...item} onPress={() => this.props.navigation.navigate('Detail', {post: item})}/>}
           keyExtractor={(item) => item._id}
           refreshing={this.props.fetching}
+          onRefresh={this.props.getPosts}
         />
       </View>
     )

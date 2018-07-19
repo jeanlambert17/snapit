@@ -1,5 +1,5 @@
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import { Profile, Settings, PostCamera, PostForm } from '../screens';
+import { Profile, Settings, PostCamera, PostForm, PostDetail } from '../screens';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { ProfileHeader } from '../components';
@@ -10,6 +10,7 @@ const ProfileStack = createStackNavigator(
   {
     Profile: Profile,
     Settings: Settings,
+    Detail: PostDetail
   }, {
     initialRouteName: 'Profile',
     navigationOptions: ({ navigation }) => ({

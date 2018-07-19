@@ -15,7 +15,9 @@ import { Card } from '../../components';
 class Home extends PureComponent {
 
   componentDidMount() {    
-    this.props.fetchPosts()
+    if (this.props.posts.length === 0) {
+      this.props.fetchPosts();
+    }
   }
   handlePress = route => () => {
     this.props.navigation.navigate(route);
@@ -57,10 +59,10 @@ class Home extends PureComponent {
     if(error) console.log(errorMessage)
     return (
       <View style={styles.container}>
-        { !isLoggedIn && (<Button title="Login" onPress={this.handlePress('Login')}/>)}
+        { !isLoggedIn && (<Button title="Login" onPress={() => this.props.navigation.navigate('Login')}/>)}
         <FlatList
           data={posts}          
-          renderItem={({item}) => <Card {...item} />}
+          renderItem={({item}) => <Card {...item} onPress={() => this.props.navigation.navigate('Detail', { post: item })}/>}
           keyExtractor={(item) => item._id}
           onEndReached={this.moreItems}
           onEndReachedThreshold={0.1}

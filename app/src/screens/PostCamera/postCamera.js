@@ -43,6 +43,7 @@ class PostCamera extends Component {
     }
   }
   snap = async () => {
+    console.log('snap')
     if (this.camera) {
       try {
         let photo = await this.camera.takePictureAsync({
@@ -50,6 +51,7 @@ class PostCamera extends Component {
           base64: false,
           exif: true
         });
+        console.log(photo);
         if (photo) {
           this.props.navigation.navigate('PostForm', { photo: photo });
         }

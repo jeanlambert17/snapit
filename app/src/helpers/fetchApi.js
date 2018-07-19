@@ -1,8 +1,8 @@
 import { API_URL } from './configs';
 
-export default async ({ endpoint, token, method, data = null, headers = {} }) => {
+export default async ({ endpoint, method, data = null, headers = {}, formdata = false }) => {
   const url = API_URL + endpoint;
-  const _options = options(method,headers,data,token);
+  const _options = options(method,headers,data,formdata);
   console.log(_options)
   try {
     const res = await fetch(url,_options);
@@ -17,18 +17,16 @@ export default async ({ endpoint, token, method, data = null, headers = {} }) =>
   }
 }
 
-const options = (method,headers,data,token) => {
+const options = (method,headers,data,fd) => {
   const _options = {
     method: method,
     credentials: 'include',
     headers: {
-      'x-access-token': token,
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': fd? 'multipart/form-data' : 'application/json',
       ...headers,
     }
   }
-  console.log(_options)
   switch (method.toLowerCase()) {
     case 'get': {
       return {      
@@ -38,10 +36,22 @@ const options = (method,headers,data,token) => {
     case 'post': {
       return {
         ..._options,
-        body: data
+        body: processBody(data,fd)
       }
     }
     default:
       break;
+  }
+}
+
+const processBody = (data,fd) => {
+  if(fd) {
+    let body = new FormData();
+    let keys = Object.keys(data);
+    keys.forEach(key => body.append(key, data[key]));
+    return body
+  } else {
+    let body = JSON.stringify(data);
+    return body
   }
 }

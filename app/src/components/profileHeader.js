@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
 import {
-  Image,
   View,
   Text,
-  TouchableHighlight,
 } from 'react-native';
-import { ImagePicker, FileSystem } from 'expo';
+import { ImagePicker } from 'expo';
 import { API_URL } from '../helpers/configs';
 import { connect } from 'react-redux';
 import { updatePhoto } from '../actions/user/fields';
 import styles from './Styles/profileHeader';
+import PreviewModal from './previewModal';
+import TouchableImage from './touchableImage';
 
 class ProfileHeader extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    modalVisible: false,
   }
-
+  setModalVisible = (visible) => this.setState({ modalVisible: visible });
+  handlePhotoChange = (uri) => {
+    this.props.updatePhoto({
+      uri: uri,
+      name: 'profile-picture',
+      type: 'image/jpeg',
+    });
+  }
   getPhotosFromGallery = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       exif: true,
@@ -24,28 +31,27 @@ class ProfileHeader extends Component {
       base64: false,
     })
     if (!pickerResult.cancelled) {      
-      this.props.updatePhoto({
-        uri: pickerResult.uri,
-        name: 'profile-picture',
-        type: 'image/jpeg'
-      });
+      this.handlePhotoChange(pickerResult.uri);
     }
   }
 
   render() {
     const { user } = this.props;
+    const { modalVisible } = this.state;
     return (
       <View style={styles.container}>
-        <TouchableHighlight
-          style={styles.button}
-          activeOpacity={0.5} 
-          onPress={this.getPhotosFromGallery} 
-        >
-          <Image
-            style={styles.image}
-            source={{uri:`${API_URL}/${user.photoUrl}`}}
-          />
-        </TouchableHighlight>
+        <PreviewModal
+          modalVisible={modalVisible}
+          setModalVisible={this.setModalVisible}
+          onChangePhoto={this.handlePhotoChange}
+          uri={`${API_URL}/${user.photoUrl}`}
+        />
+        <TouchableImage 
+          touchableHighlightStyle={styles.button}
+          onPress={() => this.setModalVisible(true)}
+          imageStyle={styles.image}
+          uri={`${API_URL}/${user.photoUrl}`}
+        />
         <Text style={styles.title}>
           {user.name}
         </Text>
