@@ -15,7 +15,7 @@ controllers.add = (req,res) => {
     date: new Date(),
     // figthers: figthers,
   });
-  post.save((err) => {
+  post.save((err,post) => {
     if (err)
       res.status(500).send({
         status: 500,
@@ -28,25 +28,39 @@ controllers.add = (req,res) => {
     }).exec();
     res.status(200).send({
       status: 200,
-      body: 'Success',
+      body: post,
     });
   });        
 }
 
 controllers.getPosts = (req,res) => {
+  Post.find({}).sort({date:-1}).exec()
+  .then(posts => {
+    res.send({ status: 200, body: posts });
+  })
+  .catch(err => {
+    res.send({ status: 500, body: err.message || 'Try again' });
+  });
+}
+
+controllers.getPostsWithPag = (req,res) => {
   const page = Number(req.params.page);
   const perPage = Number(req.params.perPage);
 
-  Post.find({}).skip((page-1)*perPage).limit(perPage).exec()
-  .then((posts) => {
-    res.send({ 
-      status:200, 
-      body: posts
+  Post.find({}).sort({ date: -1 }).skip((page - 1) * perPage).limit(perPage).exec()
+  .then(([count, posts]) => {
+    res.send({
+      status: 200,
+      body: { count, posts }
     });
   })
   .catch(err => {
     res.send({ status: 500, body: err.message || 'Try again' });
   })
+}
+
+controllers.test = (req,res) => {
+  
 }
 
 

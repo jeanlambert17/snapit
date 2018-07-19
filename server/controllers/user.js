@@ -53,7 +53,6 @@ controllers.logIn = (req,res) => {
 			}
 		}
 	});
-
 }
 
 controllers.updatePassword = (req,res) => {
@@ -131,6 +130,20 @@ controllers.updatePhotoUrl = (req,res) => {
 	});
 }
 
+controllers.userPosts = (req,res) => {
+	const id = req.userId;
+	const send = ({ status, body }) => res.status(status).send({ status, body });
+	User.findById(id, 'posts').populate('posts').exec()
+	.then(posts => {
+		send({ status: 200, body: posts.posts });
+	})
+	.catch(err => {
+		send({ status: 200, body: err.message || 'Try again' });
+	})
+	
+	
+}
+
 controllers.userData = (req,res) => {
 	const id = req.userId;
 	const send = ({ status, body }) => res.status(status).send({ status, body });
@@ -151,7 +164,7 @@ const userData = (user) => ({
 	email: user.email,
 	photoUrl: user.photoUrl,
 	name: user.name,
-})
+});
 const existField = (key,value) => {
 	User.findOne({ [key]: value }, key, async (err, user) => {
 		if (err) 
@@ -161,13 +174,4 @@ const existField = (key,value) => {
 		else 
 			return true
 	});
-}
-
-// Test
-controllers.test = (req, res) => {
-	User.findById(req.userId).exec((err, user) => {
-		res.send({body: {
-			...user._doc,
-		}});
-	})
 }
