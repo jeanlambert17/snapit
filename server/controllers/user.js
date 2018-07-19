@@ -133,7 +133,7 @@ controllers.updatePhotoUrl = (req,res) => {
 controllers.userPosts = (req,res) => {
 	const id = req.userId;
 	const send = ({ status, body }) => res.status(status).send({ status, body });
-	User.findById(id, 'posts').populate('posts').exec()
+	User.findById(id, 'posts').populate({path: 'posts', options: { sort: { date: -1 }}}).sort({date: -1}).exec()
 	.then(posts => {
 		send({ status: 200, body: posts.posts });
 	})
