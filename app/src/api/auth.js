@@ -14,7 +14,7 @@ export default async () => {
         },
         credentials: 'include',
       }
-      return fetch(API_URL + '/user/userData', options).then(res => res.json())
+      return fetch(API_URL + '/user/auth', options).then(res => res.json())
       .then((data) => {
         const { status, body } = data;
         console.log('status: ' + status)

@@ -1,15 +1,17 @@
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import { Settings, PostCamera, PostForm } from '../screens';
+import { Profile, Settings, PostCamera, PostForm } from '../screens';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import { ProfileHeader } from '../components';
 
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
-const SettingsStack = createStackNavigator(
+const ProfileStack = createStackNavigator(
   {
+    Profile: Profile,
     Settings: Settings,
   }, {
+    initialRouteName: 'Profile',
     navigationOptions: ({ navigation }) => ({
       headerStyle: {
         height: DEVICE_HEIGHT * 0.2,
@@ -21,16 +23,6 @@ const SettingsStack = createStackNavigator(
         fontWeight: 'bold',
       },
       headerTintColor: '#fff',
-      // headerLeft: (
-      //   <View style={{ alignSelf: 'flex-start' }}>
-      //     <Icon.Button
-      //       name="menu"
-      //       size={30}
-      //       backgroundColor="transparent"
-      //       onPress={() => navigation.openDrawer()}
-      //     />
-      //   </View>),
-      // headerRight: <View />
     })
   }
 );
@@ -46,17 +38,16 @@ const UploadStack = createStackNavigator(
 
 const _ProfileStack = createBottomTabNavigator(
   {
-    SettingsStack: SettingsStack,
-    UploadStack: UploadStack
+    Profile: ProfileStack,
+    Upload: UploadStack
   },
 );
 
-const ProfileStack = createStackNavigator(
+// Marana para evitar un error con el drawer
+export default createStackNavigator(
   {
-    Profile: _ProfileStack,
+    Principal: _ProfileStack,
   }, {
     headerMode: 'none',
   }
 );
-
-export default ProfileStack;

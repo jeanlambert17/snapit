@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { 
     Button, 
     View,
@@ -8,38 +8,37 @@ import {
     ActivityIndicator
 } from 'react-native';
 import styles from './styles';
-import { getPosts } from '../../actions/posts';
+import { getPosts, fetchPosts } from '../../actions/posts';
 import { connect } from 'react-redux';
 import { Card } from '../../components';
 
-class Home extends Component {
+class Home extends PureComponent {
 
-  static navigationOptions = {
-      heigth: 0,
-  };
-  
-  handlePress = route => () => {
-      this.props.navigation.navigate(route);
+  componentDidMount() {    
+    this.props.fetchPosts()
   }
-  
-  componentDidMount() {
-    console.log('didmount')
-    this.props.getPosts();
+  handlePress = route => () => {
+    this.props.navigation.navigate(route);
+  }
+  moreItems = () => {
+    const { isEmpty, getPosts } = this.props;
+    if(!isEmpty)
+      getPosts();
   }
   renderFooter = () => {
-    if (!this.props.fetching) return null;
-
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
+    if(!this.props.isEmpty)
+      return null
+      return (
+        <View
+          style={{
+            paddingVertical: 20,
+            borderTopWidth: 1,
+            borderColor: "#CED0CE",
+          }}
+        >
+          <Text> Has no more elements </Text>
+        </View>
+      );
   };
   renderSeparator = () => {
     return (
@@ -52,31 +51,23 @@ class Home extends Component {
         }}
       />
     );
-  };
-
+  }
   render() {
-    const { posts } = this.props;
+    const { isLoggedIn, posts, error, errorMessage } = this.props;
+    if(error) console.log(errorMessage)
     return (
       <View style={styles.container}>
-        {(!this.props.isLoggedIn) && (
-          <View>
-            <Button
-                title="GO TO LOGIN"
-                onPress={this.handlePress('Login')}
-            ></Button>
-            <Button
-                title="GO TO SIGN UP"
-                onPress={this.handlePress('SignUp')}
-            ></Button>
-          </View>
-        )}
+        { !isLoggedIn && (<Button title="Login" onPress={this.handlePress('Login')}/>)}
         <FlatList
           data={posts}          
           renderItem={({item}) => <Card {...item} />}
-          keyExtractor={(item,index) => item._id}
-          onEndReached={this.props.getPosts}
-          onEndReachedThreshold={0}
+          keyExtractor={(item) => item._id}
+          onEndReached={this.moreItems}
+          onEndReachedThreshold={0.1}
           itemSeparatorComponent={this.renderSeparator}
+          ListFooterComponent={this.renderFooter}
+          refreshing={this.props.fetching}
+          onRefresh={this.props.fetchPosts}
         />
       </View>
     );
@@ -88,11 +79,16 @@ const mapStateToProps = ({ auth, posts }) => ({
   fetching: posts.fetching,
   error: posts.error,
   errorMessage: posts.errorMessage,
-  posts: posts.posts,
+  posts: posts.currentPosts,
+  isEmpty: posts.isEmpty,
 });
 const mapDispatchToProps = dispatch => ({
   getPosts: () => {
-    dispatch(getPosts(2));
+    dispatch(getPosts());
   },
-})
+  fetchPosts: () => {
+    dispatch(fetchPosts());
+  }
+});
+
 export default connect(mapStateToProps,mapDispatchToProps)(Home)

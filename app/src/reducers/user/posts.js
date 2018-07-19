@@ -1,11 +1,13 @@
 import {
   POST_REQUEST,
   POST_FAILURE,
-  POST_SUCCESS,
+  ADD_POST_SUCCESS,
+  GET_POSTS_SUCCESS
 } from '../../constants/user';
 
 const initialState = {
   fetching: false,
+  posts: [],
   addSuccess: false,
 
   postError: false,
@@ -22,18 +24,25 @@ export default (state = initialState, action) => {
         fetching: true,
         addSuccess: false,
       }
-    case POST_SUCCESS: 
-      return {
-        ...state,
-        fetching: false,
-        addSuccess: true,
-      }
     case POST_FAILURE: 
       return {
         ...state,
         fetching: false,
         postError: true,
         postErrorMessage: action.error,
+      }
+    case ADD_POST_SUCCESS:
+      return {
+        ...state,
+        fetching: false,
+        addSuccess: true,
+        posts: [action.post, ...state.posts]
+      }
+    case GET_POSTS_SUCCESS: 
+      return {
+        ...state,
+        fetching: false,
+        posts: action.posts,
       }
     default: 
       return state

@@ -1,6 +1,6 @@
-import { API_URL } from '../helpers/configs';
+import fetchApi from '../helpers/fetchApi';
 
-export default (form,token) => {
+export const addUserPost = async (form,token) => {
   let fd = new FormData();
   let keys = Object.keys(form);
   keys.forEach(key => {
@@ -8,26 +8,26 @@ export default (form,token) => {
   });
   const options = {
     method: 'post',
+    endpoint: '/post/add',
+    data: fd,
     headers: {
-      'x-access-token': token,
-      'Accept': 'application/json',
       'Content-Type': 'multipart/form-data'
     },
-    credentials: 'include',
-    body: fd
+    token,
   }
-  return fetch(API_URL+'/post/add', options).then(res => res.json())
-  .then((data) => {
-    const { status, body } = data;
-    console.log('addpost status: ' + status)
-    console.log('addpost body: ' + JSON.stringify(body))
-    if(status === 200)
-      return body;
-    else 
-      return Promise.reject(body)
-  })
-  .catch((err) => {
-    console.log(err)
-    return Promise.reject(err.message || err);
-  })
+  try {
+    const post = await fetchApi(options);
+    return post;
+  } catch(err) {
+    return err;
+  }
+}
+
+export const getUserPosts = async (token) => {
+  try {
+    const posts = await fetchApi({ method: 'get', token, endpoint: '/user/posts' });
+    return posts;
+  } catch(err) {
+    throw err;
+  }
 }

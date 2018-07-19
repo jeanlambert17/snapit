@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { setAuth } from '../../actions/auth';
 
-import Authenticate from '../../api/isAuth';
+import Authenticate from '../../api/auth';
 
 
 class Loading extends Component {

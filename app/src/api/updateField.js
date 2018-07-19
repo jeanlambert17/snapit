@@ -11,7 +11,7 @@ export default (form,token) => {
 		credentials: 'include',
 		body: JSON.stringify(form)
 	}
-	return fetch(API_URL + '/user/updateField', options).then(res => res.json())
+	return fetch(API_URL + '/user/update/field', options).then(res => res.json())
 	.then(({body,status}) => {
 		console.log('changeField status: ' + status)
 		console.log('changeField body: ' + JSON.stringify(body))
@@ -22,6 +22,6 @@ export default (form,token) => {
 	})
 	.catch(err => {
 		console.log('changeField Promise reject: ' + err);
-		return Promise.reject(err);
+		return Promise.reject(err.message || err);
 	});
 }

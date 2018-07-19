@@ -13,7 +13,7 @@ export default (photo,token) => {
     credentials: 'include',
     body: fd
   }
-  return fetch(API_URL + '/user/updatePhoto', options).then(res => res.json())
+  return fetch(API_URL + '/user/update/photo', options).then(res => res.json())
   .then(data => {
     const { status, body } = data;
     console.log(JSON.stringify(data))
