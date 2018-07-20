@@ -16,7 +16,7 @@ const TouchableImage = (props) => {
   >
     <Image
       style={props.imageStyle}
-      source={{ uri: props.uri }}
+      source={props.uri}
     />
   </TouchableHighlight>
 )};

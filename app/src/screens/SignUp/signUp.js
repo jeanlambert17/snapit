@@ -9,7 +9,7 @@ import {
 		ImageBackground,
 		ToastAndroid
 } from 'react-native';
-
+import emptyFields from '../../helpers/emptyFields';
 import usernameImg from '../../assets/images/username.png';
 import passwordImg from '../../assets/images/password.png';
 import backgroundImg from '../../assets/images/background2.png';
@@ -34,86 +34,90 @@ class SignUp extends React.Component {
 			if (this.props.signUpRedirect && !prevProps.signUpRedirect) {
 				 this.props.navigation.navigate('Login');
 			}
+			if(this.props.error && !prevProps.error) {
+      	this.showErrorMessage(this.props.errorMessage);
+    	}
 	 }
-	showErrorMessage = (errorMessage) => ToastAndroid.showWithGravity(errorMessage, ToastAndroid.BOTTOM, ToastAndroid.SHORT);
+	showErrorMessage = (errorMessage) => ToastAndroid.showWithGravity(errorMessage, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
 	handleTextChange = (input) => (value) => this.setState({ [input]: value });
 	handleSignUp = () => {
 		const { password, verification } = this.state;
 		if(password === verification) {
 			this.props.signUp({...this.state});
 		} else {
-			this.showErrorMessage('Mismatch')
+			this.showErrorMessage('Password mismatch')
 		}
 	}
 
 	render() {
 		const { fetching, error, errorMessage } = this.props
-
+		const disabled = emptyFields(this.state);
 		if(error) this.showErrorMessage(errorMessage);
 		return (
 				<ImageBackground source={backgroundImg} style={{width: '100%', height: '100%'}} blurRadius={1.5}>
 					<KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-								<Input
-								source={usernameImg}
-								textContentType="username"
-								placeholder="Username"
-								placeholderTextColor="white"
-								onChangeText={this.handleTextChange('username')}
-								value={this.state.username}
-								containerStyle={styles.input}
-							/>
 							<Input
-								source={usernameImg}
-								textContentType="name"
-								placeholder="Name"
-								placeholderTextColor="white"
-								onChangeText={this.handleTextChange('name')}
-								value={this.state.name}
-								containerStyle={styles.input}
-								autoCapitalize="words"
-							/>
-							<Input
-								source={passwordImg}
-								textContentType="password"
-								placeholder="Password"
-								placeholderTextColor="white"
-								onChangeText={this.handleTextChange('password')}
-								value={this.state.password}
-								secureTextEntry={true}
-								containerStyle={styles.input}
-							/>
-							<Input
-								source={verificationImg}
-								textContentType="password"
-								placeholder="Confirm Password"
-								placeholderTextColor="white"
-								onChangeText={this.handleTextChange('verification')}
-								value={this.state.verification}
-								secureTextEntry={true}
-								containerStyle={styles.input}
-							/>
-							<Input
-								source={emailImg}
-								textContentType="emailAddress"
-								placeholder="Email@example.com"
-								placeholderTextColor="white"
-								onChangeText={this.handleTextChange('email')}
-								value={this.state.email}
-								containerStyle={styles.input}
-							/>
-							<View style={styles.div}>
-								<TouchableOpacity
-											activeOpacity={0.5}
-											style={styles.button}
-											onPress={this.handleSignUp}
-								>
-											{ (!fetching) ? (
-													<Text style={styles.buttonText}> Register </Text>
-											) : (
-													<ProgressBarAndroid styleAttr="Small" color="white"/>
-											)}
-								</TouchableOpacity>
-							</View>
+							source={usernameImg}
+							textContentType="username"
+							placeholder="Username"
+							placeholderTextColor="white"
+							onChangeText={this.handleTextChange('username')}
+							value={this.state.username}
+							containerStyle={styles.input}
+						/>
+						<Input
+							source={usernameImg}
+							textContentType="name"
+							placeholder="Name"
+							placeholderTextColor="white"
+							onChangeText={this.handleTextChange('name')}
+							value={this.state.name}
+							containerStyle={styles.input}
+							autoCapitalize="words"
+						/>
+						<Input
+							source={passwordImg}
+							textContentType="password"
+							placeholder="Password"
+							placeholderTextColor="white"
+							onChangeText={this.handleTextChange('password')}
+							value={this.state.password}
+							secureTextEntry={true}
+							containerStyle={styles.input}
+						/>
+						<Input
+							source={verificationImg}
+							textContentType="password"
+							placeholder="Confirm Password"
+							placeholderTextColor="white"
+							onChangeText={this.handleTextChange('verification')}
+							value={this.state.verification}
+							secureTextEntry={true}
+							containerStyle={styles.input}
+						/>
+						<Input
+							source={emailImg}
+							textContentType="emailAddress"
+							placeholder="Email@example.com"
+							placeholderTextColor="white"
+							onChangeText={this.handleTextChange('email')}
+							value={this.state.email}
+							containerStyle={styles.input}
+						/>
+						<View style={styles.div}>
+							<TouchableOpacity
+								activeOpacity={0.5}
+								style={[styles.button, disabled && {opacity: 0.5}]}
+								onPress={this.handleSignUp}
+								disabled={disabled}
+							>
+								{ (!fetching) ? (
+									<Text style={styles.buttonText}> Register </Text>
+								) : (
+									<ProgressBarAndroid styleAttr="Small" color="white"/>
+								)}
+							</TouchableOpacity>
+						</View>
 					</KeyboardAvoidingView>
 				</ImageBackground>
 		);

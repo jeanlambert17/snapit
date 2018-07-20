@@ -3,6 +3,7 @@ import {
   POST_FAILURE,
   ADD_POST_SUCCESS,
   GET_POSTS_SUCCESS,
+  CLEAN_POSTS
 } from '../../constants/user';
 
 import { addUserPost, getUserPosts } from '../../api/addPost';
@@ -38,5 +39,11 @@ export function getPosts() {
     } catch (err) {
       dispatch(failure(err))
     }
+  }
+}
+
+export function cleanPosts() {
+  return {
+    type: CLEAN_POSTS
   }
 }

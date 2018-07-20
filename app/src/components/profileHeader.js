@@ -44,13 +44,13 @@ class ProfileHeader extends Component {
           modalVisible={modalVisible}
           setModalVisible={this.setModalVisible}
           onChangePhoto={this.handlePhotoChange}
-          uri={`${API_URL}/${user.photoUrl}`}
+          uri={user.photoUrl}
         />
         <TouchableImage 
           touchableHighlightStyle={styles.button}
           onPress={() => this.setModalVisible(true)}
           imageStyle={styles.image}
-          uri={`${API_URL}/${user.photoUrl}`}
+          uri={user.photoUrl}
         />
         <Text style={styles.title}>
           {user.name}

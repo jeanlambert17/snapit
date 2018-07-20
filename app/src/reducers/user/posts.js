@@ -2,7 +2,8 @@ import {
   POST_REQUEST,
   POST_FAILURE,
   ADD_POST_SUCCESS,
-  GET_POSTS_SUCCESS
+  GET_POSTS_SUCCESS,
+  CLEAN_POSTS
 } from '../../constants/user';
 
 const initialState = {
@@ -44,6 +45,8 @@ export default (state = initialState, action) => {
         fetching: false,
         posts: action.posts,
       }
+    case CLEAN_POSTS:
+      return initialState
     default: 
       return state
   }

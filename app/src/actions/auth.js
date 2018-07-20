@@ -11,10 +11,9 @@ import {
   SET_USER, 
   SET_TOKEN
 } from '../constants/auth';
-
+import { cleanPosts } from './user/posts';
 import fetchLogin from '../api/login';
 import fetchSignUp from '../api/signUp';
-
 import { removeItem } from '../helpers/storage';
 
 export function login(form) {
@@ -52,6 +51,7 @@ export function logout() {
     dispatch(request());
     removeItem('token').then(() => {
         dispatch(success());
+        dispatch(cleanPosts());
     });
   }
 }
