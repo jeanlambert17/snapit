@@ -19,5 +19,6 @@ export default StyleSheet.create({
       width: DEVICE_WIDTH * 0.90,
       height: DEVICE_HEIGHT * 0.25,
       backgroundColor: 'white',
+      marginHorizontal: 5,
    },
 })

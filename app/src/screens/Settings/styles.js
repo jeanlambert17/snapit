@@ -11,10 +11,11 @@ export default StyleSheet.create({
       // alignItems: 'center',
    },
    editContainer: {
-      marginTop: 15,
-      flexDirection: 'row',
+      marginTop: 10,
+      flex:1,
+      flexDirection: 'column',
       alignItems: 'center',
-      width: DEVICE_WIDTH * 0.85,
+      //width: DEVICE_WIDTH * 0.85,
    },
    editInput: {
       flex:4,
@@ -23,12 +24,13 @@ export default StyleSheet.create({
       marginLeft: 3,
    },
    updateButton: {
-      alignSelf: 'flex-end',
-      borderRadius: 5,
+       marginTop: 5,
       justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#71DDE3',
-      // width: DEVICE_WIDTH * 0.20,
       height: 35,
    },
+   inputContainer:{
+       height: 50,
+       width : DEVICE_WIDTH * 0.8,
+       marginBottom: 4,
+   }
 });
