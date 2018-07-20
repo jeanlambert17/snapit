@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
-  Button,
 } from 'react-native';
+import {  Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { updateField } from '../../actions/user/fields';
 import usernameImg from '../../assets/images/username.png';
+import emailoutline from '../../assets/images/email-outline.png';
 import { Input } from '../../components';
 import { VerificationModal, LoadingModal } from '../../components';
 import styles from './styles';
@@ -53,39 +54,46 @@ class Settings extends Component {
           onPressAccept={this.handleUpdate}
         />
         <LoadingModal fetching={this.props.fetching} />
-        <View>
-          <View style={styles.editContainer}>
+        <View style={styles.editContainer}>
+          <View style={styles.inputContainer}>
             <Input
               source={usernameImg}
               textContentType="username"
+              placeholder="username"
               onChangeText={this.handleTextChange('username')}
               value={this.state.username}
               containerStyle={styles.editInput}
             />
           </View>
-          <View style={styles.editContainer}>
+          <View style={styles.inputContainer}>
             <Input
               source={usernameImg}
               textContentType="name"
+              placeholder="name"
               onChangeText={this.handleTextChange('name')}
               value={this.state.name}
               containerStyle={styles.editInput}
             />
           </View>
-          <View style={styles.editContainer}>
+          <View style={styles.inputContainer}>
             <Input
-              source={usernameImg}
+              source={emailoutline}
               textContentType="email"
+              placeholder="Email"
               onChangeText={this.handleTextChange('email')}
               value={this.state.email}
               containerStyle={styles.editInput}
             />
           </View>
-          <Button
-            title="UPDATE"
-            color="#F04A58"
-            onPress={this.handleUpdateButton}
-          />
+          <View style={styles.updateButton}>
+              <Button
+                borderRadius={5}
+                raised
+                title="UPDATE"
+                backgroundColor="#F04A58"
+                onPress={this.handleUpdateButton}
+              />
+          </View>
         </View>
       </View>
     )
