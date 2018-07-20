@@ -26,14 +26,13 @@ controllers.signUp = (req,res) => {
 	});
 
 }
-
 controllers.logIn = (req,res) => {
 	const { username, password } = req.body;
 	const send = ({status,body, ...rest}) => res.status(status).send({status,body, ...rest});
-	User.findOne({ 'username': username }, async (err,user) => {
-		if(err) send({ status: 500, body: 'Try again' });
-		if(!user) send({ status: 401, body: 'Username doesn\'t exist' });
-		else {
+	Promise.all([User.findOne({ 'username': username }), User.findOne({ 'email': username })])
+	.then( async ([username,email]) => {
+		const user = username ? username : email;
+		if(user) {
 			try {
 				let isMatch = await bcrypt.compare(password, user.password);
 				if (!isMatch) send({ status: 401, body: 'Invalid credentials' });
@@ -51,8 +50,11 @@ controllers.logIn = (req,res) => {
 				console.log(err);
 				send({ status: 500, body: 'Try again' });
 			}
-		}
-	});
+		} else 
+			send({ status: 401, body: 'Username or email doesn\'t exist'})
+	}).catch(err => {
+		send({status: 500, body: err.message || 'Try again'});
+	})
 }
 
 controllers.updatePassword = (req,res) => {
@@ -162,7 +164,7 @@ export default controllers;
 const userData = (user) => ({
 	username: user.username,
 	email: user.email,
-	photoUrl: user.photoUrl,
+	photoUrl: `${process.env.API_URL}/${user.photoUrl}`,
 	name: user.name,
 });
 const existField = (key,value) => {

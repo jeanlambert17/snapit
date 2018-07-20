@@ -1,7 +1,7 @@
 import express from 'express';
 import connectToDb from './helpers/db';
 import routes from './routes';
-import path from 'path';
+require('dotenv').config();
 
 // Const
 const app = express();
