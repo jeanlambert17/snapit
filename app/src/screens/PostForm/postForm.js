@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { addPost } from '../../actions/user/posts';
 import { LoadingModal, TouchableImage } from '../../components';
 import PreviewModal from '../../components/previewModal';
+import emptyFields from '../../helpers/emptyFields';
 
 class PostForm extends Component {
 
@@ -50,6 +51,7 @@ class PostForm extends Component {
   render() {
     const { modalVisible, photo } = this.state;
     const { fetching, error, errorMessage } = this.props;
+    const disabled = emptyFields({ title: this.state.title, content: this.state.content });
     if(error) console.log(errorMessage);
     return (
       <View>
@@ -67,15 +69,6 @@ class PostForm extends Component {
           uri={photo.uri}
           onPress={() => this.setModalVisible(true)}
         />
-        {/* <TouchableHighlight
-          activeOpacity={0.5}
-          onPress={() => this.setModalVisible(true)}
-        >
-          <Image
-            style={{width: 200,height:200}}
-            source={{ uri: photo.uri }}
-          />
-        </TouchableHighlight> */}
         <Text>Title</Text>
         <TextInput 
           value={this.state.title}
@@ -89,6 +82,7 @@ class PostForm extends Component {
         <Button
           title="UPLOAD"
           onPress={this.handleUploadPress}
+          disabled={disabled}
         />
       </View>
     )

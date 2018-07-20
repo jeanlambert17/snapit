@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import {
   ImagePicker,
@@ -16,6 +17,7 @@ class PostCamera extends Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    loading: false,
   }
 
   static navigationOptions = {
@@ -36,14 +38,14 @@ class PostCamera extends Component {
         base64: true
       });
       if (!pickerResult.cancelled) {
-        console.log('LIBRARY IMAGE')
+        this.props.navigation.navigate('PostForm', { photo: pickerResult.uri });
       }
     } catch(err) {
       console.log(err);
     }
   }
   snap = async () => {
-    console.log('snap')
+    this.setState({ loading: true });
     if (this.camera) {
       try {
         let photo = await this.camera.takePictureAsync({
@@ -51,7 +53,7 @@ class PostCamera extends Component {
           base64: false,
           exif: true
         });
-        console.log(photo);
+        this.setState({ loading: false });
         if (photo) {
           this.props.navigation.navigate('PostForm', { photo: photo });
         }
@@ -120,7 +122,11 @@ class PostCamera extends Component {
       ? this.renderCamera()
       : this.renderNoPermissions()
 
-    return <View style={{ flex: 1 }}>{content}</View>
+    return (
+      <View style={{ flex: 1 }}>
+        {content}
+      </View>
+    )
   }
 }
 

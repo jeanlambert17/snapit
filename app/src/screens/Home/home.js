@@ -11,8 +11,21 @@ import styles from './styles';
 import { getPosts, fetchPosts } from '../../actions/posts';
 import { connect } from 'react-redux';
 import { Card } from '../../components';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 class Home extends PureComponent {
+
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerLeft: (
+        <MaterialCommunityIcons.Button
+          onPress={() => navigation.openDrawer()}
+          name="menu"
+          size={20}
+        />
+      )
+    }
+  }
 
   componentDidMount() {    
     if (this.props.posts.length === 0) {

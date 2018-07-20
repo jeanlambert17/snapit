@@ -3,19 +3,35 @@ import {
   View,
   Button,
   FlatList,
+  Dimensions
 } from 'react-native';
 import { connect } from "react-redux";
-import Card from "../../components/card";
+import { Card, ProfileHeader } from "../../components";
 import { getPosts } from '../../actions/user/posts';
 
+const DEVICE_HEIGHT = Dimensions.get('window').height;
+
 class Profile extends Component {
+
+  static navigationOptions = ({ navigation }) => ({
+    headerStyle: {
+      height: DEVICE_HEIGHT * 0.2,
+      backgroundColor: '#F04A58',
+      alignContent: 'flex-start'
+    },
+    headerTitle: <ProfileHeader toSettings={() => navigation.push('Settings')}/>,
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    headerTintColor: '#fff',
+  })
 
   componentDidMount() {
     if(this.props.posts.length === 0) {
       this.props.getPosts();
     }
   }
-  goToSettings = () => this.props.navigation.navigate('Settings');
+
   render() {
     const { posts } = this.props;
     return (
@@ -23,10 +39,6 @@ class Profile extends Component {
           flex: 1,
           backgroundColor: '#fff',
         }}>
-        <Button 
-          title="settings"
-          onPress={this.goToSettings}
-        />
         <FlatList
           data={posts}
           renderItem={({ item }) => <Card {...item} onPress={() => this.props.navigation.navigate('Detail', {post: item})}/>}

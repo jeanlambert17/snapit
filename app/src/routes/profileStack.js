@@ -13,18 +13,6 @@ const ProfileStack = createStackNavigator(
     Detail: PostDetail
   }, {
     initialRouteName: 'Profile',
-    navigationOptions: ({ navigation }) => ({
-      headerStyle: {
-        height: DEVICE_HEIGHT * 0.2,
-        backgroundColor: '#F04A58',
-        alignContent: 'flex-start'
-      },
-      headerTitle: <ProfileHeader />,
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-      headerTintColor: '#fff',
-    })
   }
 );
 
