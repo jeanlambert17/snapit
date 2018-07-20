@@ -4,9 +4,9 @@ import {
   StyleSheet, 
   Dimensions, 
   View,
-  Button,
   Image
 } from 'react-native';
+import {Button} from 'react-native-elements'
 import { ImagePicker, Permissions } from 'expo';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
@@ -63,12 +63,12 @@ class PreviewModal extends Component {
           alert('Modal has been closed.');
         }}>
         <View style={styles.container}>
-          <Button title="close" onPress={() => setModalVisible(false)} />
+          <Button large raised title="close" onPress={() => setModalVisible(false)} />
           <Image style={styles.image} source={{uri: uri}} />
           {(!justPreview) && (
             <View>
-              <Button color="green" title="from galley" onPress={this.getPhotoFromGallery} />
-              <Button color="red" title="from camera" onPress={this.props.takePhoto ? this.props.takePhoto : this.takePhoto} />
+              <Button large raised title="Gallery" onPress={this.getPhotoFromGallery} icon={{name: 'insert-photo'}}/>
+              <Button large raised title="Camera" onPress={this.props.takePhoto ? this.props.takePhoto : this.takePhoto } icon={{name: 'camera'}}/>
             </View>
           )}
           
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: DEVICE_WIDTH * 0.9,
-    height: DEVICE_HEIGHT * 0.8,
+    height: DEVICE_HEIGHT * 0.75,
   }
 })
 

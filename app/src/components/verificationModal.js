@@ -28,7 +28,6 @@ const VerificationModal = ({ password, modalVisible, setModalVisible, handleText
         <Button
           title="Accept"
           onPress={onPressAccept}
-          color="blue"
           disabled={password === '' ? true : false}
         />
         <Button

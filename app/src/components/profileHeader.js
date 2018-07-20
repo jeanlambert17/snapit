@@ -3,6 +3,9 @@ import {
   View,
   Text,
 } from 'react-native';
+import{
+  Button
+} from 'react-native-elements';
 import { ImagePicker } from 'expo';
 import { API_URL } from '../helpers/configs';
 import { connect } from 'react-redux';
@@ -52,9 +55,15 @@ class ProfileHeader extends Component {
           imageStyle={styles.image}
           uri={`${API_URL}/${user.photoUrl}`}
         />
-        <Text style={styles.title}>
-          {user.name}
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.title}>
+            {user.name}
+          </Text>
+          <Button icon={{name: 'settings'}}
+            backgroundColor='#F04A58'
+            onPress={() => this.props.toSettings()}
+          />
+        </View>
       </View>
     );
   }
