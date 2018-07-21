@@ -15,15 +15,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 class Home extends PureComponent {
 
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({navigation, ...props}) => {
     return {
-      headerLeft: (
+      headerLeft: props.isLoggedIn ? (
         <MaterialCommunityIcons.Button
           onPress={() => navigation.openDrawer()}
           name="menu"
           size={20}
         />
-      )
+      ) : null
     }
   }
 

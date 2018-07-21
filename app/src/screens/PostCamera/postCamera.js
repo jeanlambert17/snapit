@@ -3,7 +3,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Button
 } from 'react-native';
 import {
   ImagePicker,
@@ -34,11 +35,11 @@ class PostCamera extends Component {
       let pickerResult = await ImagePicker.launchImageLibraryAsync({
         exif: true,
         allowsEditing: false,
-        quality: 0.7,
+        quality: 0.5,
         base64: true
       });
       if (!pickerResult.cancelled) {
-        this.props.navigation.navigate('PostForm', { photo: pickerResult.uri });
+        this.props.navigation.navigate('PostForm', { photo: pickerResult });
       }
     } catch(err) {
       console.log(err);
@@ -49,7 +50,7 @@ class PostCamera extends Component {
     if (this.camera) {
       try {
         let photo = await this.camera.takePictureAsync({
-          quality: 1,
+          quality: 0.5,
           base64: false,
           exif: true
         });
@@ -111,6 +112,19 @@ class PostCamera extends Component {
           <Text
             style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
             SNAP
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            flex: 0.1,
+            alignSelf: 'flex-end',
+            alignItems: 'center',
+            backgroundColor: 'blue'
+          }}
+          onPress={this.getPhotosFromGallery}>
+          <Text
+            style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+            FROM GALLERY
           </Text>
         </TouchableOpacity>
       </View>

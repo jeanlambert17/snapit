@@ -67,10 +67,10 @@ class PreviewModal extends Component {
           <Image style={styles.image} source={{uri: uri}} />
           {(!justPreview) && (
             <View>
-              <Button large raised title="Gallery" onPress={this.getPhotoFromGallery} icon={{name: 'insert-photo'}}/>
               <Button large raised title="Camera" onPress={this.props.takePhoto ? this.props.takePhoto : this.takePhoto } icon={{name: 'camera'}}/>
-            </View>
+            </View>          
           )}
+          <Button large raised title="Gallery" onPress={this.getPhotoFromGallery} icon={{ name: 'insert-photo' }} />
           
         </View>
       </Modal>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: DEVICE_WIDTH * 0.9,
-    height: DEVICE_HEIGHT * 0.75,
+    height: DEVICE_HEIGHT * 0.70,
   }
 })
 

@@ -23,8 +23,11 @@ class PostForm extends Component {
     modalVisible: false,
   }
   componentDidUpdate(prevProps) {
-    if(!prevProps.success && this.props.success) {
-      this.props.navigation.pop();
+    if (this.props.success && !prevProps.success) {
+      this.props.navigation.navigate('Profile');
+    }
+    if(this.props.error && !prevProps.error) {
+      this.showErrorMessage(this.props.errorMessage);
     }
   }
   componentDidMount() {  
@@ -32,6 +35,7 @@ class PostForm extends Component {
       photo: this.props.navigation.getParam('photo', null)
     });
   }
+  showErrorMessage = (errorMessage) => ToastAndroid.showWithGravity(errorMessage,ToastAndroid.SHORT,ToastAndroid.BOTTOM);
   handlePhotoChange = (uri) => this.setState({ photo: { uri: uri }});
   setModalVisible = (visible) => this.setState({ modalVisible: visible });
   handleChangeText = (input) => (value) => this.setState({ [input]: value });
@@ -50,9 +54,8 @@ class PostForm extends Component {
 
   render() {
     const { modalVisible, photo } = this.state;
-    const { fetching, error, errorMessage } = this.props;
+    const { fetching } = this.props;
     const disabled = emptyFields({ title: this.state.title, content: this.state.content });
-    if(error) console.log(errorMessage);
     return (
       <View>
         <LoadingModal fetching={fetching} />
