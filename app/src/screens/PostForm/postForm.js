@@ -14,16 +14,23 @@ import { LoadingModal, TouchableImage } from '../../components';
 import PreviewModal from '../../components/previewModal';
 import emptyFields from '../../helpers/emptyFields';
 
+const initialState = {
+  title: '',
+  content: '',
+  photo: {},
+  modalVisible: false,
+}
+
 class PostForm extends Component {
 
   state = {
-    title: '',
-    content: '',
-    photo: {},
-    modalVisible: false,
+    ...initialState,
   }
   componentDidUpdate(prevProps) {
     if (this.props.success && !prevProps.success) {
+      this.setState({
+        ...initialState
+      })
       this.props.navigation.navigate('Profile');
     }
     if(this.props.error && !prevProps.error) {

@@ -27,14 +27,19 @@ class ProfileHeader extends Component {
     });
   }
   getPhotosFromGallery = async () => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      exif: true,
-      allowsEditing: false,
-      quality: 0.7,
-      base64: false,
-    })
-    if (!pickerResult.cancelled) {      
-      this.handlePhotoChange(pickerResult.uri);
+    try {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        exif: true,
+        allowsEditing: false,
+        quality: 0.7,
+        base64: false,
+      })
+      if (!pickerResult.cancelled) {
+        this.handlePhotoChange(pickerResult.uri);
+      }
+    } catch(err) {
+      // Handle err
+      console.log(err);
     }
   }
 

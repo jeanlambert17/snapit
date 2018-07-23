@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import { API_URL } from '../helpers/configs';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 const _Card = ({onPress, ...props}) => (
     <Card
@@ -22,4 +22,4 @@ const _Card = ({onPress, ...props}) => (
 );
 
 
-export default connect(mapStateToProps)(_Card)
+export default _Card

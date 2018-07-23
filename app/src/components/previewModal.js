@@ -30,25 +30,35 @@ class PreviewModal extends Component {
   }
 
   getPhotoFromGallery = async () => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      exif: true,
-      allowsEditing: false,
-      quality: 0.7,
-      base64: false,
-    })
-    if (!pickerResult.cancelled) {
-      this.props.onChangePhoto(pickerResult.uri);
+    try {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        exif: true,
+        allowsEditing: false,
+        quality: 0.7,
+        base64: false,
+      })
+      if (!pickerResult.cancelled) {
+        this.props.onChangePhoto(pickerResult.uri);
+      }
+    } catch(err) {
+      // Handle err
+      console.log(err);
     }
   }
   takePhoto = async () => {
-    let pickerResult = await ImagePicker.launchCameraAsync({
-      exif: true,
-      allowsEditing: false,
-      quality: 0.7,
-      base64: true
-    })
-    if(!pickerResult.cancelled) {
-      this.props.onChangePhoto(pickerResult.uri)
+    try {
+      let pickerResult = await ImagePicker.launchCameraAsync({
+        exif: true,
+        allowsEditing: false,
+        quality: 0.7,
+        base64: true
+      })
+      if (!pickerResult.cancelled) {
+        this.props.onChangePhoto(pickerResult.uri)
+      }
+    } catch(err) {
+      // Handle err
+      console.log(err);
     }
   }
 
