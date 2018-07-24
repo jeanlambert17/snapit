@@ -1,13 +1,15 @@
 import express from 'express';
-import { verifyToken, fileUpload, userData } from '../middlewares'
+import { authMiddlewares, fileUpload, userData } from '../middlewares'
 import { PostControllers } from '../controllers';
 
 let router = express.Router();
 
-// User's routes
-router.post('/add', verifyToken, fileUpload, PostControllers.add);
-router.get('/get', PostControllers.getPosts);
-router.get('/get/:page/:perPage', PostControllers.getPostsWithPag);
+// Posts routes
+// POST
+router.post('/add', authMiddlewares.verifyToken, fileUpload, PostControllers.add);
+// GET
+router.get('/get', PostControllers.get);
+router.get('/get/:page/:perPage', PostControllers.getWithPag);
 
 // Test routes
 router.get('/test', PostControllers.test);

@@ -3,7 +3,10 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const postSchema = Schema({
-    imageUrl: String,
+    imageUrl: {
+        required: true,
+        type: String,
+    },
     // figthers: [String],
     title: {
         type: String,

@@ -33,7 +33,7 @@ controllers.add = (req,res) => {
   });        
 }
 
-controllers.getPosts = (req,res) => {
+controllers.get = (req,res) => {
   Post.find({}).sort({date:-1}).exec()
   .then(posts => {
     res.send({ status: 200, body: posts });
@@ -43,7 +43,7 @@ controllers.getPosts = (req,res) => {
   });
 }
 
-controllers.getPostsWithPag = (req,res) => {
+controllers.getWithPag = (req,res) => {
   const page = Number(req.params.page);
   const perPage = Number(req.params.perPage);
 
