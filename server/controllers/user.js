@@ -134,13 +134,26 @@ controllers.updatePhotoUrl = (req,res) => {
 
 controllers.userPosts = (req,res) => {
 	const id = req.userId;
-	const send = ({ status, body }) => res.status(status).send({ status, body });
-	User.findById(id, 'posts').populate({path: 'posts', options: { sort: { date: -1 }}}).sort({date: -1}).exec()
-	.then(posts => {
-		send({ status: 200, body: posts.posts });
-	})
-	.catch(err => {
-		send({ status: 200, body: err.message || 'Try again' });
+	const send = (status,body) => res.status(status).send({ status, body });
+	User.findById(id, 'posts username photoUrl').populate({path: 'posts', options: { sort: { date: -1 }}}).sort({date: -1})
+	.exec((err, user) => {
+		if(err || !user) send(500, err.message || 'Try again');
+		else {
+			const newPosts = user.posts.map(post => {
+				return {
+					title: post.title,
+					content: post.content,
+					imageUrl: `${process.env.API_URL}/${post.imageUrl}`,
+					date: post.date,
+					likes: post.likes.length,
+					user: {
+						username: user.username,
+						photoUrl: `${process.env.API_URL}/${user.photoUrl}`,
+					}
+				}
+			});
+			send(200, newPosts);
+		}
 	})
 	
 	
