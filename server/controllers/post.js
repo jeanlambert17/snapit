@@ -1,4 +1,5 @@
 import { Post, User } from '../models';
+import { stat } from 'fs';
 
 let controllers = {}
 
@@ -34,13 +35,41 @@ controllers.add = (req,res) => {
 }
 
 controllers.get = (req,res) => {
-  Post.find({}).sort({date:-1}).exec()
-  .then(posts => {
-    res.send({ status: 200, body: posts });
+  const send = (status,body) => res.status(status).send({status,body});
+  // Post.aggregate([
+  //   { $match: {} },
+  //   { $project: { title: true, likes: true, content: true, date: true, imageUrl: true, user: true  } }, // $project specify inclusion of fields
+  //   { $lookup: { from: 'user', localField: 'user', foreignField: '_id', as: "user"}}
+  //   // { $unwind: '$likes' },
+  //   // { $group: {
+  //   //   _id: { likes: '$likes' }
+  //   // }}
+  // ], (err,posts) => {
+  //   if(err) send(500,err)
+  //   send(200,posts)
+  // })
+  Post.find({}, 'title content date imageUrl likes').sort({date:-1}).populate('user', 'username photoUrl -_id')
+  .exec((err,posts) => {
+    if(err || !posts) {
+      console.log(err.message)
+      send(500, err.message || 'Posts not available');
+    }
+    if(posts) { 
+      const newPosts = posts.map(p => {
+        const { user } = p
+        return {
+          ...p._doc,
+          likes: p.likes.length,
+          imageUrl: `${process.env.API_URL}/${p.imageUrl}`,
+          user: {
+            username: user.username,
+            photoUrl: `${process.env.API_URL}/${user.photoUrl}`
+          }
+        }
+      });
+      send(200, newPosts);
+    }
   })
-  .catch(err => {
-    res.send({ status: 500, body: err.message || 'Try again' });
-  });
 }
 
 controllers.getWithPag = (req,res) => {
