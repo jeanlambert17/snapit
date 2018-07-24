@@ -83,9 +83,10 @@ controllers.get = (req,res) => {
   const postId = req.params.id;
   const send = (status, body) => res.status(status).send({ status, body });
 
-  Comment.find({ post: postId }, 'user content date -_id').populate('user', 'username photoUrl').exec()
-  .then(comments => {
-    if(comments) {
+  Comment.find({ post: postId }, 'user content date -_id').populate('user', 'username photoUrl')
+  .exec((err, comments) => {
+    if(err) send(500, err.message || 'Try again');
+    if (comments) {
       const newComments = comments.map(c => {
         const { user } = c;
         return {
