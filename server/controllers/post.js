@@ -7,6 +7,7 @@ controllers.add = (req,res) => {
   const { content, title } = req.body;
   const path = req.file.path.split('public\\')[1];
   const id = req.userId;
+  const send = (status,body) => res.status(status).send({status,body});
   
   let post = new Post({
     user: id,
@@ -17,20 +18,15 @@ controllers.add = (req,res) => {
     // figthers: figthers,
   });
   post.save((err,post) => {
-    if (err)
-      res.status(500).send({
-        status: 500,
-        body: 'Try again',
-      });
-    User.update({ _id: id }, {
-      $push: {
-        posts: post._id,
-      },
-    }).exec();
-    res.status(200).send({
-      status: 200,
-      body: post,
-    });
+    if (err || !post) send(500, err.message || 'Try again');
+    if(post) {
+      User.update({ _id: id }, {
+        $push: {
+          posts: post._id,
+        },
+      }).exec(); // Handle err
+      send(200,post);
+    }
   });        
 }
 
