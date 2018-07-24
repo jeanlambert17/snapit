@@ -106,6 +106,8 @@ controllers.get = (req,res) => {
 }
 
 controllers.getAll = (req,res) => {
+  const send = (status, body) => res.status(status).send({ status, body });
+  
   Comment.find({}, (err,comments) => {
     if (err) {
       console.log(err);
