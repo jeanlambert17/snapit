@@ -135,17 +135,24 @@ controllers.updatePhotoUrl = (req,res) => {
 controllers.userPosts = (req,res) => {
 	const id = req.userId;
 	const send = (status,body) => res.status(status).send({ status, body });
-	User.findById(id, 'posts username photoUrl').populate({path: 'posts', options: { sort: { date: -1 }}}).sort({date: -1})
-	.exec((err, user) => {
+	User.findById(id, 'posts username photoUrl')
+	.populate({ 
+		path: 'posts', 
+		select: 'title content imageUrl likes date',
+		options: { 
+			sort: { date: -1 }, 
+			populate: { path: 'likes', match: { state: true } } 
+		}	
+	}).exec((err, user) => {
 		if(err || !user) send(500, err.message || 'Try again');
 		else {
 			const newPosts = user.posts.map(post => {
+				const likes = post.likes;
 				return {
-					title: post.title,
-					content: post.content,
+					...post._doc,
 					imageUrl: `${process.env.API_URL}/${post.imageUrl}`,
-					date: post.date,
-					likes: post.likes.length,
+					likes: likes.length,
+					hasLiked: likes.some(like => like.user.equals(id)),
 					user: {
 						username: user.username,
 						photoUrl: `${process.env.API_URL}/${user.photoUrl}`,
@@ -155,8 +162,6 @@ controllers.userPosts = (req,res) => {
 			send(200, newPosts);
 		}
 	})
-	
-	
 }
 
 controllers.userData = (req,res) => {
