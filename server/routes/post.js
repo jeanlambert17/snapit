@@ -8,7 +8,7 @@ let router = express.Router();
 // POST
 router.post('/add', authMiddlewares.verifyToken, fileUpload, PostControllers.add);
 // GET
-router.get('/get', PostControllers.get);
+router.get('/get', authMiddlewares.verifyToken, PostControllers.get);
 router.get('/get/:page/:perPage', PostControllers.getWithPag);
 
 // Test routes

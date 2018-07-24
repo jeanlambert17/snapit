@@ -44,7 +44,9 @@ controllers.get = (req,res) => {
   //   if(err) send(500,err)
   //   send(200,posts)
   // })
-  Post.find({}, 'title content date imageUrl likes').sort({date:-1}).populate('user', 'username photoUrl -_id')
+  // PROBAR MEJOR MANANANANANANANA, Y ANADIR VER PARA USUARIOS E INVITADOS
+  Post.find({}, 'title content date imageUrl likes').sort({date:-1})
+  .populate('user', 'username photoUrl -_id').populate({ path: 'likes', match: { _id: req.userId }})
   .exec((err,posts) => {
     if(err || !posts) {
       console.log(err.message)
@@ -52,10 +54,10 @@ controllers.get = (req,res) => {
     }
     if(posts) { 
       const newPosts = posts.map(p => {
-        const { user } = p
+        const { user } = p;
         return {
           ...p._doc,
-          likes: p.likes.length,
+          // likes: p.likes.length,
           imageUrl: `${process.env.API_URL}/${p.imageUrl}`,
           user: {
             username: user.username,

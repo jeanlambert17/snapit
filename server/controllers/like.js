@@ -29,13 +29,18 @@ controllers.addOrUpdate = (req,res) => {
         console.log(err)
         send(500, err.message || 'Try again');
       }
-      if(likes) {
-        Post.update({ _id: id }, {
+      if(like) {
+        Post.update({ _id: postId }, {
           $push: {
-            likes: likes._id,
+            likes: like._id,
           }
-        }).exec(); // Handle err
-        send(200,'Success');
+        }).exec((err,post) => {
+          if(err || !post) send(500, err.message || 'Try again')
+          if(post) {
+            send(200, post);
+          }
+        }); // Handle err
+        
       }
     })
   }
