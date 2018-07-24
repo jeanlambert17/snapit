@@ -30,44 +30,44 @@ controllers.add = (req,res) => {
   });        
 }
 
+// Post.aggregate([
+//   { $match: {} },
+//   { $project: { title: true, likes: true, content: true, date: true, imageUrl: true, user: true  } }, // $project specify inclusion of fields
+//   { $lookup: { from: 'user', localField: 'user', foreignField: '_id', as: "user"}}
+//   // { $unwind: '$likes' },
+//   // { $group: {
+//   //   _id: { likes: '$likes' }
+//   // }}
+// ], (err,posts) => {
+//   if(err) send(500,err)
+//   send(200,posts)
+// }) // 
 controllers.get = (req,res) => {
   const send = (status,body) => res.status(status).send({status,body});
-  // Post.aggregate([
-  //   { $match: {} },
-  //   { $project: { title: true, likes: true, content: true, date: true, imageUrl: true, user: true  } }, // $project specify inclusion of fields
-  //   { $lookup: { from: 'user', localField: 'user', foreignField: '_id', as: "user"}}
-  //   // { $unwind: '$likes' },
-  //   // { $group: {
-  //   //   _id: { likes: '$likes' }
-  //   // }}
-  // ], (err,posts) => {
-  //   if(err) send(500,err)
-  //   send(200,posts)
-  // })
-  // PROBAR MEJOR MANANANANANANANA, Y ANADIR VER PARA USUARIOS E INVITADOS
-  Post.find({}, 'title content date imageUrl likes').sort({date:-1})
-  .populate('user', 'username photoUrl -_id').populate({ path: 'likes', match: { _id: req.userId }})
-  .exec((err,posts) => {
-    if(err || !posts) {
-      console.log(err.message)
-      send(500, err.message || 'Posts not available');
-    }
-    if(posts) { 
-      const newPosts = posts.map(p => {
-        const { user } = p;
-        return {
-          ...p._doc,
-          // likes: p.likes.length,
-          imageUrl: `${process.env.API_URL}/${p.imageUrl}`,
-          user: {
-            username: user.username,
-            photoUrl: `${process.env.API_URL}/${user.photoUrl}`
+
+  Post.find({}, 'title content date imageUrl likes').sort({ date: -1 })
+  .populate('user', 'username photoUrl -_id').populate({path:'likes', match: { state: true }})
+    .exec((err, posts) => {
+      if(err || !posts) {
+        console.log(err.message)
+        send(500, err.message || 'Posts not available');
+      } else {
+        const newPosts = posts.map(p => {
+          const { user, likes } = p;
+          return {
+            ...p._doc,
+            hasLiked: (req.isLogged && likes.some(like => like.user.equals(req.userId))),
+            likes: likes.length,
+            imageUrl: `${process.env.API_URL}/${p.imageUrl}`,
+            user: {
+              username: user.username,
+              photoUrl: `${process.env.API_URL}/${user.photoUrl}`
+            }
           }
-        }
-      });
-      send(200, newPosts);
-    }
-  })
+        });
+        send(200, newPosts);
+      }
+    })
 }
 
 controllers.getWithPag = (req,res) => {

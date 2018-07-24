@@ -16,7 +16,7 @@ controllers.addOrUpdate = (req,res) => {
         console.log(err.message);
         send(500, err.message || 'Try again');
       }
-      if(like) send(200,'Success');
+      if(like) send(200,like);
     })
   } else {
     let like = new Like({
