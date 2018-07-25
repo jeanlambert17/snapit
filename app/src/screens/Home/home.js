@@ -75,7 +75,7 @@ class Home extends PureComponent {
         { !isLoggedIn && (<Button title="Login" onPress={() => this.props.navigation.navigate('Login')}/>)}
         <FlatList
           data={posts}          
-          renderItem={({item}) => <Card {...item} onPress={() => this.props.navigation.navigate('Detail', { post: item })}/>}
+          renderItem={({item}) => <Card post={item} test={this.props.navigation}/>}
           keyExtractor={(item) => item._id}
           onEndReached={this.moreItems}
           onEndReachedThreshold={0.1}

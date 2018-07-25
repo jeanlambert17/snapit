@@ -5,3 +5,4 @@ export {default as ProfileHeader} from './profileHeader';
 export {default as LoadingModal} from './loadingModal';
 export {default as Card} from './card';
 export {default as VerificationModal} from './verificationModal';
+export {default as CommentModal} from './commentModal';
