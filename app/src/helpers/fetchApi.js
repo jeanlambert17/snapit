@@ -3,17 +3,16 @@ import { API_URL } from './configs';
 export default async ({ endpoint, method, data = null, headers = {}, formdata = false }) => {
   const url = API_URL + endpoint;
   const _options = options(method,headers,data,formdata);
-  console.log(_options)
   try {
     const res = await fetch(url,_options);
     const data = await res.json();
     const { status, body } = data;
-    if (status == 200) 
+    if (status >= 200 && status < 300) 
       return body
     else
       throw body
   } catch(err) {
-    return Promise.reject(err.message || err);
+    throw err.message || err;
   }
 }
 
@@ -28,17 +27,17 @@ const options = (method,headers,data,fd) => {
     }
   }
   switch (method.toLowerCase()) {
-    case 'get': {
+    case 'get': 
       return {      
         ..._options,
       }
-    }
-    case 'post': {
+    case 'post':
+    case 'delete':
+    case 'update':
       return {
         ..._options,
         body: processBody(data,fd)
       }
-    }
     default:
       break;
   }

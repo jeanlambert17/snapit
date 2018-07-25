@@ -1,11 +1,6 @@
 import fetchApi from '../helpers/fetchApi';
 
 export const addUserPost = async (form,token) => {
-  // let fd = new FormData();
-  // let keys = Object.keys(form);
-  // keys.forEach(key => {
-  //   fd.append(key,form[key]);
-  // });
   const options = {
     method: 'post',
     endpoint: '/post/add',
@@ -14,7 +9,6 @@ export const addUserPost = async (form,token) => {
     headers: {
       'x-access-token': token,
     },
-    token,
   }
   try {
     const post = await fetchApi(options);

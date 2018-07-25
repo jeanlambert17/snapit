@@ -16,17 +16,17 @@ const _Card = ({onPress, ...props}) => (
         <Avatar
           small
           rounded
-          source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg"}} 
+          source={{uri: props.user.photoUrl}} 
           onPress={() => console.log("Works!")}
           activeOpacity={0.7}
           containerStyle={{marginRight: 10}} />
         <View style={{marginVertical: 2}}>
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>{props.title}</Text>
-          <Text style={{fontSize: 12, color: 'gray'}}>by {props.user}</Text>
+          <Text style={{fontSize: 12, color: 'gray'}}>by {props.user.username}</Text>
         </View>
       </View>
       <Image 
-        source={{uri:`${API_URL}/${props.imageUrl}`}}
+        source={{uri:props.imageUrl}}
         style={{width: 300, height: 150, justifyContent:'center', marginTop: 5  }}/>
       <View style={{marginVertical: 8}}>
         <View style={{flexDirection:'row', marginVertical: 3}}>
@@ -45,7 +45,7 @@ const _Card = ({onPress, ...props}) => (
         </View>
         <View style={{marginTop: 5}}>
           <TouchableOpacity>
-            <Text style={{fontSize: 14, fontWeight: "bold"}}>{props.user}</Text>
+            <Text style={{fontSize: 14, fontWeight: "bold"}}>{props.user.username}</Text>
           </TouchableOpacity>
           <Text style={{fontSize: 12, color:'#474747', marginBottom: 10, marginLeft: 10}}>{props.content}</Text>
           <TouchableOpacity>

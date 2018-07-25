@@ -1,25 +1,18 @@
-import { API_URL } from '../helpers/configs';
+import fetchApi from '../helpers/fetchApi';
 import { setItem } from '../helpers/storage';
 
-export default (form) => new Promise((res, rej) => 
-	fetch(`${API_URL}/user/login`, {
-		method: 'POST',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		credentials: 'include',
-		body: JSON.stringify(form),
-	}).then(res => res.json()).then(async ({ status, body, token }) => {
-		console.log('Login status: ' + status);
-		console.log('Login body: ' + JSON.stringify(body));
-		if (status === 200) {
-			await setItem('token', token);
-			res({token, user:body});
-		} else 
-			rej(body);
-	}).catch(error => {
-		console.log('Login error: ' + error);
-		rej('Network request failed');
-	})
-)
+export default async (form) => {
+	const options = {
+		method: 'post',
+		endpoint: '/user/login',
+		data: form,
+	}
+
+	try {
+		const data = await fetchApi(options);
+		await setItem('token', data.token);
+		return data;
+	} catch(err) {
+		throw err;
+	}
+}

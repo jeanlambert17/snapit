@@ -20,13 +20,14 @@ export function login(form) {
   const success = ({user, token}) => ({ type: LOGIN_SUCCESS, user, token });
   const failure = (error) => ({ type: LOGIN_FAILURE, error });
   const request = () => ({ type: LOGIN_REQUEST });
-  return dispatch => {
+  return async dispatch => {
     dispatch(request());
-    fetchLogin(form).then(data => {
-        dispatch(success(data));
-    }).catch(err => {
-        dispatch(failure(err));
-    });
+    try {
+      const data = await fetchLogin(form);
+      dispatch(success(data))      
+    } catch(err) {
+      dispatch(failure(err));
+    }
   }
 }
 

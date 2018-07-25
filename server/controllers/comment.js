@@ -36,8 +36,10 @@ controllers.add = (req,res) => {
             }
             if(populatedComment) {
               const { user } = populatedComment;
-              send(200, { 
-                ...populatedComment._doc, 
+              send(200, {
+                _id: populatedComment._id,
+                content: populatedComment.content,
+                date: populatedComment.date,
                 user: { 
                   username: user.username,
                   photoUrl: `${process.env.API_URL}/${user.photoUrl}`
@@ -59,17 +61,19 @@ controllers.add = (req,res) => {
 
 // Method to delete own user comment
 controllers.delete = (req,res) => {
-  const { commentId, postId } = req.body;
+  const { commentId } = req.body;
   const send = (status, body) => res.status(status).send({ status, body });
 
   Comment.findByIdAndRemove(commentId, (err, comment) => {
+    console.log(comment)
     if(err) send(500, err.message || 'Could not delete the comment')
-    if(!comment) {
-      Post.update({ _id: postId }, { $pull: { comments: { $in: commentId }}}, {multi:false}, (err,post) => {
+    if(comment) {
+      Post.update({ _id: comment.post }, { $pull: { comments: { $in: commentId }}}, {multi:false}, (err,post) => {
         if(err) send(500, err.message || 'Try again');
         if(post && post.nModified > 0) {
           send(200, 'Success');
         } else {
+          // ANOTHER BODY
           send(404, 'Comment not found');
         }
       })
@@ -83,7 +87,7 @@ controllers.get = (req,res) => {
   const postId = req.params.id;
   const send = (status, body) => res.status(status).send({ status, body });
 
-  Comment.find({ post: postId }, 'user content date -_id').populate('user', 'username photoUrl')
+  Comment.find({ post: postId }, 'user content date _id').populate('user', 'username photoUrl')
   .exec((err, comments) => {
     if(err) send(500, err.message || 'Try again');
     if (comments) {

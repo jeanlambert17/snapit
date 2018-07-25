@@ -41,9 +41,11 @@ controllers.logIn = (req,res) => {
 					console.log('User login: ');
 					console.log(user);
 					send({
-						token: token,
 						status: 200,
-						body: userData(user)
+						body: {
+							user: userData(user),
+							token,
+						}
 					});
 				}
 			} catch (err) {
