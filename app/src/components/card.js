@@ -42,6 +42,7 @@ export default class _Card extends Component {
           <TouchableOpacity
               onPress={this.props.onLike}
               style={{ paddingRight:15 }}
+              disabled={!this.props.isLoggedIn}
             >
             {this.props.hasLiked? (
               <Icon
@@ -59,7 +60,8 @@ export default class _Card extends Component {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.setModalVisible(true)}>
+            onPress={() => this.setModalVisible(true)}
+            disabled={!this.props.isLoggedIn}>
             <Icon name='comments-o'
               type='font-awesome'/>
           </TouchableOpacity>

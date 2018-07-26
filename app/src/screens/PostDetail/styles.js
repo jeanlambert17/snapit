@@ -8,10 +8,11 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#efefef'
+    backgroundColor: '#efefef',
+    marginBottom: 50
   },
   details: {
-    borderBottomColor: 'gray', 
+    borderBottomColor: '#F04A58', 
     borderBottomWidth: 1, 
     marginBottom: 10, 
     marginHorizontal: 10

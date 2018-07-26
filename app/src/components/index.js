@@ -6,3 +6,4 @@ export {default as LoadingModal} from './loadingModal';
 export {default as Card} from './card';
 export {default as VerificationModal} from './verificationModal';
 export {default as CommentModal} from './commentModal';
+export {default as Comment} from './comment';

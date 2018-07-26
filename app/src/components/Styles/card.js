@@ -23,7 +23,7 @@ export default StyleSheet.create({
   },
   image: { 
     width: 300, 
-    height: 150, 
+    height: 300, 
     justifyContent: 'center', 
     marginTop: 5
   },

@@ -6,6 +6,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import CommentModal from '../../components/commentModal';
+import Comment from '../../components/comment';
 import styles from './styles';
 import { connect } from 'react-redux';
 import { getComments } from '../../actions/comments';
@@ -21,8 +22,10 @@ class PostDetail extends Component {
   setModalVisible = (visible) => this.setState({ modalVisible: visible });
   componentDidMount() {
     const post =  this.props.navigation.getParam('post', null)
+    const isLoggedIn = this.props.navigation.getParam('isLoggedIn', null)
     this.setState({
       post: post,
+      isLoggedIn: isLoggedIn
     });
     this.props.getComments(post._id);
   }
@@ -52,24 +55,22 @@ class PostDetail extends Component {
             <Text style={styles.likesCount}>
               Likes: {this.state.post.likes}
             </Text>
-            <TouchableOpacity
-              onPress={() => this.setModalVisible(true)}
-              style={styles.commentButton}
-            >
-              <Text style={styles.commentText}>
-                Leave a comment...
-              </Text>
-            </TouchableOpacity>
+            {(this.state.isLoggedIn) ? (
+              <TouchableOpacity
+                  onPress={() => this.setModalVisible(true)}
+                  style={styles.commentButton}
+                >
+                <Text style={styles.commentText}>
+                  Leave a comment...
+                </Text>
+              </TouchableOpacity>
+            ):(<View/>)}              
           </View>
         </View>
         <FlatList
           data={comments}
           renderItem={({item}) => (
-            <View>
-              <Text>
-                {item.content}
-              </Text>
-            </View>
+            <Comment {...item} isLoggedIn={this.state.isLoggedIn}/>
           )}
           keyExtractor={(item) => item._id}
           refreshing={fetching}
