@@ -1,31 +1,43 @@
 import {
-  POST_COMMENTS,
+  SET_CURRENT_COMMENTS,
   COMMENTS_REQUEST,
   COMMENTS_FAILURE,
   GET_COMMENTS_SUCCESS,
   ADD_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS
-} from '../constants'
+} from '../constants/comments'
+
+// Selectors
+export const postComments = state => {
+  // if(state.fetching) {
+  //   return [];
+  // } else {
+    const comments = state.posts.find(post => post.id === state.currentPost);
+    return comments ? comments.comments : []
+  // }
+}
 
 const initialState = {
   posts: [],
-  comments: [],
+  currentPost: '',
+  fetching: false,
+
+  getCommentsSuccess: false,
+  addCommentSuccess: false,
+  deleteCommentSuccess: false,
+
   errorMessage: '',
   error: false,
-  fetching: false,
 }
 export default (state = initialState, action) => {
 
   switch (action.type) {
-    case POST_COMMENTS:
-      return {
-        ...state,
-        comments: action.comments,
-      }
     case COMMENTS_REQUEST:
       return {
         ...state,
         fetching: true,
+        addCommentSuccess: false,
+        getCommentsSuccess: false,
         error: false,
         errorMessage: '',
       }
@@ -41,26 +53,32 @@ export default (state = initialState, action) => {
         ...state,
         fetching: false,
         posts: [{ id: action.postId, comments: action.comments}, ...state.posts],
-        comments: action.comments
+        currentPost: action.postId,
+        getCommentsSuccess: true
       }
-    case ADD_COMMENT_SUCCESS: {
-      const comments = [action.comment, ...state.comments];
+    case ADD_COMMENT_SUCCESS:
       return {
         ...state,
         fetching: false,
-        posts: state.posts.map(p => p.id === action.postId ? { ...p, comments: comments } : p),
-        comments: comments
+        posts: state.posts.map(p => {
+          return p.id === action.postId 
+            ? { ...p, comments: [...p.comments, action.comment] } 
+            : p
+        }),
+        addCommentSuccess: true,
       }
-    }
-    case DELETE_COMMENT_SUCCESS: {
-      const comments = state.comments.filter(c => c._id !== action.commentId);
+    case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
         fetching: false,
-        comments: comments,
-        posts: state.posts.map(p => p.id === action.postId ? { ...p, comments: comments } : p )
+        posts: state.posts.map(p => p.id === action.postId ? { ...p, comments: p.comments.filter(c => c._id !== action.commentId) } : p )
       }
-    }
+    case SET_CURRENT_COMMENTS:
+      return {
+        ...state,
+        fetching: false,
+        currentPost: action.postId
+      }
     default:
       return state;
   }

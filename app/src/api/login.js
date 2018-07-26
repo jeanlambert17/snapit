@@ -1,5 +1,5 @@
-import fetchApi from '../helpers/fetchApi';
-import { setItem } from '../helpers/storage';
+import fetchApi from '../utils/fetchApi';
+import { setItem } from '../utils/storage';
 
 export default async (form) => {
 	const options = {

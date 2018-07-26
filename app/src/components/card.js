@@ -1,49 +1,62 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { 
   View, 
   Text, 
   Image,
   TouchableOpacity
 } from 'react-native'
-import { Card, ListItem, Button, Icon, Avatar } from 'react-native-elements'
-import { API_URL } from '../helpers/configs';
+import { Card, Icon } from 'react-native-elements'
 import CommentModal from '../components/commentModal';
+import styles from './Styles/card';
 
-export default class _Card extends React.Component{
+export default class _Card extends Component {
   
-    state={
-      modalVisible: false,
-      post: {}
-    }
+  state = {
+    modalVisible: false,
+  }
 
-    setModalVisible = (visible) => this.setState({ modalVisible: visible });
+  setModalVisible = (visible) => this.setState({ modalVisible: visible });
 
   render(){
-    const {modalVisible} = this.state;
+    const { modalVisible } = this.state;
     return(
-      <Card
-      style={{width: 50, height: 50}}>
-      <View style={{flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#F04A58'}}>
+      <Card style={styles.card}>
+      <View style={styles.container}>
         <CommentModal
+          id={this.props._id}
           modalVisible={modalVisible}
           setModalVisible={this.setModalVisible}
         />
-
-        <View style={{marginVertical: 2}}>
-          <Text style={{fontSize: 16, fontWeight: 'bold', marginLeft: 10}}>{this.props.post.title}</Text>
+        <View style={styles.titleWrap}>
+          <Text style={styles.title}>
+            {this.props.title}
+          </Text>
         </View>
       </View>
       <Image 
-        source={{uri:this.props.post.imageUrl}}
-        style={{width: 300, height: 150, justifyContent:'center', marginTop: 5  }}/>
-      <View style={{marginVertical: 8}}>
-        <View style={{flexDirection:'row', marginVertical: 3}}>
+        source={{uri:this.props.imageUrl}}
+        style={styles.image}
+      />
+      <View style={styles.footer}>
+        <View style={styles.buttonsWrap}>
           <TouchableOpacity
-            /*onPress={}*/
-              style={{paddingRight:15}}>
-            <Icon name='md-heart-outline'
-              type='ionicon' 
-              size={22} />
+              onPress={this.props.onLike}
+              style={{ paddingRight:15 }}
+            >
+            {this.props.hasLiked? (
+              <Icon
+                color="red"
+                name='md-heart-outline'
+                type='ionicon'
+                size={22}
+              />
+            ) : (
+              <Icon
+                name='md-heart-outline'
+                type='ionicon'
+                size={22}
+              />
+            )}
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.setModalVisible(true)}>
@@ -51,18 +64,23 @@ export default class _Card extends React.Component{
               type='font-awesome'/>
           </TouchableOpacity>
         </View>
-        <View style={{marginTop: 5}}>
+        <View style={{ marginTop: 5 }}>
           <TouchableOpacity>
-            <Text style={{fontSize: 14, fontWeight: "bold"}}>{this.props.post.user.username}</Text>
+            <Text style={styles.username}>
+              {this.props.user.username}
+            </Text>
           </TouchableOpacity>
-          <Text style={{fontSize: 12, color:'#474747', marginBottom: 10, marginLeft: 10}}>{this.props.post.content}</Text>
+          <Text style={styles.content}> 
+            {this.props.content}
+          </Text>
           <TouchableOpacity
-            onPress={()=> this.props.test.navigate('Detail', {post: this.props.post})}>
-            <Text style={{color:'gray'}}>See comments</Text>
+            onPress={this.props.onDetails}
+          >
+            <Text style={{ color:'gray' }}>See comments</Text>
           </TouchableOpacity>
         </View>
       </View>
     </Card>
-    )
+    );
   }
 }

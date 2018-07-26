@@ -1,11 +1,11 @@
 import {
-  POST_COMMENTS,
   COMMENTS_REQUEST,
   COMMENTS_FAILURE,
   GET_COMMENTS_SUCCESS,
   ADD_COMMENT_SUCCESS,
-  DELETE_COMMENT_SUCCESS
-} from '../constants'
+  DELETE_COMMENT_SUCCESS,
+  SET_CURRENT_COMMENTS
+} from '../constants/comments'
 import { 
   getComments as fetchGet, 
   addComment as fetchAdd,
@@ -15,21 +15,28 @@ import {
 const request = () => ({ type: COMMENTS_REQUEST });
 const failure = (error) => ({ type: COMMENTS_FAILURE, error });
 
+export const setCurrentComments = postId => {
+  return {
+    type: SET_CURRENT_COMMENTS,
+    postId: postId,
+  }
+}
+
 export const getComments = (postId) => {
   const success = (postId,comments) => ({ type: GET_COMMENTS_SUCCESS, postId, comments });
   return async (dispatch, getState) => {
     dispatch(request());
-    const { comments: { comments }, auth: { token } } = getState().comments.comments;
-    let alreadyFetch = comments.find(c => c.postId === postId);
+    const { comments: { posts }, auth: { token } } = getState();
+    let alreadyFetch = posts.some(c => c.id === postId);
     if(!alreadyFetch) {      
       try {
         const _comments = await fetchGet(postId,token);
-        dispatch(success(postId, _comments));        
+        dispatch(success(postId, _comments));
       } catch (err) {
         dispatch(failure(err));
       }
     } else {
-      dispatch(postComments(alreadyFetch));
+      dispatch(setCurrentComments(postId));
     }
   }
 }
@@ -43,7 +50,7 @@ export const addComment = (postId,form) => {
       const comment = await fetchAdd(form,token);
       dispatch(success(postId,comment));
     } catch(err) {
-      dispach(failure());
+      dispatch(failure(err));
     }
   }
 }
@@ -59,12 +66,5 @@ export const deleteComment = (postId,commentId) => {
     } catch(err) {
       dispatch(failure(err));
     }
-  }
-}
-
-export const postComments = (comments) => {
-  return {
-    type: POST_COMMENTS,
-    comments
   }
 }

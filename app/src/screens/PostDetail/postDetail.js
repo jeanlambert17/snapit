@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import {
   View,
-  Image,
   Text,
-  Dimensions,
   FlatList,
   TouchableOpacity
 } from 'react-native';
 import CommentModal from '../../components/commentModal';
+import styles from './styles';
+import { connect } from 'react-redux';
+import { getComments } from '../../actions/comments';
+import { postComments } from '../../reducers/comments';
+import { likePost } from '../../actions/posts';
 
 class PostDetail extends Component {
 
@@ -17,40 +20,81 @@ class PostDetail extends Component {
   }
   setModalVisible = (visible) => this.setState({ modalVisible: visible });
   componentDidMount() {
+    const post =  this.props.navigation.getParam('post', null)
     this.setState({
-      post: this.props.navigation.getParam('post', null)
+      post: post,
     });
+    this.props.getComments(post._id);
   }
   render() {
-    const {modalVisible} = this.state;
+    const { modalVisible } = this.state;
+    const { fetching, comments } = this.props;
     return (
-      <View style={{backgroundColor: '#efefef'}}>
+      <View style={styles.container}>
         <CommentModal
-            modalVisible={modalVisible}
-            setModalVisible={this.setModalVisible}
-          />
-        <View style={{borderBottomColor: 'gray', borderBottomWidth: 1, marginBottom: 10, marginHorizontal: 10}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>{this.state.post.title}</Text>
-          <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
-            <Text style={{fontSize: 14, color: 'gray'}}>by Placeholder</Text>
-            <Text style={{fontSize: 10, color: 'gray'}}>Date: {this.state.post.date}</Text>
+          id={this.state.post._id}
+          modalVisible={modalVisible}
+          setModalVisible={this.setModalVisible}
+        />
+        <View style={styles.details}>
+          <Text style={styles.title}>
+            {this.state.post.title}
+          </Text>
+          <View style={styles.subtitle}>            
+            <Text style={styles.date}>
+              Date: {this.state.post.date}
+            </Text>
           </View>
-          <Text style={{marginVertical: 15}}>{this.state.post.content}</Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{color: 'gray', marginVertical: 10}}>Likes: {this.state.post.likes}</Text>
+          <Text style={styles.content}>
+            {this.state.post.content}
+          </Text>
+          <View style={styles.info}>
+            <Text style={styles.likesCount}>
+              Likes: {this.state.post.likes}
+            </Text>
             <TouchableOpacity
               onPress={() => this.setModalVisible(true)}
-              style={{height: 20, paddingRight: 5}}>
-              <Text style={{fontSize: 14, color: 'gray'}}>Leave a comment...</Text>
+              style={styles.commentButton}
+            >
+              <Text style={styles.commentText}>
+                Leave a comment...
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
         <FlatList
-        
+          data={comments}
+          renderItem={({item}) => (
+            <View>
+              <Text>
+                {item.content}
+              </Text>
+            </View>
+          )}
+          keyExtractor={(item) => item._id}
+          refreshing={fetching}
         />
       </View>
-    )
+    );
   }
 }
 
-export default PostDetail;
+const mapStateToProps = ({comments}) => ({
+  posts: comments.posts,
+  fetching: comments.fetching,
+  error: comments.error,
+  errorMessage: comments.errorMessage,
+  comments: postComments(comments),
+  success: comments.getCommentsSuccess,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getComments: (id) => {
+    dispatch(getComments(id))
+  },
+  likePost: id => {
+    dispatch(likePost(id));
+  }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(PostDetail)

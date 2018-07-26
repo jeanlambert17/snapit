@@ -1,36 +1,22 @@
-import { API_URL } from '../helpers/configs';
-import { getItem } from '../helpers/storage';
+import { getItem } from '../utils/storage';
+import fetchApi from '../utils/fetchApi';
 
-export default async () => {
+export const auth = async () => {
   try {
-    const token = await getItem('token');    
-    if(token) {
-      const options = {
-        method: 'GET',
-        headers: {
-          'x-access-token': token,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-      }
-      return fetch(API_URL + '/user/auth', options).then(res => res.json())
-      .then((data) => {
-        const { status, body } = data;
-        console.log('status: ' + status)
-        console.log('body: ' + body);
-        if (status === 200)
-          return {token, user: body};
-        else
-          return null;
-      }).catch(error => {
-        console.log('UserData error: ' + error);
-        return null;
-      });
+    const token = await getItem('token');
+    const options = {
+      method: 'get',
+      headers: {
+        'x-access-token': token,
+      },
+      endpoint: '/user/auth'
     }
-    return null;
+    if(token) {
+      let user = await fetchApi(options);
+      return { token, user }
+    } else
+      return null;
   } catch(err) {
-    console.log('Error in isAuth: ' + err);
-    return null
+    throw err;
   }
 }

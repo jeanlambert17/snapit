@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { Input } from '../../components';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
-import emptyFields from '../../helpers/emptyFields';
+import emptyFields from '../../utils/emptyFields';
 import usernameImg from '../../assets/images/username.png';
 import passwordImg from '../../assets/images/password.png';
 import backgroundImg from '../../assets/images/background2.png';

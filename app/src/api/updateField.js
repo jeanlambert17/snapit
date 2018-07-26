@@ -1,4 +1,4 @@
-import { API_URL } from '../helpers/configs'
+import { API_URL } from '../utils/configs'
 
 export default (form,token) => {
 	const options = {

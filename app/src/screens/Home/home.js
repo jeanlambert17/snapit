@@ -2,13 +2,11 @@ import React, { PureComponent } from 'react';
 import { 
     Button, 
     View,
-    Image,
     FlatList,
     Text,
-    ActivityIndicator
 } from 'react-native';
 import styles from './styles';
-import { getPosts, fetchPosts } from '../../actions/posts';
+import { getPosts, fetchPosts, likePost } from '../../actions/posts';
 import { connect } from 'react-redux';
 import { Card } from '../../components';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -30,6 +28,11 @@ class Home extends PureComponent {
   componentDidMount() {    
     if (this.props.posts.length === 0) {
       this.props.fetchPosts();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if(this.props.error && !prevProps.error) {
+      console.log(this.props.errorMessage);
     }
   }
   handlePress = route => () => {
@@ -68,14 +71,23 @@ class Home extends PureComponent {
     );
   }
   render() {
-    const { isLoggedIn, posts, error, errorMessage } = this.props;
-    if(error) console.log(errorMessage)
+    const { isLoggedIn, posts } = this.props;
+    // posts.forEach((p,i)=> {
+    //   console.log('POST #' + i);
+    //   console.log(p)
+    // })
     return (
       <View style={styles.container}>
         { !isLoggedIn && (<Button title="Login" onPress={() => this.props.navigation.navigate('Login')}/>)}
         <FlatList
-          data={posts}          
-          renderItem={({item}) => <Card post={item} test={this.props.navigation}/>}
+          data={posts}
+          renderItem={({item}) => 
+            <Card 
+              {...item} 
+              onDetails={() => this.props.navigation.navigate('Detail', {post: item})}
+              onLike={() => this.props.likePost(item._id)}
+            />
+          }
           keyExtractor={(item) => item._id}
           onEndReached={this.moreItems}
           onEndReachedThreshold={0.1}
@@ -91,11 +103,16 @@ class Home extends PureComponent {
 
 const mapStateToProps = ({ auth, posts }) => ({
   isLoggedIn: auth.isLoggedIn,
+
   fetching: posts.fetching,
-  error: posts.error,
-  errorMessage: posts.errorMessage,
+  likeFetching: posts.likeFetching,
+
+  likeSucess: posts.likeSucess,
   posts: posts.currentPosts,
   isEmpty: posts.isEmpty,
+
+  error: posts.error,
+  errorMessage: posts.errorMessage,
 });
 const mapDispatchToProps = dispatch => ({
   getPosts: () => {
@@ -103,6 +120,9 @@ const mapDispatchToProps = dispatch => ({
   },
   fetchPosts: () => {
     dispatch(fetchPosts());
+  },
+  likePost: (id) => {
+    dispatch(likePost(id));
   }
 });
 

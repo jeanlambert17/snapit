@@ -14,7 +14,7 @@ import {
 import { cleanPosts } from './user/posts';
 import fetchLogin from '../api/login';
 import fetchSignUp from '../api/signUp';
-import { removeItem } from '../helpers/storage';
+import { removeItem } from '../utils/storage';
 
 export function login(form) {
   const success = ({user, token}) => ({ type: LOGIN_SUCCESS, user, token });

@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TextInput,
   Button,
-  TouchableHighlight
+  ToastAndroid,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addPost } from '../../actions/user/posts';
 import { LoadingModal, TouchableImage } from '../../components';
 import PreviewModal from '../../components/previewModal';
-import emptyFields from '../../helpers/emptyFields';
+import emptyFields from '../../utils/emptyFields';
 
 const initialState = {
   title: '',

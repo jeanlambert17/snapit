@@ -1,4 +1,4 @@
-import fetchApi from '../helpers/fetchApi';
+import fetchApi from '../utils/fetchApi';
 
 export const getComments = async (id, token = null) => {
   let options = {
@@ -6,12 +6,10 @@ export const getComments = async (id, token = null) => {
     endpoint: '/comment/get/' + id,
   }
   if(token) {
-    options.header = {
+    options.headers = {
       'x-access-token': token
     }
   }
-  console.log('get comments options');
-  console.log(options);
   try {
     let comment = await fetchApi(options)
     return comment;
@@ -25,13 +23,13 @@ export const addComment = async (form,token) => {
     method: 'post',
     endpoint: '/comment/add',
     data: form,
-    header: {
+    headers: {
       'x-access-token':token
     }
   }
   try {
-    let comments = await fetchApi(options);
-    return comments;
+    let comment = await fetchApi(options);
+    return comment;
   } catch(err) {
     throw err;
   }
@@ -42,7 +40,7 @@ export const deleteComment = async (form,token) => {
     method: 'delete',
     endpoint: '/comment/delete',
     data: form,
-    header: {
+    headers: {
       'x-access-token': token
     }
   }

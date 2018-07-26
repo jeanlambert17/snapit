@@ -8,8 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { setAuth } from '../../actions/auth';
 
-import Authenticate from '../../api/auth';
-
+import {auth} from '../../api/auth';
 
 class Loading extends Component {
   constructor(props) {
@@ -20,12 +19,16 @@ class Loading extends Component {
 
   isAuth = async () => {
     const {setAuth, navigation} = this.props;
-    const data = await Authenticate();
-    if(data) {
+    try {
+      const data = await auth();
+      if (data) {
         setAuth(data);
         navigation.navigate('UserStack');
-    } else {
+      } else {
         navigation.navigate('InvitedStack');
+      }
+    } catch(err) {
+      navigation.navigate('InvitedStack');
     }
   }
 

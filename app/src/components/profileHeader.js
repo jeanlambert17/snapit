@@ -7,7 +7,6 @@ import{
   Button
 } from 'react-native-elements';
 import { ImagePicker } from 'expo';
-import { API_URL } from '../helpers/configs';
 import { connect } from 'react-redux';
 import { updatePhoto } from '../actions/user/fields';
 import styles from './Styles/profileHeader';

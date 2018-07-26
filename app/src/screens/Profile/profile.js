@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 import { Card, ProfileHeader } from "../../components";
-import { getPosts } from '../../actions/user/posts';
+import { getPosts, likePost } from '../../actions/user/posts';
 
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
@@ -31,6 +31,12 @@ class Profile extends Component {
       this.props.getPosts();
     }
   }
+  componentDidUpdate(prevProps) {
+    if(this.props.error && !prevProps.error) {
+      // Handle error
+      console.log(this.props.errorMessage);
+    }
+  }
 
   render() {
     const { posts } = this.props;
@@ -41,7 +47,13 @@ class Profile extends Component {
         }}>
         <FlatList
           data={posts}
-          renderItem={({ item }) => <Card {...item} onPress={() => this.props.navigation.navigate('Detail', {post: item})}/>}
+          renderItem={({ item }) => 
+            <Card 
+              {...item} 
+              onDetails={() => this.props.navigation.navigate('Detail', {post: item})}
+              onLike={() => this.props.likePost(item._id)}
+            />
+          }
           keyExtractor={(item) => item._id}
           refreshing={this.props.fetching}
           onRefresh={this.props.getPosts}
@@ -51,13 +63,18 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = ({ auth, user }) => ({
+const mapStateToProps = ({ user }) => ({
   posts: user.posts.posts,
-  fetching: user.posts.fetching
+  fetching: user.posts.fetching,
+  error: user.posts.error,
+  errorMessage: user.posts.errorMessage,
 });
 const mapDispatchToProps = dispatch => ({
   getPosts: () => {
     dispatch(getPosts());
+  },
+  likePost: id => {
+    dispatch(likePost(id))
   }
 });
 

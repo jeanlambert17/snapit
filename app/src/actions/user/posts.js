@@ -3,13 +3,32 @@ import {
   POST_FAILURE,
   ADD_POST_SUCCESS,
   GET_POSTS_SUCCESS,
-  CLEAN_POSTS
+  CLEAN_POSTS,
+  USER_LIKE_REQUEST,
+  USER_LIKE_FAILURE,
+  USER_LIKE_SUCCESS
 } from '../../constants/user';
 
-import { addUserPost, getUserPosts } from '../../api/addPost';
+import { addUserPost, getUserPosts, likePost as fetchLike } from '../../api/posts';
 
 const request = () => ({ type: POST_REQUEST });
 const failure = (error) => ({ type: POST_FAILURE, error });
+
+
+export const likePost = (postId) => {
+  return async (dispatch, getState) => {
+    dispatch({ type: USER_LIKE_REQUEST });
+    const { auth: { token } } = getState();
+    try {
+      const like = await fetchLike({ postId }, token);
+      if (like) {
+        dispatch({ type: USER_LIKE_SUCCESS, postId });
+      }
+    } catch (error) {
+      dispatch({ type: USER_LIKE_FAILURE, error });
+    }
+  }
+}
 
 export function addPost(form) {
   const sucess = (post) => ({ type: ADD_POST_SUCCESS, post })
