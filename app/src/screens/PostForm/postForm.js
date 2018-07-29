@@ -66,7 +66,7 @@ class PostForm extends Component {
     const { fetching } = this.props;
     const disabled = emptyFields({ title: this.state.title, content: this.state.content });
     return (
-      <Card containerStyle={{height: 500}}>
+      <Card containerStyle={{height: 450}}>
         <LoadingModal fetching={fetching} />
         <PreviewModal 
           modalVisible={modalVisible}
@@ -88,14 +88,16 @@ class PostForm extends Component {
           value={this.state.title}
           onChangeText={this.handleChangeText('title')}
           underlineColorAndroid='#F04A58'
+          style={{paddingBottom: 10}}
         />
         <Text style={{fontSize: 16, fontWeight: 'bold'}}>Content</Text>
         <TextInput
           value={this.state.content}
           onChangeText={this.handleChangeText('content')}
           underlineColorAndroid='#F04A58'
+          style={{paddingBottom: 10}}
         />
-        <View style={{justifyContent: 'flex-end', height: 100}}>
+        <View style={{justifyContent: 'flex-end', height: 50}}>
           <Button
             title="UPLOAD"
             onPress={this.handleUploadPress}

@@ -69,20 +69,22 @@ class PreviewModal extends Component {
         animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}>
+        onRequestClose={() => setModalVisible(false)}>
         <View style={styles.container}>
-          <Button large raised title="close" onPress={() => setModalVisible(false)} />
           <View style={{paddingLeft: DEVICE_WIDTH*0.05}}>
-            <Image style={styles.image} source={{uri: uri}} />
+            <Image style={styles.image} source={{uri: uri}}/>
           </View>
-          {(!justPreview) && (
-            <View>
-              <Button large raised title="Camera" onPress={this.props.takePhoto ? this.props.takePhoto : this.takePhoto } icon={{name: 'camera'}}/>
+          {(!justPreview) ? (
+            <View style={{flexDirection: 'row', backgroundColor: 'gray'}}>
+              <Button containerViewStyle={{flex: 0.5, margin: 0, padding: 0}} title="Camera" onPress={this.props.takePhoto ? this.props.takePhoto : this.takePhoto } icon={{name: 'camera'}} backgroundColor='#F04A58'/>
+              <Button containerViewStyle={{flex: 0.5, margin: 0, padding: 0}} title="Gallery" onPress={this.getPhotoFromGallery} icon={{ name: 'insert-photo' }} backgroundColor='#F04A58' />
             </View>          
+          ) : (
+            <View>
+              <Button containerViewStyle={{margin: 0, padding: 0}} title="Gallery" onPress={this.getPhotoFromGallery} icon={{ name: 'insert-photo' }} backgroundColor='#F04A58' />
+            </View>  
           )}
-          <Button large raised title="Gallery" onPress={this.getPhotoFromGallery} icon={{ name: 'insert-photo' }} />
+          
           
         </View>
       </Modal>
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: DEVICE_WIDTH * 0.90,
-    height: DEVICE_HEIGHT * 0.70,
+    height: DEVICE_HEIGHT * 0.90,
   }
 })
 

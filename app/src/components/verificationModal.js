@@ -13,32 +13,33 @@ const VerificationModal = ({ password, modalVisible, setModalVisible, handleText
     animationType="fade"
     transparent={true}
     visible={modalVisible}
-    onRequestClose={() => {
-        alert('Modal has been closed.');
-    }}>
+    onRequestClose={() => setModalVisible(false)}>
     <View style={styles.container}>
       <View style={styles.modal}>
-        <Text>Password verification</Text>
-        <TextInput
-          value={password}
-          style={styles.input}
-          onChangeText={handleTextChange('password')}
-          underlineColorAndroid='#F04A58'
-        />
+        <View style={{paddingHorizontal: 15}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Password verification</Text>
+          <TextInput
+            value={password}
+            style={styles.input}
+            onChangeText={handleTextChange('password')}
+            underlineColorAndroid='#F04A58'
+            style={{paddingBottom: 10}}
+            containerViewStyle={{paddingHorizontal: 10}}
+          />
+        </View>
         <Button
           title="Accept"
           onPress={onPressAccept}
           disabled={password === '' ? true : false}
-          backgroundColor='gray'
+          backgroundColor='#F04A58'
           containerViewStyle={{paddingVertical: 10}}
-          borderRadius={4}
+          borderRadius={5}
         />
         <Button
           title="cancel"
           onPress={() => setModalVisible(false)}
-          backgroundColor='red'
-          containerViewStyle={{paddingVertical: 10}}
-          borderRadius={4}           
+          containerViewStyle={{paddingVertical: 5}}
+          borderRadius={5}           
         />
       </View>
     </View>
