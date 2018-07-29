@@ -52,6 +52,7 @@ class Profile extends Component {
               {...item} 
               onDetails={() => this.props.navigation.navigate('Detail', {post: item})}
               onLike={() => this.props.likePost(item._id)}
+              isLoggedIn={this.props.isLoggedIn}
             />
           }
           keyExtractor={(item) => item._id}
@@ -63,7 +64,8 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, auth }) => ({
+  isLoggedIn: auth.isLoggedIn,
   posts: user.posts.posts,
   fetching: user.posts.fetching,
   error: user.posts.error,

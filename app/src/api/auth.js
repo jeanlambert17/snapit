@@ -13,6 +13,7 @@ export const auth = async () => {
     }
     if(token) {
       let user = await fetchApi(options);
+      console.log(user)
       return { token, user }
     } else
       return null;

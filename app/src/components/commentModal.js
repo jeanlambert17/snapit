@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { 
+import {
+  ActivityIndicator,
+  ToastAndroid,
   Modal, 
   View,
   Text,
@@ -22,6 +24,7 @@ class CommentModal extends Component {
     if(success && !prevProps.success) {
       // Handle success
       this.handleClose();
+      this.showErrorMessage('Comment added');
     } 
     if(error && !prevProps.error) {
       // Handle error
@@ -37,6 +40,7 @@ class CommentModal extends Component {
       postId: id,
     })
   }
+  showErrorMessage = (errorMessage) => ToastAndroid.showWithGravity(errorMessage, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
 
   render() {
     return (
@@ -46,6 +50,9 @@ class CommentModal extends Component {
         visible={this.props.modalVisible}
         onRequestClose={()=> this.handleClose()}
       >
+        { this.props.fetching && (
+          <ActivityIndicator size="large" color="#F04A58" />
+        )}
         <Card containerStyle={styles.containerStyle}>
           <Text style={styles.commentText}> 
             You are about to leave a comment
