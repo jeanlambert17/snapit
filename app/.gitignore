@@ -5,7 +5,7 @@
 
 # dependencies
 /node_modules
-
+/src/utils/configs.js
 # misc
 .env.local
 .env.development.local

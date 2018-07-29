@@ -54,7 +54,7 @@ class SignUp extends React.Component {
 		const disabled = emptyFields(this.state);
 		if(error) this.showErrorMessage(errorMessage);
 		return (
-				<ImageBackground source={backgroundImg} style={{width: '100%', height: '100%'}} blurRadius={1.5}>
+				<ImageBackground source={backgroundImg} style={{width: '100%', height: '100%'}} blurRadius={2.5}>
 					<KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 							<Input
 							source={usernameImg}

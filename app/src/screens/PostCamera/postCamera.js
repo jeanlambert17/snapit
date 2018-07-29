@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Button
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import {
   ImagePicker,
   Camera,
@@ -81,13 +82,11 @@ class PostCamera extends Component {
           flex: 1,
           backgroundColor: 'transparent',
           flexDirection: 'row',
+          justifyContent: 'space-between',
         }}>
         <TouchableOpacity
           style={{
-            flex: 0.1,
             alignSelf: 'flex-end',
-            alignItems: 'center',
-            backgroundColor: 'red'
           }}
           onPress={() => {
             this.setState({
@@ -96,36 +95,35 @@ class PostCamera extends Component {
                 : Camera.Constants.Type.back,
             });
           }}>
-          <Text
-            style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-            {' '}Flip{' '}
-          </Text>
+           <Icon
+            reverse
+            name='ios-reverse-camera'
+            type='ionicon'
+            color='gray'
+           />
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            flex: 0.1,
             alignSelf: 'flex-end',
-            alignItems: 'center',
-            backgroundColor: 'blue'
           }}
           onPress={this.snap}>
-          <Text
-            style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-            SNAP
-          </Text>
+          <Icon 
+            reverse
+            name='ios-camera'
+            type='ionicon'
+            color='#F04A58'
+            size={35}/>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            flex: 0.1,
             alignSelf: 'flex-end',
-            alignItems: 'center',
-            backgroundColor: 'blue'
           }}
           onPress={this.getPhotosFromGallery}>
-          <Text
-            style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-            FROM GALLERY
-          </Text>
+          <Icon 
+            reverse
+            name='md-images'
+            type='ionicon'
+            color='gray'/>
         </TouchableOpacity>
       </View>
     </Camera>

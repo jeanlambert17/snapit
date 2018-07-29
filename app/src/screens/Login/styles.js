@@ -46,6 +46,7 @@ export default StyleSheet.create({
   text: {
     fontSize: 15,
     backgroundColor:'transparent',
+    color: 'white',
   },
   backgroundImage: {
     resizeMode: 'stretch'

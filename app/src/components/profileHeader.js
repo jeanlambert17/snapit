@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
+  TouchableOpacity
 } from 'react-native';
 import{
-  Button
+  Button,
+  Icon
 } from 'react-native-elements';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
@@ -53,20 +55,24 @@ class ProfileHeader extends Component {
           onChangePhoto={this.handlePhotoChange}
           uri={user.photoUrl}
         />
-        <TouchableImage 
-          touchableHighlightStyle={styles.button}
-          onPress={() => this.setModalVisible(true)}
-          imageStyle={styles.image}
-          uri={user.photoUrl}
-        />
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.title}>
-            {user.name}
-          </Text>
-          <Button icon={{name: 'settings'}}
-            backgroundColor='#F04A58'
-            onPress={() => this.props.toSettings()}
+        <View style={{alignItems: 'center', }}>
+          <TouchableImage 
+            touchableHighlightStyle={styles.button}
+            onPress={() => this.setModalVisible(true)}
+            imageStyle={styles.image}
+            uri={user.photoUrl}
           />
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
+          <View style={{}}>
+            <Text style={styles.title}>{user.name}</Text>
+          </View>
+          <TouchableOpacity
+          style={{position: 'absolute', right: 5, bottom: 0}}
+           onPress={() => this.props.toSettings()}>
+            <Icon name='settings'
+              color='white'/>
+          </TouchableOpacity>
         </View>
       </View>
     );

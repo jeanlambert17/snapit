@@ -11,6 +11,7 @@ export default StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: '#D9D9D3',
+      opacity: 0.5,
       borderRadius: 30,
       height: 50,
    },

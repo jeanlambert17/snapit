@@ -9,7 +9,6 @@ import {
 
 export default StyleSheet.create({
    container: {
-      alignItems: 'center', 
       flex: 1, 
       marginTop: 5
    },
@@ -25,6 +24,7 @@ export default StyleSheet.create({
       marginTop: 10, 
       color: 'white', 
       fontWeight: 'bold', 
-      fontSize: 20 
+      fontSize: 20,
+      justifyContent: 'center'
    },
 })

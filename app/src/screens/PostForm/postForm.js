@@ -3,9 +3,12 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   ToastAndroid,
 } from 'react-native';
+import{
+  Button,
+  Card
+} from 'react-native-elements'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addPost } from '../../actions/user/posts';
@@ -63,7 +66,7 @@ class PostForm extends Component {
     const { fetching } = this.props;
     const disabled = emptyFields({ title: this.state.title, content: this.state.content });
     return (
-      <View>
+      <Card containerStyle={{height: 500}}>
         <LoadingModal fetching={fetching} />
         <PreviewModal 
           modalVisible={modalVisible}
@@ -72,28 +75,36 @@ class PostForm extends Component {
           uri={photo.uri}
           justPreview={true}
         />
-        <Text> Upload form </Text>
-        <TouchableImage 
-          imageStyle={{width:200,height:200}}
-          uri={photo.uri}
-          onPress={() => this.setModalVisible(true)}
-        />
-        <Text>Title</Text>
+        <View style={{alignItems: 'center'}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}> Image Preview </Text>
+          <TouchableImage 
+            imageStyle={{width:200,height:200}}
+            uri={photo.uri}
+            onPress={() => this.setModalVisible(true)}
+          />
+        </View>
+        <Text style={{fontSize: 16, fontWeight: 'bold'}}>Title</Text>
         <TextInput 
           value={this.state.title}
           onChangeText={this.handleChangeText('title')}
+          underlineColorAndroid='#F04A58'
         />
-        <Text>Content</Text>
+        <Text style={{fontSize: 16, fontWeight: 'bold'}}>Content</Text>
         <TextInput
           value={this.state.content}
           onChangeText={this.handleChangeText('content')}
+          underlineColorAndroid='#F04A58'
         />
-        <Button
-          title="UPLOAD"
-          onPress={this.handleUploadPress}
-          disabled={disabled}
-        />
-      </View>
+        <View style={{justifyContent: 'flex-end', height: 100}}>
+          <Button
+            title="UPLOAD"
+            onPress={this.handleUploadPress}
+            disabled={disabled}
+            borderRadius={4}
+            backgroundColor='#F04A58'
+          />
+        </View>
+      </Card>
     )
   }
 }

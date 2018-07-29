@@ -74,7 +74,9 @@ class PreviewModal extends Component {
         }}>
         <View style={styles.container}>
           <Button large raised title="close" onPress={() => setModalVisible(false)} />
-          <Image style={styles.image} source={{uri: uri}} />
+          <View style={{paddingLeft: DEVICE_WIDTH*0.05}}>
+            <Image style={styles.image} source={{uri: uri}} />
+          </View>
           {(!justPreview) && (
             <View>
               <Button large raised title="Camera" onPress={this.props.takePhoto ? this.props.takePhoto : this.takePhoto } icon={{name: 'camera'}}/>
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   image: {
-    width: DEVICE_WIDTH * 0.9,
+    width: DEVICE_WIDTH * 0.90,
     height: DEVICE_HEIGHT * 0.70,
   }
 })
