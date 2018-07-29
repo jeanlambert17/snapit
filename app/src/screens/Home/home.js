@@ -72,10 +72,6 @@ class Home extends PureComponent {
   }
   render() {
     const { isLoggedIn, posts } = this.props;
-    // posts.forEach((p,i)=> {
-    //   console.log('POST #' + i);
-    //   console.log(p)
-    // })
     return (
       <View style={styles.container}>
         { !isLoggedIn && (<Button title="Login" onPress={() => this.props.navigation.navigate('Login')}/>)}

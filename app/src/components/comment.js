@@ -28,7 +28,7 @@ export default class comment extends Component{
               <Text style={{color: 'gray', fontSize: 12}}>{this.props.date}</Text>
             </View>
           </View>
-          {(this.props.isUserComment == true && this.props.isLoggedIn) ? (
+          {(this.props.isUserComment && this.props.isLoggedIn) ? (
               <View>
                 <TouchableOpacity>
                   <Icon name='more-vert'
