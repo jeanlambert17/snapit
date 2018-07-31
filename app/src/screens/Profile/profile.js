@@ -19,7 +19,7 @@ class Profile extends Component {
       backgroundColor: '#F04A58',
       alignContent: 'flex-start'
     },
-    headerTitle: <ProfileHeader toSettings={() => navigation.push('Settings')}/>,
+    headerTitle: <ProfileHeader toSettings={() => navigation.push('Settings')} isOwnProfile={true}/>,
     headerTitleStyle: {
       fontWeight: 'bold',
     },

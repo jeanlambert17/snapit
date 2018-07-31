@@ -43,36 +43,44 @@ class ProfileHeader extends Component {
       console.log(err);
     }
   }
-
   render() {
-    const { user } = this.props;
+
+    const { isOwnProfile, user } = this.props;
     const { modalVisible } = this.state;
     return (
       <View style={styles.container}>
-        <PreviewModal
-          modalVisible={modalVisible}
-          setModalVisible={this.setModalVisible}
-          onChangePhoto={this.handlePhotoChange}
-          uri={user.photoUrl}
-        />
+        {(isOwnProfile === true) ? (
+          <PreviewModal
+            modalVisible={modalVisible}
+            setModalVisible={this.setModalVisible}
+            onChangePhoto={this.handlePhotoChange}
+            uri={user.photoUrl}
+          />
+        ):(
+          <View></View>
+        )}
         <View style={{alignItems: 'center', }}>
           <TouchableImage 
             touchableHighlightStyle={styles.button}
             onPress={() => this.setModalVisible(true)}
             imageStyle={styles.image}
-            uri={user.photoUrl}
+            uri={this.props.data ? this.props.data.user.photoUrl : user.photoUrl}
           />
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'center'}}>
           <View style={{}}>
-            <Text style={styles.title}>{user.name}</Text>
+            <Text style={styles.title}>{this.props.data ? this.props.data.user.username : user.name}</Text>
           </View>
-          <TouchableOpacity
-          style={{position: 'absolute', right: 5, bottom: 0}}
-           onPress={() => this.props.toSettings()}>
-            <Icon name='settings'
-              color='white'/>
-          </TouchableOpacity>
+          {(isOwnProfile === true) ? (
+            <TouchableOpacity
+            style={{position: 'absolute', right: 5, bottom: 0}}
+              onPress={() => this.props.toSettings()}>
+              <Icon name='settings'
+                color='white'/>
+            </TouchableOpacity>
+          ):(
+            <View></View>
+          )}
         </View>
       </View>
     );

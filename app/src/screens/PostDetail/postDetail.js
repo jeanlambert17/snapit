@@ -29,7 +29,9 @@ class PostDetail extends Component {
     });
     this.props.getComments(post._id);
   }
+  onProfile = (information) => this.props.navigation.navigate('UserProfile',{data: information});
   render() {
+    console.log(this.state.post)
     const { modalVisible } = this.state;
     const { fetching, comments } = this.props;
     return (
@@ -70,7 +72,10 @@ class PostDetail extends Component {
         <FlatList
           data={comments}
           renderItem={({item}) => (
-            <Comment {...item} isLoggedIn={this.state.isLoggedIn}/>
+            <Comment {...item} 
+            isLoggedIn={this.state.isLoggedIn} 
+            onProfile={this.onProfile}
+            />
           )}
           keyExtractor={(item) => item._id}
           refreshing={fetching}
