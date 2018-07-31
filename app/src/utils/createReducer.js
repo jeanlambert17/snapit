@@ -25,19 +25,20 @@ function createFetchPattern(_actionName, _actionHandlers, cb) {
     [actionSuccess]: (state,action) => ({...state, fetching: false, data: action.data}),
     ..._actionHandlers,
   }
-  const action = (form = null) => {
-    return dispatch => {
+  const action = (form = null, auth = false) => {
+    return (dispatch)=> {
       dispatch({type: actionRequest});
       try {
-        let data;
-        if(form) {
-          data = await cb(form);
-        } else {
-          data = await cb();
-        }
-        dispatch({type: actionSuccess, data: data});        
+        const data = form ? await cb(form) : await cb();
+        dispatch({
+          type: actionSuccess, 
+          data: data
+        });        
       } catch(err) {
-        dispatch({type: actionFailure, error: err});
+        dispatch({
+          type: actionFailure, 
+          error: err
+        });
       }
     }
   }

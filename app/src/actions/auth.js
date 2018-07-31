@@ -12,8 +12,12 @@ import {
   SET_TOKEN
 } from '../constants/auth';
 import { cleanPosts } from './user/posts';
-import fetchLogin from '../api/login';
+// import fetchLogin from '../api/login';
 import fetchSignUp from '../api/signUp';
+import {
+  login as fetchLogin,
+
+} from '../api/auth';
 import { removeItem } from '../utils/storage';
 
 export function login(form) {

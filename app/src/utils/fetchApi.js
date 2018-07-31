@@ -6,11 +6,14 @@ export default async ({ endpoint, method, data = null, headers = {}, formdata = 
   try {
     const res = await fetch(url,_options);
     const data = await res.json();
-    const { status, body } = data;
-    if (status >= 200 && status < 300) 
-      return body
-    else
-      throw body
+    if(data) {
+      const { status, body } = data;
+      if (status >= 200 && status < 300)
+        return body
+      else
+        throw body
+    } else 
+      throw 'Nil data, try again'
   } catch(err) {
     throw err.message || err;
   }

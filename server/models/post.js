@@ -29,10 +29,10 @@ const postSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Comment',
     }],
-    // votes: [{
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Vote',
-    // }],
+    tags: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Tag',
+    }],
     likes: [{
         type: Schema.Types.ObjectId,
         ref: 'Like',

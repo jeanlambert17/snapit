@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
 			cb(null, `${configs.uploadFolder}${req.userId}/`);
     },
     filename: function (req,file,cb) {
-			console.log(file);
+			// console.log(file);
 			cb(null, `${Date.now()}-${file.originalname}`);
     }
 })
@@ -15,7 +15,7 @@ const upload = multer({ storage: storage }).single('image');
 
 function fileUpload(req,res,next) {
 	const path = `${configs.uploadFolder}${req.userId}`;
-	console.log(req.body);
+	// console.log(req.body);
 	fs.exists(path, (exist) => {
 		if(exist) {
 			upload(req,res,(err) => {

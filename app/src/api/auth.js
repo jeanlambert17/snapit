@@ -1,4 +1,4 @@
-import { getItem } from '../utils/storage';
+import { getItem, setItem } from '../utils/storage';
 import fetchApi from '../utils/fetchApi';
 
 export const auth = async () => {
@@ -13,11 +13,26 @@ export const auth = async () => {
     }
     if(token) {
       let user = await fetchApi(options);
-      console.log(user)
       return { token, user }
     } else
       return null;
   } catch(err) {
+    throw err;
+  }
+}
+
+export const login = async (form) => {
+  const options = {
+    method: 'post',
+    endpoint: '/user/login',
+    data: form,
+  }
+
+  try {
+    const data = await fetchApi(options);
+    await setItem('token', data.token);
+    return data;
+  } catch (err) {
     throw err;
   }
 }

@@ -4,11 +4,9 @@ import { PostControllers } from '../controllers';
 
 let router = express.Router();
 
-// Posts routes
-// POST
 router.post('/add', authMiddleware.verifyToken, fileUpload, PostControllers.add);
-// GET
 router.get('/get', authMiddleware.isLogged, PostControllers.get);
+router.get('/get/:id', PostControllers.getUserPosts)
 router.get('/get/:page/:perPage', PostControllers.getWithPag);
 
 // Test routes

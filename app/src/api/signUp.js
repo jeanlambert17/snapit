@@ -1,4 +1,5 @@
 import { API_URL } from '../utils/configs';
+import fetchApi from '../utils/fetchApi';
 
 export default (form) => {
 	const options = {
@@ -23,4 +24,18 @@ export default (form) => {
 		console.log('Sign up error: ' + error);
 		return Promise.reject(error);
 	})
+}
+
+export const signup = async (form) => {
+	const option = {
+		method: 'post',
+		endpoint: '/user/signup',
+		data: form
+	}
+	try {
+		const res =  await fetchApi(option);
+		return res;
+	} catch(err) {
+		throw err;
+	}
 }

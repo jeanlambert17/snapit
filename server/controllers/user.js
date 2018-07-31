@@ -163,7 +163,7 @@ controllers.userPosts = (req,res) => {
 			});
 			send(200, newPosts);
 		}
-	})
+	});
 }
 
 controllers.userData = (req,res) => {
