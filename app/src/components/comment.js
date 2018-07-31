@@ -22,7 +22,8 @@ export default class comment extends Component{
               source= {{uri: `${this.props.user.photoUrl}`}}
               containerStyle={{ marginRight: 10}}/>
             <View>
-              <TouchableOpacity >
+              <TouchableOpacity 
+              onPress={() => this.props.onProfile(this.props)}>
                 <Text style={{fontWeight: 'bold', fontSize: 16}}>{this.props.user.username}</Text>
               </TouchableOpacity>
               <Text style={{color: 'gray', fontSize: 12}}>{this.props.date}</Text>

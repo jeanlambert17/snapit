@@ -44,17 +44,23 @@ export default class _Card extends Component {
               style={{ paddingRight:15 }}
               disabled={!this.props.isLoggedIn}
             >
-            {this.props.hasLiked? (
+            {this.props.isLoggedIn? this.props.hasLiked ?(
               <Icon
                 color="red"
                 name='md-heart-outline'
                 type='ionicon'
                 size={22}
               />
-            ) : (
+              ) :(
+                <Icon
+                  name='md-heart-outline'
+                  type='ionicon'
+                  size={22}/>
+              ) : (
               <Icon
                 name='md-heart-outline'
                 type='ionicon'
+                color='gray'
                 size={22}
               />
             )}
@@ -62,12 +68,19 @@ export default class _Card extends Component {
           <TouchableOpacity
             onPress={() => this.setModalVisible(true)}
             disabled={!this.props.isLoggedIn}>
-            <Icon name='comments-o'
-              type='font-awesome'/>
+              {(this.props.isLoggedIn) ? (
+                <Icon name='comments-o'
+                type='font-awesome'/>
+              ) : (
+                <Icon name='comments-o'
+                type='font-awesome'
+                color='gray'/>
+              )}
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: 5 }}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.props.onProfile}>
             <Text style={styles.username}>
               {this.props.user.username}
             </Text>

@@ -1,5 +1,5 @@
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
-import { Home, PostDetail } from '../screens';
+import { Home, PostDetail,UserProfile } from '../screens';
 import Drawer from '../components/drawer';
 import {
    Text,
@@ -9,7 +9,8 @@ import ProfileStack from './profileStack';
 const HomeStack = createStackNavigator(
    {
       Home: Home,
-      Detail: PostDetail
+      Detail: PostDetail,
+      UserProfile: UserProfile
    }, {
       initialRouteName: 'Home',
    }
