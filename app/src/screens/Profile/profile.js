@@ -50,7 +50,7 @@ class Profile extends Component {
           renderItem={({ item }) => 
             <Card 
               {...item} 
-              onDetails={() => this.props.navigation.navigate('Detail', {post: item})}
+              onDetails={() => this.props.navigation.navigate('Detail', {post: item, isLoggedIn: this.props.isLoggedIn})}
               onLike={() => this.props.likePost(item._id)}
               isLoggedIn={this.props.isLoggedIn}
             />
