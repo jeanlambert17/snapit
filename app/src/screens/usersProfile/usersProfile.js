@@ -25,7 +25,8 @@ class UsersProfile extends Component {
   })
   componentDidMount() {
     if(this.props.posts.length === 0) {
-      this.props.getPosts();
+      //Gotta change this
+      //this.props.getPosts();
     }
   }
   componentDidUpdate(prevProps) {
@@ -62,6 +63,7 @@ class UsersProfile extends Component {
 }
 
 const mapStateToProps = ({ user, auth }) => ({
+  //Posts variable has to be changed
   isLoggedIn: auth.isLoggedIn,
   posts: user.posts.posts,
   fetching: user.posts.fetching,
@@ -71,6 +73,7 @@ const mapStateToProps = ({ user, auth }) => ({
 
 //Crear una funcion que traiga los posts de un usuario
 const mapDispatchToProps = dispatch => ({
+  //no need for this function
   getPosts: () => {
     dispatch(getPosts());
   },
