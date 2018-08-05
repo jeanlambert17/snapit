@@ -10,4 +10,5 @@ export {default as PostForm} from './PostForm';
 // Shared views
 export {default as Home} from './Home/home';
 export {default as PostDetail} from './PostDetail';
-export {default as UserProfile} from './usersProfile';
+export {default as UserProfile} from './UsersProfile';
+export {default as Search} from './Search';

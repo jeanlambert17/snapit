@@ -9,7 +9,7 @@ import { Card, Icon } from 'react-native-elements'
 import CommentModal from '../components/commentModal';
 import styles from './Styles/card';
 
-export default class _Card extends Component {
+class _Card extends Component {
   
   state = {
     modalVisible: false,
@@ -39,32 +39,33 @@ export default class _Card extends Component {
       />
       <View style={styles.footer}>
         <View style={styles.buttonsWrap}>
-          <TouchableOpacity
-              onPress={this.props.onLike}
-              style={{ paddingRight:15 }}
-              disabled={!this.props.isLoggedIn}
-            >
-            {this.props.isLoggedIn? this.props.hasLiked ?(
-              <Icon
-                color="red"
-                name='md-heart-outline'
-                type='ionicon'
-                size={22}
-              />
-              ) :(
-                <Icon
-                  name='md-heart-outline'
-                  type='ionicon'
-                  size={22}/>
-              ) : (
-              <Icon
-                name='md-heart-outline'
-                type='ionicon'
-                color='gray'
-                size={22}
-              />
-            )}
-          </TouchableOpacity>
+            <TouchableOpacity
+                onPress={this.props.onLike}
+                style={{ paddingRight: 15 }}
+                disabled={!this.props.isLoggedIn}
+              >
+                {this.props.isLoggedIn ? this.props.hasLiked ? (
+                  <Icon
+                    color="red"
+                    name='md-heart-outline'
+                    type='ionicon'
+                    size={22}
+                  />
+                ) : (
+                    <Icon
+                      name='md-heart-outline'
+                      type='ionicon'
+                      size={22} />
+                  ) : (
+                    <Icon
+                      name='md-heart-outline'
+                      type='ionicon'
+                      color='gray'
+                      size={22}
+                    />
+                  )}
+              </TouchableOpacity>
+            
           <TouchableOpacity
             onPress={() => this.setModalVisible(true)}
             disabled={!this.props.isLoggedIn}>
@@ -99,3 +100,9 @@ export default class _Card extends Component {
     );
   }
 }
+
+_Card.defaultProps = {
+  likes: true,
+}
+
+export default _Card

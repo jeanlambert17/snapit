@@ -6,17 +6,25 @@ import {
   EMPTY_HOME_POSTS,
   LIKE_POST_FAILURE,
   LIKE_POST_REQUEST,
-  LIKE_POST_SUCCESS
+  LIKE_POST_SUCCESS,
+  USER_POSTS_REQUEST,
+  USER_POSTS_FAILURE,
+  USER_POSTS_SUCCESS
 } from '../constants/posts';
-import { likePost as fetchLike, getPosts as gp } from '../api/posts';
+import {
+  like,
+  getPosts as gp, 
+  get
+} from '../api/posts';
 
-const request = () => ({ type: HOME_POSTS_REQUEST });
-const success = (posts) => ({ type: HOME_POSTS_SUCCESS, posts });
-const failure = (error) => ({ type: HOME_POSTS_FAILURE, error });
 const morePosts = () => ({ type: GET_HOME_POSTS });
 const emptyPosts = () => ({ type: EMPTY_HOME_POSTS })
 
 export function fetchPosts() {
+  const request = () => ({ type: HOME_POSTS_REQUEST });
+  const success = (posts) => ({ type: HOME_POSTS_SUCCESS, posts });
+  const failure = (error) => ({ type: HOME_POSTS_FAILURE, error });
+
   return async (dispatch,getState) => {
     dispatch(request());
     const { auth: { token } } = getState();
@@ -50,12 +58,27 @@ export const likePost = (postId) => {
     dispatch({ type: LIKE_POST_REQUEST });
     const { auth: { token }} = getState();
     try {
-      const like = await fetchLike({postId},token);
-      if(like) {
+      const _like = await like({postId},token);
+      if(_like) {
         dispatch({ type: LIKE_POST_SUCCESS, postId });
       }
     } catch(error) {
       dispatch({ type: LIKE_POST_FAILURE, error });
+    }
+  }
+}
+
+export const userPosts = (userId) => {
+  return async (dispatch,getState) => {
+    dispatch({ type: USER_POSTS_REQUEST });
+    const { auth: { token }} = getState();
+    try {
+      const posts = await get(userId,token);
+      if(posts) {
+        dispatch({ type: USER_POSTS_SUCCESS, usersPosts: posts });
+      }
+    } catch(err) {
+      dispatch({ type: USER_POSTS_FAILURE, error: err });
     }
   }
 }

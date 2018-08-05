@@ -80,8 +80,8 @@ class Home extends PureComponent {
           renderItem={({item}) => 
             <Card 
               {...item} 
-              onDetails={() => this.props.navigation.navigate('Detail', {post: item, isLoggedIn: isLoggedIn})}
-              onProfile={() => this.props.navigation.navigate('UserProfile',{data: item})}
+              onDetails={() => this.props.navigation.navigate('Detail', {post: item})}
+              onProfile={() => this.props.navigation.navigate('UserProfile',{user: item.user})}
               onLike={() => this.props.likePost(item._id)}
               isLoggedIn={isLoggedIn}
             />

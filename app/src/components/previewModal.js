@@ -80,8 +80,7 @@ class PreviewModal extends Component {
               <Button containerViewStyle={{flex: 0.5, margin: 0, padding: 0}} title="Gallery" onPress={this.getPhotoFromGallery} icon={{ name: 'insert-photo' }} backgroundColor='#F04A58' />
             </View>          
           ) : (
-            <View>
-              <Button containerViewStyle={{margin: 0, padding: 0}} title="Gallery" onPress={this.getPhotoFromGallery} icon={{ name: 'insert-photo' }} backgroundColor='#F04A58' />
+            <View>              
             </View>  
           )}
           

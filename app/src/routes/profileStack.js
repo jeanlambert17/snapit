@@ -1,10 +1,5 @@
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Profile, Settings, PostCamera, PostForm, PostDetail, UserProfile } from '../screens';
-import React from 'react';
-import { Dimensions } from 'react-native';
-import { ProfileHeader } from '../components';
-
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 const ProfileStack = createStackNavigator(
   {

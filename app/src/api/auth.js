@@ -27,7 +27,6 @@ export const login = async (form) => {
     endpoint: '/user/login',
     data: form,
   }
-
   try {
     const data = await fetchApi(options);
     await setItem('token', data.token);

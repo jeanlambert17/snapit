@@ -19,7 +19,7 @@ class Profile extends Component {
       backgroundColor: '#F04A58',
       alignContent: 'flex-start'
     },
-    headerTitle: <ProfileHeader toSettings={() => navigation.push('Settings')} isOwnProfile={true}/>,
+    headerTitle: <ConnectedProfileHeader justPreview={true} toSettings={() => navigation.push('Settings')} isOwnProfile={true}/>,
     headerTitleStyle: {
       fontWeight: 'bold',
     },
@@ -50,7 +50,7 @@ class Profile extends Component {
           renderItem={({ item }) => 
             <Card 
               {...item} 
-              onDetails={() => this.props.navigation.navigate('Detail', {post: item, isLoggedIn: this.props.isLoggedIn})}
+              onDetails={() => this.props.navigation.navigate('Detail', {post: item})}
               onLike={() => this.props.likePost(item._id)}
               isLoggedIn={this.props.isLoggedIn}
             />
@@ -63,6 +63,17 @@ class Profile extends Component {
     )
   }
 }
+
+const _mapStateToProps = ({ auth }) => ({
+  user: auth.user,
+});
+const _mapDispatchToProps = dispatch => ({
+  updatePhoto: (photo) => {
+    dispatch(updatePhoto(photo));
+  }
+});
+
+const ConnectedProfileHeader = connect(_mapStateToProps,_mapDispatchToProps)(ProfileHeader)
 
 const mapStateToProps = ({ user, auth }) => ({
   isLoggedIn: auth.isLoggedIn,

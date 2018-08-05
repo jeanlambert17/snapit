@@ -9,7 +9,7 @@ import CommentModal from '../../components/commentModal';
 import Comment from '../../components/comment';
 import styles from './styles';
 import { connect } from 'react-redux';
-import { getComments } from '../../actions/comments';
+import { getComments, refreshComments, deleteComment } from '../../actions/comments';
 import { postComments } from '../../reducers/comments';
 import { likePost } from '../../actions/posts';
 
@@ -22,18 +22,13 @@ class PostDetail extends Component {
   setModalVisible = (visible) => this.setState({ modalVisible: visible });
   componentDidMount() {
     const post =  this.props.navigation.getParam('post', null)
-    const isLoggedIn = this.props.navigation.getParam('isLoggedIn', null)
-    this.setState({
-      post: post,
-      isLoggedIn: isLoggedIn
-    });
+    this.setState({post: post });
     this.props.getComments(post._id);
   }
-  onProfile = (information) => this.props.navigation.navigate('UserProfile',{data: information});
+  
   render() {
-    console.log(this.state.post)
     const { modalVisible } = this.state;
-    const { fetching, comments } = this.props;
+    const { fetching, comments, isLoggedIn } = this.props;
     return (
       <View style={styles.container}>
         <CommentModal
@@ -57,7 +52,7 @@ class PostDetail extends Component {
             <Text style={styles.likesCount}>
               Likes: {this.state.post.likes}
             </Text>
-            {(this.state.isLoggedIn) ? (
+            {(isLoggedIn) ? (
               <TouchableOpacity
                   onPress={() => this.setModalVisible(true)}
                   style={styles.commentButton}
@@ -72,26 +67,30 @@ class PostDetail extends Component {
         <FlatList
           data={comments}
           renderItem={({item}) => (
-            <Comment {...item} 
-            isLoggedIn={this.state.isLoggedIn} 
-            onProfile={this.onProfile}
+            <Comment 
+              {...item} 
+              isLoggedIn={isLoggedIn} 
+              onProfile={() => this.props.navigation.navigate('UserProfile', { user: item.user })}
+              onDelete={() => this.props.deleteComment(this.state.post._id, item._id)}
             />
           )}
           keyExtractor={(item) => item._id}
           refreshing={fetching}
+          onRefresh={() => this.props.refreshComments(this.state.post._id)}
         />
       </View>
     );
   }
 }
 
-const mapStateToProps = ({comments}) => ({
+const mapStateToProps = ({auth,comments}) => ({
   posts: comments.posts,
   fetching: comments.fetching,
   error: comments.error,
   errorMessage: comments.errorMessage,
   comments: postComments(comments),
   success: comments.getCommentsSuccess,
+  isLoggedIn: auth.isLoggedIn
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -100,6 +99,12 @@ const mapDispatchToProps = dispatch => ({
   },
   likePost: id => {
     dispatch(likePost(id));
+  },
+  deleteComment: (postId,commentId) => {
+    dispatch(deleteComment(postId,commentId))
+  },
+  refreshComments: id => {
+    dispatch(refreshComments(id));
   }
 })
 

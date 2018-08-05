@@ -9,7 +9,11 @@ import {
   USER_LIKE_SUCCESS
 } from '../../constants/user';
 
-import { addUserPost, getUserPosts, likePost as fetchLike } from '../../api/posts';
+import { 
+  add, 
+  getUserPosts, 
+  like
+} from '../../api/posts';
 
 const request = () => ({ type: POST_REQUEST });
 const failure = (error) => ({ type: POST_FAILURE, error });
@@ -20,8 +24,8 @@ export const likePost = (postId) => {
     dispatch({ type: USER_LIKE_REQUEST });
     const { auth: { token } } = getState();
     try {
-      const like = await fetchLike({ postId }, token);
-      if (like) {
+      const _like = await like({ postId }, token);
+      if (_like) {
         dispatch({ type: USER_LIKE_SUCCESS, postId });
       }
     } catch (error) {
@@ -36,7 +40,7 @@ export function addPost(form) {
     dispatch(request());
     const { auth: { token }} = getState();
     try {
-      let post = await addUserPost(form,token);
+      let post = await add(form,token);
       if(post) {
         dispatch(sucess(post))
       }

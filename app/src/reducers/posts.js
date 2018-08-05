@@ -15,7 +15,7 @@ const initialState = {
 
   likeFetching: false,
   likeSuccess: false,
-
+  
   posts: [],
   currentPosts: [],
   page: 1,
@@ -60,7 +60,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.map(post => post._id === postId ? { ...post, hasLiked: !post.hasLiked} : post),
-        currentPosts: state.currentPosts.map(post => post._id === postId ? { ...post, hasLiked: !post.hasLiked } : post),
+        currentPosts: state.currentPosts.map(post => post._id === postId 
+          ? { 
+            ...post, 
+            hasLiked: !post.hasLiked, 
+            likes: post.likes + (!post.hasLiked ? 1 : -1)
+          } : post),
         likeFetching: false,
         likeSuccess: true,
       }

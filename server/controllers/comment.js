@@ -30,7 +30,7 @@ controllers.add = (req,res) => {
           send(500, err.mesosage || 'Try again');
         }
         if(post) {
-          comment.populate('user', 'username photoUrl -_id', (err,populatedComment) => {
+          comment.populate('user', 'username photoUrl', (err,populatedComment) => {
             if(err) {
               send(500, err.message || 'Try again');
             }
@@ -40,7 +40,9 @@ controllers.add = (req,res) => {
                 _id: populatedComment._id,
                 content: populatedComment.content,
                 date: populatedComment.date,
+                isUserComment: true,
                 user: { 
+                  _id: user._id,
                   username: user.username,
                   photoUrl: `${process.env.API_URL}/${user.photoUrl}`
                 },
@@ -97,6 +99,7 @@ controllers.get = (req,res) => {
           isUserComment: (req.isLogged && user._id.equals(req.userId)) ? true : false,
           ...c._doc,
           user: {
+            _id: user._id,
             username: user.username,
             photoUrl: `${process.env.API_URL}/${user.photoUrl}`
           }

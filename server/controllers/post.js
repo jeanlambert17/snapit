@@ -1,5 +1,4 @@
 import { Post, User, Tag } from '../models';
-import { stat } from 'fs';
 
 let controllers = {}
 
@@ -41,7 +40,10 @@ controllers.add = (req,res) => {
           console.log(postWithTags);
         }
       });
-      send(200,post);
+      send(200,{
+        ...post._doc,
+        imageUrl: `${process.env.API_URL}/${post.imageUrl}`
+      });
     }
   });        
 }
@@ -62,7 +64,7 @@ controllers.get = (req,res) => {
   const send = (status,body) => res.status(status).send({status,body});
 
   Post.find({}, 'title content date imageUrl likes').sort({ date: -1 })
-  .populate('user', 'username photoUrl -_id').populate({path:'likes', match: { state: true }})
+  .populate('user', 'username photoUrl').populate({path:'likes', match: { state: true }})
     .exec((err, posts) => {
       if(err || !posts) {
         console.log(err.message)
@@ -76,6 +78,7 @@ controllers.get = (req,res) => {
             likes: likes.length,
             imageUrl: `${process.env.API_URL}/${p.imageUrl}`,
             user: {
+              _id: user._id,
               username: user.username,
               photoUrl: `${process.env.API_URL}/${user.photoUrl}`
             }
@@ -86,6 +89,45 @@ controllers.get = (req,res) => {
     })
 }
 
+controllers.getByTag = (req,res) => {
+  const send = (status, body) => res.status(status).send({ status, body });
+  const _tag = req.params.tag;
+  const tag = _tag.toLowerCase();
+
+  Tag.findOne({ name: tag }).populate({
+    path: 'posts',
+    options: {
+      populate: [{
+        path: 'user',
+      }, {
+        path: 'likes', match: { state: true }
+      }]
+    }
+  }).exec((err, result) => {
+    if (err || !result) send(500, 'Search not found')
+    else {
+      const posts = result.posts.map(post => {
+        const { user, likes } = post;
+        return {
+          _id: post._id,
+          title: post.title,
+          content: post.content,
+          date: post.date,
+          imageUrl: `${process.env.API_URL}/${post.imageUrl}`,
+          likes: likes.length,
+          hasLiked: (req.isLogged && likes.some(like => like.user.equals(req.userId))),
+          user: {
+            _id: user._id,
+            username: user.username,
+            photoUrl: `${process.env.API_URL}/${user.photoUrl}`,
+          }
+        }
+      });
+
+      send(200, posts);
+    }
+  });
+}
 
 controllers.getUserPosts = (req,res) => {
   const send = (status,body) => res.status(status).send({ status, body });
@@ -109,6 +151,7 @@ controllers.getUserPosts = (req,res) => {
 					likes: likes.length,
 					hasLiked: likes.some(like => like.user.equals(id)),
 					user: {
+            _id: user._id,
 						username: user.username,
 						photoUrl: `${process.env.API_URL}/${user.photoUrl}`,
 					}

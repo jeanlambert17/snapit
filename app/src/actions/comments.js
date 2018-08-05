@@ -26,9 +26,9 @@ export const getComments = (postId) => {
   const success = (postId,comments) => ({ type: GET_COMMENTS_SUCCESS, postId, comments });
   return async (dispatch, getState) => {
     dispatch(request());
-    const { comments: { posts }, auth: { token } } = getState();
+    const { comments: { posts }, auth: { token, isLoggedIn } } = getState();
     let alreadyFetch = posts.some(c => c.id === postId);
-    if(!alreadyFetch) {      
+    if(!alreadyFetch) {
       try {
         const _comments = await fetchGet(postId,token);
         dispatch(success(postId, _comments));
@@ -37,6 +37,20 @@ export const getComments = (postId) => {
       }
     } else {
       dispatch(setCurrentComments(postId));
+    }
+  }
+}
+
+export const refreshComments = (postId) => {
+  const success = (postId, comments) => ({ type: GET_COMMENTS_SUCCESS, postId, comments });
+  return async (dispatch, getState) => {
+    dispatch(request());
+    const { comments: { posts }, auth: { token } } = getState();    
+    try {
+      const _comments = await fetchGet(postId, token);
+      dispatch(success(postId, _comments));
+    } catch (err) {
+      dispatch(failure(err));
     }
   }
 }

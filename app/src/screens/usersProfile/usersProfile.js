@@ -6,36 +6,34 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 import { Card, ProfileHeader } from "../../components";
-import { getPosts, likePost } from '../../actions/user/posts';
+import { userPosts, fakeLike } from '../../actions/users';
 
 const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 class UsersProfile extends Component {
-  static navigationOptions = ({ navigation}) => ({
+  state = {
+    user: null,
+  }
+  static navigationOptions = ({navigation}) => ({
     headerStyle: {
       height: DEVICE_HEIGHT * 0.2,
       backgroundColor: '#F04A58',
       alignContent: 'flex-start'
     },
-    headerTitle: <ProfileHeader isOwnProfile={false} data={navigation.getParam('data', null)}/>,
+    headerTitle: <ProfileHeader isOwnProfile={false} user={navigation.getParam('user', null)}/>,
     headerTitleStyle: {
       fontWeight: 'bold',
     },
     headerTintColor: '#fff',
-  })
-  componentDidMount() {
-    if(this.props.posts.length === 0) {
-      //Gotta change this
-      //this.props.getPosts();
-    }
-  }
-  componentDidUpdate(prevProps) {
-    if(this.props.error && !prevProps.error) {
-      // Handle error
-      console.log(this.props.errorMessage);
-    }
-  }
+  });
 
+  componentDidMount() {
+    const user = this.props.navigation.getParam('user', null);
+    this.setState({
+      user: user,
+    });
+    this.props.userPosts(user._id);
+  }
   render() {
     const { posts } = this.props;
     return (
@@ -49,7 +47,7 @@ class UsersProfile extends Component {
             <Card 
               {...item} 
               onDetails={() => this.props.navigation.navigate('Detail', {post: item})}
-              onLike={() => this.props.likePost(item._id)}
+              onLike={() => this.props.fakeLike(item._id)}
               isLoggedIn={this.props.isLoggedIn}
             />
           }
@@ -62,23 +60,20 @@ class UsersProfile extends Component {
   }
 }
 
-const mapStateToProps = ({ user, auth }) => ({
-  //Posts variable has to be changed
+const mapStateToProps = ({ users, auth }) => ({
   isLoggedIn: auth.isLoggedIn,
-  posts: user.posts.posts,
-  fetching: user.posts.fetching,
-  error: user.posts.error,
-  errorMessage: user.posts.errorMessage,
+  posts: users.data,
+  fetching: users.fetching,
+  error: users.error,
+  errorMessage: users.errorMessage,
 });
 
-//Crear una funcion que traiga los posts de un usuario
 const mapDispatchToProps = dispatch => ({
-  //no need for this function
-  getPosts: () => {
-    dispatch(getPosts());
+  userPosts: id => {
+    dispatch(userPosts(id));
   },
-  likePost: id => {
-    dispatch(likePost(id))
+  fakeLike: id => {
+    dispatch(fakeLike(id))
   }
 });
 

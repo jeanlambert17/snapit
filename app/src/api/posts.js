@@ -1,6 +1,6 @@
 import fetchApi from '../utils/fetchApi';
 
-export const addUserPost = async (form,token) => {
+export const add = async (form,token) => {
   const options = {
     method: 'post',
     endpoint: '/post/add',
@@ -17,23 +17,22 @@ export const addUserPost = async (form,token) => {
     return err;
   }
 }
-
-export const getUserPosts = async (token) => {
+export const like = async (form, token) => {
   const options = {
-    method: 'get',
-    endpoint: '/user/posts',
+    method: 'post',
+    endpoint: '/like/do',
+    data: form,
     headers: {
       'x-access-token': token
     }
   }
   try {
-    const posts = await fetchApi(options);
-    return posts;
-  } catch(err) {
+    const like = await fetchApi(options);
+    return like;
+  } catch (err) {
     throw err;
   }
 }
-
 export const getPosts = async (token = null) => {
   const options = {
     method: 'get',
@@ -51,19 +50,17 @@ export const getPosts = async (token = null) => {
     throw err;
   }
 }
-
-export const likePost = async (form,token) => {
+export const getUserPosts = async (token) => {
   const options = {
-    method: 'post',
-    endpoint: '/like/do',
-    data: form,
+    method: 'get',
+    endpoint: '/user/posts',
     headers: {
       'x-access-token': token
     }
   }
   try {
-    const like = await fetchApi(options);
-    return like;
+    const posts = await fetchApi(options);
+    return posts;
   } catch(err) {
     throw err;
   }

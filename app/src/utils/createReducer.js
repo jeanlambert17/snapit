@@ -8,7 +8,7 @@ function createReducer(initialState, actionHandlers) {
   }
 }
 
-function createFetchPattern(_actionName, _actionHandlers, cb) {
+function createFetchPattern(_actionName, cb, _actionHandlers = {}) {
   const actionName = _actionName.toUpperCase();
   const actionRequest = actionName + '_REQUEST';
   const actionFailure = actionName + '_FAIULURE';
@@ -17,28 +17,44 @@ function createFetchPattern(_actionName, _actionHandlers, cb) {
     data: null,
     fetching: false,
     error: false,
-    errorMessage: null,
+    errorMessage: '',
   }
   const actionHandlers = {
-    [actionRequest]: (state,action) => ({...state, fetching: true}),
-    [actionFailure]: (state,action) => ({...state, fetching: false, error: true, errorMessage: action.errror}),
+    [actionRequest]: (state,action) => ({...state, fetching: true, error: false, errorMessage: null }),
+    [actionFailure]: (state,action) => ({...state, fetching: false, error: true, errorMessage: action.error}),
     [actionSuccess]: (state,action) => ({...state, fetching: false, data: action.data}),
     ..._actionHandlers,
   }
-  const action = (form = null, auth = false) => {
-    return (dispatch)=> {
+  const action = (form = null) => {
+    return async (dispatch, getState) => {
       dispatch({type: actionRequest});
-      try {
-        const data = form ? await cb(form) : await cb();
-        dispatch({
-          type: actionSuccess, 
-          data: data
-        });        
-      } catch(err) {
-        dispatch({
-          type: actionFailure, 
-          error: err
-        });
+      const { auth: { token }} = getState();
+      if(token) {
+        try {
+          const data = form ? await cb(form, token) : await cb(token);
+          dispatch({
+            type: actionSuccess,
+            data: data
+          });
+        } catch (err) {
+          dispatch({
+            type: actionFailure,
+            error: err
+          });
+        }
+      } else {
+        try {
+          const data = form ? await cb(form) : await cb();
+          dispatch({
+            type: actionSuccess,
+            data: data
+          });
+        } catch (err) {
+          dispatch({
+            type: actionFailure,
+            error: err
+          });
+        }
       }
     }
   }
@@ -48,3 +64,5 @@ function createFetchPattern(_actionName, _actionHandlers, cb) {
     action: action,
   }
 }
+
+export { createReducer, createFetchPattern }
